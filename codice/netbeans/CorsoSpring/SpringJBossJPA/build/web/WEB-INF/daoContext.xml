@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+
+<!-- PersistenceUnitManager -->
+
+   
+   <bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:/META-INF/persistence.xml</value>
+			</list>
+		</property>
+	</bean>
+   
+
+
+<!-- DATASOURCE -->
+<jee:jndi-lookup id="myDataSource" jndi-name="jdbc/MySqlSpringRistorante"  cache="true" />
+
+<!-- ENTITY MANAGER FACTORY -->
+
+<bean id="myEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="myPersistenceUnit" /> 
+		<property name="dataSource" ref="myDataSource" />
+		<property name="loadTimeWeaver">
+			<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="false" />
+				<property name="generateDdl" value="false" />
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+			</bean>
+		</property>
+        <property name="persistenceUnitManager" ref="persistenceUnitManager"></property>
+	
+		
+	</bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- DAO -->
+<bean id="AddressDao" class="demo.ristorante.dao.impl.AddressDaoDatasource">
+</bean>
+
+
+
+
+
+<!-- supporto JPA -->
+	<!--
+		Automatically injects EntityManager references into data access
+		objects that require one
+	-->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
+	</bean>
+
+	<!--
+		Maps JPA exceptions that occur to Spring's DataAccessException
+		hierarchy
+	-->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+
+
+</beans>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+    <bean id="mySessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation">
+			<value>file:src/config/hibernate/hibernate.cfg.xml</value>
+		</property>
+	</bean>
+
+
+    <bean id="myRestaurantDao" class="demo.ristorante.dao.hibernate.HibernateRestaurantDao">
+        <property name="sessionFactory" ref="mySessionFactory"/>
+    </bean>
+
+    <bean id="myHibernateAddressDao" class="demo.ristorante.dao.hibernate.spring.templates.HibernateAddressDaoTempl">
+        <property name="sessionFactory" ref="mySessionFactory"/>
+    </bean>
+
+
+
+
+</beans>
