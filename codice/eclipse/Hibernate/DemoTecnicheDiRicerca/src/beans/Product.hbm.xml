@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping
+   PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="beans">
+   <class name="Product" table="Prodotti">
+      <id name="id" column="PRODOTTI_ID" type="long">
+         <generator class="native"/>
+      </id>
+
+      <property name="name" column="Nome" type="string"/>
+      <property name="description" column="Descrizione" type="string"/>
+      <property name="price" column="Prezzo" type="double"/>
+      <many-to-one name="supplier" class="Supplier" column="FKFornitori"/>
+
+   </class>
+   
+   
+  
+</hibernate-mapping>

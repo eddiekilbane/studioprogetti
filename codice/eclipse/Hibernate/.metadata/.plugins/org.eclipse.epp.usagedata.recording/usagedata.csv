@@ -1,0 +1,4 @@
+what,kind,bundleId,bundleVersion,description,time
+deactivated,workbench,org.eclipse.ui.workbench,3.4.0.I20080606-1300,,1244296469015
+started,bundle,org.eclipse.jst.j2ee.jca,1.1.200.v200806041500,org.eclipse.jst.j2ee.jca,1244296469156
+started,bundle,org.eclipse.core.variables,3.2.100.v20080529-1300,org.eclipse.core.variables,1244296470421

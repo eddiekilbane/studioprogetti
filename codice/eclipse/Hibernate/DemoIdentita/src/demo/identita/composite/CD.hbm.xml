@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="demo.identita.composite">
+
+<class name="CD" table="cd">
+        <composite-id class="CDCompositeKey" name="key">
+           	<key-property name="artist" column="Artista" type="string"/>
+        	<key-property name="title" column="Titolo" type="string"/>
+        </composite-id>
+        
+        <property name="company" column="Etichetta" type="string"/>
+   	 	<property name="price" column="Prezzo" type="double"/>
+   	 	<property name="country" column="Nazione" type="string"/>
+   	    <property name="year" column="Anno" type="int"/>
+   	    <property name="quantity" column="quantita" type="int"/>
+  </class> 
+
+</hibernate-mapping>

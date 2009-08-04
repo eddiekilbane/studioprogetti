@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements(s) to 'DemoIdentita/src'&#13;&#10;- Original project: 'DemoMappingEntita'&#13;&#10;- Destination element: 'DemoIdentita/src'&#13;&#10;- Original elements:&#13;&#10;     hibernate.cfg.xml&#13;&#10;     log4j.properties" description="Copy files" destination="/src" element1="src/hibernate.cfg.xml" element2="src/log4j.properties" files="2" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" log="src/hibernate.cfg.xml&#9;true&#9;false&#10;src/log4j.properties&#9;true&#9;false" policy="org.eclipse.jdt.ui.copyResources" stamp="1234296109218" units="0" version="1.0"/>
+</session>

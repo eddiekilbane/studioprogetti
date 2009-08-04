@@ -1,0 +1,11 @@
+package demo.ereditarieta.beans;
+
+public class Prodotto {
+
+	private Long IdProdotto;
+	private String descrizione;
+	private int quantita;
+	private double prezzo;
+	
+	
+}

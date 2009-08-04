@@ -1,0 +1,30 @@
+package avvio;
+
+import java.math.BigDecimal;
+
+import es.mappatura.northwind.Categories;
+import es.mappatura.northwind.Suppliers;
+
+public class TestNWind {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		/*
+		 Integer productId;
+		 Categories categories;
+		 Suppliers suppliers;
+		 String productName;
+		 String quantityPerUnit;
+		 BigDecimal unitPrice;
+		 Short unitsInStock;
+		 Short unitsOnOrder;
+		 Short reorderLevel;
+		 boolean discontinued;
+		 */
+	}
+
+}

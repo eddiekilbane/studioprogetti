@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 1 elements(s) to &apos;DemoHibernate/src/test.flushMode&apos;&#x0D;&#x0A;- Original project: &apos;DemoTransizioniConsole&apos;&#x0D;&#x0A;- Destination element: &apos;DemoHibernate/src/test.flushMode&apos;&#x0D;&#x0A;- Original element: &apos;demo.hibernate.util.Console.java&apos;" description="Copy compilation unit" destination="=DemoHibernate/src&lt;test.flushMode" element1="/src&lt;demo.hibernate.util{Console.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1245070709046" units="1" version="1.0"/>
+</session>
