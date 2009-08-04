@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/SessionFactory.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/cache/JndiBoundTreeCacheProvider.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/cache/OSCache.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/cfg/Configuration.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/cfg/SettingsFactory.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/classic/Session.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/context/CurrentSessionContext.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/context/ThreadLocalSessionContext.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/engine/PersistenceContext.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/engine/SessionFactoryImplementor.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/engine/SessionImplementor.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/impl/SessionFactoryImpl.java</file>
+        <file>file:/D:/corsi/02Prove/NetBeans/hibernate/Hibernate3.2GA/src/org/hibernate/impl/SessionFactoryObjectFactory.java</file>
+    </open-files>
+</project-private>

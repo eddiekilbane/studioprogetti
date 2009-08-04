@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping
+   PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="beans">
+   <class name="Supplier" table="fornitori">
+      <id name="id" column="FORNITORI_ID">
+         <generator class="native"/>
+      </id>
+
+      <property name="name" column="Nome" type="string"/>
+      <bag name="products" inverse="true" cascade="all,delete-orphan">
+      	<key column="FKFornitori"/>
+      	<one-to-many class="Product"/>
+      </bag>
+
+
+   </class>
+</hibernate-mapping>
