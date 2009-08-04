@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><title>JNDI Howto - Commons DBCP</title><style type="text/css" media="all">
+          @import url("../style/maven-base.css");
+          
+          @import url("../style/maven-theme.css");@import url("../style/project.css");</style><link rel="stylesheet" href="../style/print.css" type="text/css" media="print"></link><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta><meta name="author" content="Commons Documentation Team"></meta><meta name="email" content="commons-dev@jakarta.apache.org"></meta></head><body class="composite"><div id="banner"><a href="http://jakarta.apache.org" id="organizationLogo"><img alt="The Apache Software Foundation" src="http://jakarta.apache.org/images/jakarta-logo.gif"></img></a><a href="http://jakarta.apache.org/commons/dbcp/" id="projectLogo"><img alt="Commons DBCP" src="../images/dbcp-logo-white.png"></img></a><div class="clear"><hr></hr></div></div><div id="breadcrumbs"><div class="xleft"></div><div class="xright">
+        
+        <a href="http://www.apache.org" class="externalLink" title="External Link">Apache</a>
+      
+        
+          
+            <span class="separator">|</span>
+          
+        
+        <a href="http://jakarta.apache.org" class="externalLink" title="External Link">Jakarta</a>
+      
+        
+          
+            <span class="separator">|</span>
+          
+        
+        <a href="http://jakarta.apache.org/commons/" class="externalLink" title="External Link">Commons</a>
+      </div><div class="clear"><hr></hr></div></div><div id="leftColumn"><div id="navcolumn"><div id="menuCommons DBCP"><h5>Commons DBCP</h5><ul><li class="none"><a href="../index.html">Overview</a></li><li class="none"><a href="../configuration.html">Configuration</a></li><li class="none"><a href="../apidocs/index.html">API Documentation</a></li><li class="expanded"><a href="../guide/index.html">Developers Guide</a><ul><li class="none"><strong><a href="../guide/jndi-howto.html">JNDI Howto</a></strong></li><li class="none"><a href="../guide/classdiagrams.html">Class Diagrams</a></li><li class="none"><a href="../guide/sequencediagrams.html">Sequence Diagrams</a></li></ul></li><li class="none"><a href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/dbcp/trunk/doc/" class="externalLink" title="External Link">Examples</a></li><li class="none"><a href="../downloads.html">Downloads</a></li><li class="none"><a href="http://wiki.apache.org/jakarta-commons/DBCP" class="externalLink" title="External Link">Wiki</a></li></ul></div><div id="menuDevelopment"><h5>Development</h5><ul><li class="none"><a href="../changes-report.html">History</a></li><li class="none"><a href="../building.html">Building</a></li><li class="none"><a href="../mail-lists.html">Mailing lists</a></li><li class="none"><a href="../issue-tracking.html">Issue Tracking</a></li><li class="none"><a href="../team-list.html">Team</a></li><li class="none"><a href="../cvs-usage.html">Source repository</a></li></ul></div><div id="menuProject_Documentation"><h5>Project Documentation</h5><ul><li class="none"><a href="../index.html">About</a></li><li class="collapsed"><a href="../project-info.html">Project Info</a></li><li class="collapsed"><a href="../maven-reports.html">Project Reports</a></li><li class="none"><a href="http://jakarta.apache.org/commons/charter.html" class="externalLink" title="External Link">Development Process</a></li></ul></div><div id="menuCommons"><h5>Commons</h5><ul><li class="none"><a href="http://jakarta.apache.org/commons/" class="externalLink" title="External Link">Home</a></li><li class="collapsed"><a href="http://jakarta.apache.org/commons/components.html" class="externalLink" title="External Link">Components</a></li><li class="collapsed"><a href="http://jakarta.apache.org/commons/sandbox/index.html" class="externalLink" title="External Link">Sandbox</a></li><li class="collapsed"><a href="http://jakarta.apache.org/commons/dormant/index.html" class="externalLink" title="External Link">Dormant</a></li><li class="none"><a href="http://jakarta.apache.org/commons/volunteering.html" class="externalLink" title="External Link">Volunteering</a></li><li class="none"><a href="http://jakarta.apache.org/commons/patches.html" class="externalLink" title="External Link">Contributing Patches</a></li><li class="none"><a href="http://jakarta.apache.org/commons/building.html" class="externalLink" title="External Link">Building Components</a></li><li class="none"><a href="http://jakarta.apache.org/commons/releases/index.html" class="externalLink" title="External Link">Releasing Components</a></li><li class="none"><a href="http://wiki.apache.org/jakarta-commons/FrontPage" class="externalLink" title="External Link">Wiki</a></li></ul></div><div id="legend"><h5>Legend</h5><ul><li class="externalLink">External Link</li><li class="newWindow">Opens in a new window</li></ul></div><a href="http://maven.apache.org/" title="Built by Maven" id="poweredBy"><img alt="Built by Maven" src="../images/logos/maven-feather.png"></img></a></div></div><div id="bodyColumn"><div class="contentBox"><div class="section"><a name="JNDI_Howto"></a><h2>JNDI Howto</h2>
+<p>
+  The <a href="http://java.sun.com/products/jndi/" class="externalLink" title="External Link">Java Naming and Directory Interface</a> 
+  (JNDI) is part of the Java platform, 
+  providing applications based on Java technology with a unified interface to 
+  multiple naming and directory services. You can build powerful and portable 
+  directory-enabled applications using this industry standard.
+</p>
+<p>
+  When you deploy your application inside an application server, the container will setup
+  the JNDI tree for you. But if you are writing a framework or just a standalone application,
+  then the following examples will show you how to construct and bind references to DBCP 
+  datasources.
+</p>
+<p>
+  Another source of information is 
+  <a href="http://directory.apache.org/subprojects/naming/index.html" class="externalLink" title="External Link">Naming</a>.
+  Naming includes an in-memory JNDI service provider that was extracted from the 
+  <a href="http://tomcat.apache.org/" class="externalLink" title="External Link">Jakarta Tomcat</a> JNDI implementation.
+  It also contains a easy way to construct a JNDI tree from an XML file and some ResourceFactories.
+</p>
+<p>
+  The following examples are using the sun filesystem JNDI service provider.
+  You can download it from the 
+  <a href="http://java.sun.com/products/jndi/downloads/index.html" class="externalLink" title="External Link">JNDI software download</a> page.
+</p>
+<p>
+  You can of course use the apache JNDI service provider by downloading the Naming core jar.
+  The initial context factory property should be changed to:
+  org.apache.naming.java.javaURLContextFactory
+</p>
+</div><div class="section"><a name="BasicDataSource"></a><h2>BasicDataSource</h2>
+
+    <div class="source"><pre>
+  System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+    "com.sun.jndi.fscontext.RefFSContextFactory");
+  System.setProperty(Context.PROVIDER_URL, "file:///tmp");
+  InitialContext ic = new InitialContext();
+
+  // Construct BasicDataSource reference
+  Reference ref = new Reference("javax.sql.DataSource",
+    "org.apache.commons.dbcp.BasicDataSourceFactory", null);
+  ref.add(new StringRefAddr("driverClassName", "org.apache.commons.dbcp.TesterDriver"));
+  ref.add(new StringRefAddr("url", "jdbc:apache:commons:testdriver"));
+  ref.add(new StringRefAddr("username", "username"));
+  ref.add(new StringRefAddr("password", "password"));
+  ic.rebind("jdbc/basic", ref);
+   
+  // Use
+  InitialContext ic2 = new InitialContext();
+  DataSource ds = (DataSource) ic2.lookup("jdbc/basic");
+  assertNotNull(ds);
+  Connection conn = ds.getConnection();
+  assertNotNull(conn);
+  conn.close();
+</pre></div>
+  
+</div><div class="section"><a name="PerUserPoolDataSource"></a><h2>PerUserPoolDataSource</h2>
+
+    <div class="source"><pre>
+  System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+    "com.sun.jndi.fscontext.RefFSContextFactory");
+  System.setProperty(Context.PROVIDER_URL, "file:///tmp");
+  InitialContext ic = new InitialContext();
+
+  // Construct DriverAdapterCPDS reference
+  Reference cpdsRef = new Reference("org.apache.commons.dbcp.cpdsadapter.DriverAdapterCPDS",
+    "org.apache.commons.dbcp.cpdsadapter.DriverAdapterCPDS", null);
+  cpdsRef.add(new StringRefAddr("driver", "org.apache.commons.dbcp.TesterDriver"));
+  cpdsRef.add(new StringRefAddr("url", "jdbc:apache:commons:testdriver"));
+  cpdsRef.add(new StringRefAddr("user", "foo"));
+  cpdsRef.add(new StringRefAddr("password", "bar"));
+  ic.rebind("jdbc/cpds", cpdsRef);
+     
+  // Construct PerUserPoolDataSource reference
+  Reference ref = new Reference("org.apache.commons.dbcp.datasources.PerUserPoolDataSource",
+    "org.apache.commons.dbcp.datasources.PerUserPoolDataSourceFactory", null);
+  ref.add(new StringRefAddr("dataSourceName", "jdbc/cpds"));
+  ref.add(new StringRefAddr("defaultMaxActive", "100"));
+  ref.add(new StringRefAddr("defaultMaxIdle", "30"));
+  ref.add(new StringRefAddr("defaultMaxWait", "10000"));
+  ic.rebind("jdbc/peruser", ref);
+     
+  // Use
+  InitialContext ic2 = new InitialContext();
+  DataSource ds = (DataSource) ic2.lookup("jdbc/peruser");
+  assertNotNull(ds);
+  Connection conn = ds.getConnection("foo","bar");
+  assertNotNull(conn);
+  conn.close();
+</pre></div>
+  
+</div></div></div><div class="clear"><hr></hr></div><div id="footer"><div class="xright">© 2001-2007, The Apache Software Foundation© -Last published: 25 March 2007
+            </div><div class="clear"><hr></hr></div></div></body></html>
