@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 7 element(s) from project &apos;DemoInterceptors&apos;&#x0D;&#x0A;- Original project: &apos;DemoInterceptors&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     DemoInterceptors/src/beans&#x0D;&#x0A;     DemoInterceptors/src/interceptors&#x0D;&#x0A;     interceptors.LoggerLifeCycleOggetti.java&#x0D;&#x0A;     DemoInterceptors/src/test&#x0D;&#x0A;     test.Principale.java&#x0D;&#x0A;     hibernate.cfg.xml&#x0D;&#x0A;     log4j.properties" description="Delete elements" element1="src/log4j.properties" element2="src/hibernate.cfg.xml" element3="/src&lt;test" element4="/src&lt;interceptors" element5="/src&lt;beans" elements="3" flags="589830" id="org.eclipse.jdt.ui.delete" resources="2" stamp="1244995365187" subPackages="false" version="1.0"/>
+</session>

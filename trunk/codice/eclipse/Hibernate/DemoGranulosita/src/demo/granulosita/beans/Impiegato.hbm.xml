@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="demo.granulosita.beans">
+	<class name="Impiegato" table="Employees">
+
+		<id name="id" type="long" column="EmployeeId">
+			<generator class="native" />
+		</id>
+
+
+		<property   
+				name="nome"
+				type="string"
+				column="FirstName"
+				/>
+		<property   
+				name="cognome"
+				type="string"
+				column="LastName"
+				/>
+				
+				<property   
+				name="qualifica"
+				type="string"
+				column="Title"
+				/>
+				
+				<property   
+				name="paese"
+				type="string"
+				column="Country"
+				/>
+
+
+			<property   
+				name="telefono"
+				type="string"
+				column="HomePhone"
+				/>
+
+		<component name="indirizzo" class="Indirizzo">
+			<property name="via" type="string" column="address"  />
+			<property name="citta" type="string" column="city"  />
+			<property name="regione" type="string" column="region"  />
+			<property name="cap" type="string" column="PostalCode"  />
+		</component>
+
+	</class>
+</hibernate-mapping>

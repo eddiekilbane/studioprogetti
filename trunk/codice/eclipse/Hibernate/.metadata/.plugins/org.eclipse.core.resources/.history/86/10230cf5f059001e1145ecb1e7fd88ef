@@ -1,0 +1,6 @@
+package demo.ereditarieta.beans;
+
+public class CD extends Prodotto{
+
+	String 
+}

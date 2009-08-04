@@ -1,0 +1,8 @@
+Da sistemare il Crud di relazione oneToMany Unidirezionale:
+
+Uno User ha N indirizzi:
+1) Soluzione:
+Ogni Address ha un campo User che mappa la Colonna FK_Utente
+
+1) Inserimento di Utente che viene popolato con n Address
+2) Cancellazione dell'utente con tutti i suoi address
