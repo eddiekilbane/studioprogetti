@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.northwind.domain.Customer" table="customers">
+    <id column="CustomerID" name="customerID">
+     </id>
+     
+    <property column="CompanyName" name="companyName" type="string"/> 
+    <property column="ContactName" name="contactName" type="string"/> 
+    <property column="contactTitle" name="contactTitle" type="string"/> 
+    <property column="address" name="address" type="string"/> 
+    <property column="city" name="city" type="string"/>   
+    <property column="region" name="region" type="string"/> 
+    <property column="postalCode" name="postalCode" type="string"/> 
+    <property column="Country" name="country" type="string"/> 
+    <property column="Phone" name="phone" type="string"/>  
+    <property column="Fax" name="fax" type="string"/>
+   
+  </class>
+</hibernate-mapping>

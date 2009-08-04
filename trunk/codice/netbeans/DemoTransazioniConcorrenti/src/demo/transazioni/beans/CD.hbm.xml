@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="demo.transazioni.beans">
+  <class name="CD" table="cdNoversion">
+    <id column="idCd" name="PrimaryKey">
+      <generator class="native"/>
+    </id>
+    <property column="Artista" name="artist" type="string"/>
+    <property column="Etichetta" name="company" type="string"/>
+    <property column="Prezzo" name="price" type="double"/>
+    <property column="Titolo" name="title" type="string"/>
+    <property column="Nazione" name="country" type="string"/>
+    <property column="Anno" name="year" type="int"/>
+    <property column="quantita" name="quantity" type="int"/>
+  </class>
+</hibernate-mapping>
