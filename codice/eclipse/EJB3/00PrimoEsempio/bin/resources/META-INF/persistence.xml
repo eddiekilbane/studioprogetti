@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>
+   <persistence-unit name="esempioCD">
+       <provider>org.hibernate.ejb.HibernatePersistence</provider>
+       <jta-data-source>java:/negozioMySql</jta-data-source>
+       <class>beans.CD</class>
+       <properties>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="show_sql">true</property>
+       </properties>
+   </persistence-unit>
+</persistence>
+
+ 
