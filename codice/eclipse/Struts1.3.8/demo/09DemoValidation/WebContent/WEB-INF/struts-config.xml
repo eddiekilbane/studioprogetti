@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+
+
+
+<struts-config>
+
+   <form-beans>
+		<form-bean name="exampleForm"
+			type="esempio.forms.ExampleForm" />
+			
+		<form-bean name="exampleFormXml"
+			type="esempio.forms.ExampleForm" />
+			
+	</form-beans>
+
+	<action-mappings>
+		<action
+		path="/example"
+		type="esempio.actions.ExampleAction" 
+		attribute="exampleForm" 
+		input="/esempio/Example.jsp"
+		name="exampleForm" 
+		scope="request"
+		validate="true"
+		>
+			<forward name="example" path="/esempio/Example.jsp" />
+		</action>
+
+  
+		<action 
+		path="/exampleXML"
+		type="esempio.actions.ExampleXMLAction"
+		attribute="exampleXMLForm"
+		 
+		name="exampleFormXml"
+		input="/esempio/ExampleXML.jsp"
+		scope="request"
+		>
+		
+			<forward name="example" path="/esempio/exampleXML.jsp" />
+		</action>
+		
+
+	</action-mappings>
+
+	<message-resources
+		parameter="esempio.forms.MessaggiValidazione" />
+
+	<message-resources
+		parameter="validazione.validazione" />
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/org/apache/struts/validator/validator-rules.xml,
+               /WEB-INF/validation.xml" />
+	</plug-in>
+	
+
+</struts-config>
