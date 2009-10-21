@@ -1,0 +1,39 @@
+package clientHello;
+
+import java.rmi.*;
+import java.rmi.server.*;
+import javax.naming.*;
+
+
+public class HelloClient {
+
+/**
+ * This program demonstrates how to call a remote method
+ * on two objects that are located through the naming service.
+ */
+
+	public static void main(String[] args){
+	        
+		//System.setProperty("java.security.policy", "client.policy");
+		//System.setSecurityManager(new RMISecurityManager());
+		String url = "rmi://localhost/";
+
+		// change to "rmi://yourserver.com/" when server runs on remote machine
+		// yourserver.com
+	     
+		try{
+	         
+			Context namingContext = new InitialContext();
+			serverHello.Hello c1 = (serverHello.Hello) namingContext.lookup(url + "saluto");
+	   
+			System.out.println(c1.hello());
+	    
+		}catch (Exception e){
+		 
+	        e.printStackTrace();
+		}
+	    
+	}
+	 
+}
+
