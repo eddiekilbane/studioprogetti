@@ -1,0 +1,61 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package demo.searching.queryParser;
+
+import java.io.File;
+import java.io.IOException;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+
+/**
+ *
+ * @author stefano
+ */
+public class TestSearcher {
+
+    public static void stampaRicerca(File directoryStorage, Query query, int pagingResult) throws CorruptIndexException, IOException, ParseException{
+
+        System.out.println("\nRisultato ricerca per "+query.toString());
+        Directory fsDir = FSDirectory.getDirectory(directoryStorage, false);
+        IndexSearcher searcher = new IndexSearcher(fsDir);
+        //QueryParser parser = new QueryParser(fieldName, new StandardAnalyzer());
+        //Query query = parser.parse(queryString);
+        
+        TopDocs risultati = searcher.search(query, pagingResult);
+        if (risultati.totalHits==0) System.out.println("Nessun Risultato\n");
+        ScoreDoc[] topRisultati= risultati.scoreDocs;
+        for (ScoreDoc score : topRisultati){
+            Document doc = searcher.doc(score.doc);
+            System.out.println("Documento posizione "+score.doc);
+            stampaFields(doc);
+        }
+        
+
+    }
+
+   
+    private static void stampaFields(Document doc){
+
+        System.out.println("Elenco Valori dei "+doc.getFields().size()+ " Fields");
+        for (Object obj : doc.getFields()){
+            Field fld = (Field)obj;
+            System.out.println("Campo "+fld.name()+" Valore= "+fld.stringValue());
+        }
+
+    }
+}

@@ -1,0 +1,118 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package demo.indexing;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.lucene.analysis.SimpleAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriter.MaxFieldLength;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.store.LockObtainFailedException;
+
+import demo.searching.TestSearcher;
+
+/**
+ *
+ * @author stefano
+ */
+public class DemoIndexing {
+
+    public static void main(String[] args) {
+
+
+        //1) Impostazione Directory Storage indici
+        String storageDirectory="c:/indici/oop";
+
+        //contenuti in formato testo
+        String [] contenutiNoStore={"valore1NoStore","valore2NoStore","valore3NoStore","valore4NoStore"};
+        String [] contenutiNoAnalyzed={"valore1NoAnalyzed","valore2NoAnalyzed","valore3NoAnalyzed","valore4NoAnalyzed"};
+
+
+            try {
+
+              //String query="valoreNoAnalyzed";
+              String fldNoStore ="valoriNoStore";
+              String fldNoAnalyzed ="valoriNoAnalyzed";
+              scriviIndice(storageDirectory,contenutiNoStore,contenutiNoAnalyzed);
+
+              // utile per ricerca, ma i campi non appaiono nella ricerca:
+              Query queryNoStore = new TermQuery(new Term("valoriNoStore","valore1NoStore"));
+              Query queryNoAnalyzed = new TermQuery(new Term("valoriNoAnalyzed","valore1NoAnalyzed"));
+
+              //possibilita' come query:
+              
+
+              TestSearcher.stampaRicerca(new File(storageDirectory),queryNoStore,10);
+              TestSearcher.stampaRicerca(new File(storageDirectory),queryNoAnalyzed,10);
+
+//                
+//                TestSearcher.stampaRicerca(new File(storageDirectory),fldNoAnalyzed,query,10);
+            
+            } catch (CorruptIndexException indiceCorrotto){
+                    indiceCorrotto.printStackTrace();
+            } catch (LockObtainFailedException ex) {
+               ex.printStackTrace();
+            } catch (FileNotFoundException ex){
+                 ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+
+    }
+
+    private static void scriviIndice(String storageDirectory, String [] indexesNoStore, String [] indexesNoAnalyzed ) throws CorruptIndexException, IOException{
+
+          //Costruttore IndexWriter:
+                //1) Directory dove salvare gli indici creati
+                //2) Analyzer utilizzato per l'indicizzazione
+                //3) boolean Create (True sovrascrive se esistente | false esegue un append sugli indici esistenti)
+                //4) MaxIndici
+//                IndexWriter writer = new IndexWriter(storageDirectory, new StandardAnalyzer(), true, MaxFieldLength.UNLIMITED);
+
+         IndexWriter writer = new IndexWriter(storageDirectory, new SimpleAnalyzer(), true, MaxFieldLength.UNLIMITED);
+
+
+                //costruisco un Document
+                Document doc = new Document();
+
+                //inserisco dati nell'indice:
+
+                //campi da non salvare (STORE.NO)(no saranno restituiti nelle ricerche
+                for (int i=0; i<indexesNoStore.length; i++){
+                  doc.add(new Field("valoriNoStore",indexesNoStore[i],Field.Store.NO,Field.Index.NOT_ANALYZED));
+                }
+
+                // campi da non analizzare (non saranno trasformati in tokens)
+                 for (int i=0; i<indexesNoAnalyzed.length; i++){
+                  doc.add(new Field("valoriNoAnalyzed",indexesNoAnalyzed[i],Field.Store.YES,Field.Index.NOT_ANALYZED));
+                }
+                System.out.println("documento costruito con "+doc.getFields().size()+" fields");
+                //aggiungo il Document al writer e gli chiedo di scriverlo sull'indice
+                writer.addDocument(doc);
+                writer.optimize();
+                writer.close();
+
+
+                System.out.println("Inseriti N."+writer.numDocs()+" Documents");
+              
+
+    }
+
+
+
+}
