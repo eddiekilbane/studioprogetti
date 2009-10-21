@@ -1,0 +1,44 @@
+package server.dao.remote.impl;
+ 
+import java.rmi.RemoteException;
+import java.util.Vector;
+  
+import server.beans.CD;
+import server.dao.remote.DaoCdI;
+    
+
+public class DaoCdImplJdbc extends java.rmi.server.UnicastRemoteObject  implements DaoCdI{
+
+	public DaoCdImplJdbc() throws RemoteException {
+		
+	}
+	
+	public void delete(CD daCancellare)throws RemoteException {
+		// TODO Auto-generated method stub
+		throw new RemoteException();
+		
+	}
+
+	public Vector<CD> getAll() throws RemoteException{
+		// TODO Auto-generated method stub
+		throw new RemoteException();
+		return null;
+	}
+
+	public CD getById(Long id) throws RemoteException{
+		// TODO Auto-generated method stub
+		throw new RemoteException();
+		return null;
+	}
+
+	public void insert(CD daInserire) throws RemoteException{
+		// TODO Auto-generated method stub
+		throw new RemoteException();
+	}
+
+	public void update(CD daModificare) {
+		// TODO Auto-generated method stub
+		throw new RemoteException();
+	}
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<session version="1.0">
+<refactoring comment="Copy 1 elements(s) to 'JndiTomcat/src/beans'&#13;&#10;- Original project: 'Es02EsDaoNegozio'&#13;&#10;- Destination element: 'JndiTomcat/src/beans'&#13;&#10;- Original element: 'server.beans.CD.java'" description="Copy compilation unit" destination="/src&lt;beans" element1="/src&lt;server.beans{CD.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" log="/src&lt;server.beans{CD.java&#9;true&#9;false" policy="org.eclipse.jdt.ui.copyResources" stamp="1233530269843" units="1" version="1.0"/>
+</session>
