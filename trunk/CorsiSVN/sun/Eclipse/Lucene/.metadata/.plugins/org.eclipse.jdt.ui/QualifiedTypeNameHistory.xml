@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="demo.indexing.Indicizzatore"/>
+<fullyQualifiedTypeName name="org.apache.lucene.document.Field"/>
+<fullyQualifiedTypeName name="demo.searching.DemoSearcher"/>
+<fullyQualifiedTypeName name="org.apache.lucene.queryParser.QueryParser"/>
+<fullyQualifiedTypeName name="org.apache.lucene.analysis.Analyzer"/>
+<fullyQualifiedTypeName name="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
+<fullyQualifiedTypeName name="org.apache.lucene.search.Query"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="demo.analyzing.DemoAnalyzers"/>
+<fullyQualifiedTypeName name="java.io.StringReader"/>
+</qualifiedTypeNameHistroy>

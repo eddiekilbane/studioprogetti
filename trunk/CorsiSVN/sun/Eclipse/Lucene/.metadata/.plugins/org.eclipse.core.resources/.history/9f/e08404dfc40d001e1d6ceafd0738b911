@@ -1,0 +1,48 @@
+package demo.indexing;
+
+import java.io.IOException;
+
+import org.apache.lucene.analysis.SimpleAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriter.MaxFieldLength;
+
+public class Indicizzatore {
+	 
+	
+	public static void scriviIndice(String storageDirectory, Field [] campi ) throws CorruptIndexException, IOException{
+
+         //Costruttore IndexWriter:
+               //1) Directory dove salvare gli indici creati
+               //2) Analyzer utilizzato per l'indicizzazione
+               //3) boolean Create (True sovrascrive se esistente | false esegue un append sugli indici esistenti)
+               //4) MaxIndici
+//               IndexWriter writer = new IndexWriter(storageDirectory, new StandardAnalyzer(), true, MaxFieldLength.UNLIMITED);
+
+        IndexWriter writer = new IndexWriter(storageDirectory, new SimpleAnalyzer(), true, MaxFieldLength.UNLIMITED);
+
+
+               //costruisco un Document
+               Document doc = new Document();
+
+               //inserisco dati nell'indice:
+
+               //campi da non salvare (STORE.NO)(no saranno restituiti nelle ricerche
+               for (Field fld : campi){
+                 doc.add(fld);
+               }
+              
+               System.out.println("documento costruito con "+doc.getFields().size()+" fields");
+        
+               writer.addDocument(doc);
+               writer.optimize();
+               writer.close();
+
+
+               System.out.println("Inseriti N."+writer.numDocs()+" Documents");
+             
+
+   }
+}

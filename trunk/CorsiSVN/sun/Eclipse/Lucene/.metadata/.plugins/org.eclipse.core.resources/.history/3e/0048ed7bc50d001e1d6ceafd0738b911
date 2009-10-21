@@ -1,0 +1,87 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package demo.indexing.beans;
+
+import demo.indexing.CD;
+
+/**
+ *
+ * @author stefano
+ */
+public class DatiStatic {
+
+    public static Object[] datiObjCD={
+        new CD(2L, "Bonnie Tyler", "CBS Records", 9.90, "Hide your heart", "UK", 1982, 3),
+        new CD(3L, "Dolly Parton", "RCA", 9.90, "Greatest Hits", "USA", 1988, 4),
+        new CD(4L, "Gary Moore", "Virgin records", 10.20, "Still got the blues", "UK", 1990, 3),
+        new CD(5L, "Eros Ramazzotti", "BMG", 9.90, "Eros", "EU", 1997, 4),
+        new CD(6L, "Bee Gees", "Polydor", 10.90, "One night only", "UK", 1977, 5),
+        new CD(7L, "Dr.Hook", "CBS", 8.20, "Sylvias Mother", "UK", 1973, 3),
+        new CD(8L, "Rod Stewart", "Pickwick", 8.50, "Maggie May", "UK", 1990, 4),
+        new CD(9L, "Andrea Bocelli", "Polydor", 10.80, "Romanza", "EU", 1996, 3),
+        new CD(10L, "Percy Sledge", "Atlantic", 8.70, "When a man loves a woman", "USA", 1987, 2),
+        new CD(11L, "Savage Rose", "Mega", 10.90, "Black angel", "EU", 1995, 3),
+        new CD(12L, "Many", "Grammy", 10.20, "1999 Grammy Nominees", "USA", 1999, 4),
+        new CD(13L, "Kenny Rogers", "Mucik Master", 8.70, "For the good times", "UK", 1995, 5),
+        new CD(14L, "Will Smith", "Columbia", 9.90, "Big Willie style", "USA", 1997, 3),
+        new CD(15L, "Van Morrison", "Polydor", 8.20, "Tupelo Honey", "UK", 1971, 4),
+        new CD(16L, "Jorn Hoel", "WEA", 7.90, "Soulsville", "Norway", 1996, 5),
+        new CD(17L, "Cat Stevens", "Island", 8.90, "The very best of", "UK", 1990, 3),
+        new CD(18L, "Sam Brown", "A and M", 8.90, "Stop", "UK", 1988, 4),
+        new CD(19L, "T'Pau", "Siren", 7.90, "Bridge OF Spies", "UK", 1987, 3),
+        new CD(20L, "Tina Turner", "Capitol", 8.90, "Private Dancer", "UK", 1983, 2),
+        new CD(21L, "Kim Larsen", "Medley", 7.80, "Midt om natten", "EU", 1983, 3)
+    };
+
+
+
+
+     String testo=" HYPERTEXT TRANSFER PROTOCOL (HTTP)" +
+            "Most web applications run on top of HTTP. This protocol is a stateless series of client/" +
+            "server message exchanges. Normally, the client is a web browser and the server is a" +
+            "web or application server. The client initiates communication by sending a request for" +
+            "a specific resource. The resource can be a static HTML document that exists on the" +
+            "server’s local file system, or it can be a dynamically generated document with untold" +
+            "complexity behind its creation." +
+            "Much could be said about the HTTP protocol and the variety of ways of doing" +
+            "things in this domain. We’ll limit ourselves to the most important implications as seen" +
+            "from the perspective of a web application. We can start by noting that HTTP was not" +
+            "originally designed to serve in the capacity that web application developers demand of" +
+            "it. It was meant for requesting and serving static HTML documents. All web applications" +
+            "built on HTTP must address this discrepancy." +
+            "For web applications, HTTP has two hurdles to get over. It’s stateless, and it’s text" +
+            "based. Stateless protocols don’t keep track of the relationships among the various" +
+            "requests they receive. Each request is handled as if it were the only request the server" +
+            "had ever received. The HTTP server keeps no records that would allow it to track and" +
+            "logically connect multiple requests from a given client. The server has the client’s" +
+            "address, but it will only be used to return the currently requested document. If the client" +
+            "turns around and requests another document, the server will be unaware of this" +
+            "client’s repeated visits." +
+            "But if we are trying to build more complex web applications with more complicated" +
+            "use cases, this won’t work. Take the simplest, most common case of the secure" +
+            "web application. A secure application needs to authenticate its users. To do this, the" +
+            "request in which the client sends the user name and password must somehow be associated" +
+            "with all other requests coming from that client during that user session. Without" +
+            "the ability to keep track of relationships among various requests, even this" +
+            "Servlet" +
+            "Figure 1.1 The Java Servlet API" +
+            "exposes the HTTP client/server" +
+            "protocol to the Java platform." +
+            "Struts 2 is built on top of that." +
+            "6 CHAPTER 1 Struts 2: the modern web application framework" +
+            "introductory use case of modern web applications is impossible. This problem must" +
+            "be addressed by every modern web application." +
+            "Equally as troublesome, HTTP also is text based. Mating a text-based technology to" +
+            "a strongly typed technology such as Java creates a significant amount of data-binding" +
+            "work. While in the form of an HTTP request, all data must be represented as text" +
+            "Somewhere along the way, this encoding of data must be mapped onto Java data types." +
+            "Furthermore, this process must occur at both ends of the request-handling process." +
+            "Incoming request parameters must be migrated into the Java environment, and outgoing" +
+            "responses must pull data from Java back into the text-based HTTP response." +
+            "While this is not rocket science, it can create mounds of drudge work for a web application." +
+            "These tasks are both error-prone and time-consuming.";
+
+}
