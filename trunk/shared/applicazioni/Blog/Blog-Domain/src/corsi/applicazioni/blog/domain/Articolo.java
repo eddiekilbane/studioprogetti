@@ -2,7 +2,7 @@ package corsi.applicazioni.blog.domain;
 
 import java.util.List;
 
-public class Articolo {
+public class Articolo extends AbstractValueObject{
 
 	private Long idArticolo;
 	private String titolo;
