@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<session version="1.0">
-<refactoring comment="Copy 1 source folder(s) to 'DemoConnessioneSynergia/src'&#13;&#10;- Original project: 'DemoHibernate'&#13;&#10;- Destination element: 'DemoConnessioneSynergia/src'&#13;&#10;- Original element: 'DemoHibernate/src'" description="Copy source folder" destination="/src" element1="/src" flags="6" id="org.eclipse.jdt.ui.copy" log="/src&#9;true&#9;false" policy="org.eclipse.jdt.ui.copyRoots" roots="1" stamp="1232979258046" version="1.0"/>
-</session>

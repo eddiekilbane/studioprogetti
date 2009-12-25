@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<session version="1.0">
-<refactoring comment="Copy 1 elements(s) to 'Es02EsDaoNegozio'&#13;&#10;- Original project: 'Es01RmiCalcolatrice'&#13;&#10;- Destination element: 'Es02EsDaoNegozio'&#13;&#10;- Original element: 'build.xml'" description="Copy file" destination="=Es02EsDaoNegozio" element1="build.xml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" log="build.xml&#9;true&#9;false" policy="org.eclipse.jdt.ui.copyResources" stamp="1233346154781" units="0" version="1.0"/>
-</session>
