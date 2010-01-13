@@ -1,0 +1,45 @@
+/* CSS Document */
+
+
+.tabella{
+	FONT-SIZE: 8pt; 
+ 	BORDER-LEFT-COLOR: black; 
+ 	BORDER-BOTTOM-COLOR: black; 
+ 	BORDER-TOP-COLOR: black; 
+ 	FONT-FAMILY: Verdana; 
+	BORDER-COLLAPSE: collapse; 
+ 	BORDER-RIGHT-COLOR: black
+
+}
+
+
+.intestazione {
+	PADDING-LEFT: 5px; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 12px; 
+	BORDER-LEFT: #2c557f 1px solid; 
+	COLOR: #ffffff; 
+	LINE-HEIGHT: 12pt; 
+	BORDER-BOTTOM: #2c557f; 
+	FONT-FAMILY: Verdana, Arial; 
+	BACKGROUND-COLOR: #81b367; 
+	TEXT-ALIGN: center
+}
+
+
+.riga{
+	PADDING-LEFT: 5px; 
+	FONT-SIZE: 11px; 
+	BORDER-LEFT: dimgray 1px solid; 
+	COLOR: #003366; 
+	BORDER-BOTTOM: dimgray; 
+	FONT-FAMILY: Verdana, Arial; 
+	BACKGROUND-COLOR: #ffffff
+
+}
+
+
+.pieDiPagina{
+	LINE-HEIGHT: 10pt; 
+	BACKGROUND-COLOR: #dddca3
+}
