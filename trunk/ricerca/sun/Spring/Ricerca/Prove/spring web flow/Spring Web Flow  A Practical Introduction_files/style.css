@@ -1,0 +1,189 @@
+/* Base Styling */
+body {
+	background-color: white;
+	color: #323270;
+}
+a:link {
+	background-color: inherit;
+	color: #323270;
+}
+a:visited {
+	background-color: inherit;
+	color: #009F3C;
+}
+a:active {
+	background-color: inherit;
+	color: #ED9205;
+}
+form {
+	margin: 0px;
+}
+hr {
+	height: 1px;
+	border: 0px;
+	color: #CCCCCC;
+	background-color: #CCCCCC;
+}
+h1 {
+	margin-top: 0px;
+}
+
+/* Site Layout */
+.headerArea {
+	border-bottom-style: solid;
+	border-bottom-color: #CCCCCC;
+	border-bottom-width: 1px;
+	padding-bottom: 7px;
+}
+
+.bodyArea {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.contentArea {
+	width: 79%;
+	float: left;
+}
+
+.spotlightArea {
+	width: 20%;
+	float: right;
+	position: relative;
+}
+
+.footerArea {
+	border-top-style: solid;
+	border-top-color: #CCCCCC;
+	border-top-width: 1px;
+	padding-top: 7px;
+}
+
+/* Navigation Bar */
+.navigationBarText {
+}
+
+.navigationBarLink {
+	text-decoration: none;
+	color: #323270;
+}
+
+.navigationBarLink:visited {
+	color: #323270;
+}
+
+.navigationBarLink:hover {
+	color: red;
+	text-decoration: underline;
+}
+
+/* Copyright Text */
+.copyrightText {
+	font-size: 8pt;
+}
+
+/* New Items */
+.newsTitle {
+	padding-left: 2px;
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+
+.newsItems {
+	margin: 0px;
+	padding: 0px;
+}
+
+.newsItemTitle {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: #F0F0F0;
+	color: inherit;
+}
+
+.newsItemText {
+	padding-bottom: 10px;
+}
+
+/* Spotlights */
+.spotlight {
+	margin-bottom: 10px;
+	padding: 0px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: #F0F0F0;
+	width: 100%
+}
+
+.spotlightTitle {
+	padding-bottom: 3px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #CCCCCC;
+	text-align: left;
+	background-color: inherit;
+	color: inherit;
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+.spotlightTitleLink {
+	text-decoration: none;
+}
+
+.spotlightTitleLink:visited {
+	color: #323270;
+}
+
+.spotlightTitleLink:hover {
+	text-decoration: underline;
+}
+
+.spotlightText {
+	font-size: 9pt;
+	text-align: left;
+	background-color: inherit;
+}
+
+/* General Purpose Styles */
+.centeredText {
+	text-align: center;
+}
+
+.indented {
+	padding-left: 40px;
+}
+
+.logo {
+	border: 0px;
+}
+
+.textField {
+	color: inherit;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	padding: 0px;
+}
+
+.codeFragment {
+	font-size: 90%;
+	padding: 5px;
+	background-color: #F0F0F0;
+	color: inherit;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+}
+
+.note {
+	padding: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #F0C000;
+	background-color: #FFFFCE;
+	color: black;
+	text-align:left;
+}

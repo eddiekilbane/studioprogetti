@@ -1,0 +1,2574 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0047)http://www.infoq.com/articles/testing-in-spring -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<TITLE>
+		InfoQ: Software Testing With Spring Framework
+	</TITLE>
+    
+	
+	<META http-equiv="pragma" content="no-cache">
+<META http-equiv="cache-control" content="no-cache">
+<META http-equiv="expires" content="0">
+
+<META name="copyright" content="&copy; 2006 C4Media">
+<META name="author" content="alex[at]c4media[dot]com">
+
+	
+	
+    <LINK rel="stylesheet" type="text/css" media="screen" href="./Software Testing With Spring Framework_files/style.css">
+    <LINK rel="stylesheet" type="text/css" media="print" href="./Software Testing With Spring Framework_files/print.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles/style-ie.css" />
+    <![endif]-->
+    <LINK rel="shortcut icon" href="http://cdn2.infoq.com/favicon.ico" type="image/x-icon">
+    
+    <SCRIPT src="./Software Testing With Spring Framework_files/combinedJs_en.js" type="text/javascript"></SCRIPT>
+	
+	
+
+	
+	<META name="keywords" content="testing in spring,Java,Software Testing,Debugging,JUnit,Spring,Eclipse,JPA,">
+	<META name="description" content="Srini &amp; Kavitha Penchikala provide an overview of the support provided by Spring framework in the areas of unit and integration testing. I will use a sample loan processing web application to help the readers in implementing an Agile Testing framework in a typical Java EE application and how to use Spring test classes to test the application functionality.">
+
+
+</HEAD><BODY> 
+
+
+
+
+
+
+
+
+<SCRIPT type="text/javascript">
+var loginLanguage='en';
+var loginURL='/login.action';
+var registerURL='/reginit.action';
+var reactivateURL='/reactivate.action';
+var reserpasswordURL='/resetpassword.action';
+var loggedIn=false;
+var logoutURL='/logout.action';
+var editUserURL='/edituser.action';
+var aboutURL='/about';
+var homeURL='/';
+</SCRIPT>
+<DIV id="tooltip" style="display:none;"></DIV>
+<DIV id="loginWindow" style="display:none;">
+	
+
+
+
+
+
+
+<DIV id="innerLoginWindow" class="popup login-popup" style="display:none; z-index: 25550; position: absolute;">
+		<DIV class="popup-wrapper">
+			<P class="popup-close"><A href="javascript:void(0);" onclick="javascript:hideLoginWindow();">Close</A></P>
+			<H2>Existing Users:</H2>
+			<DIV id="loginArea">
+				<DIV id="loginAreaFields">
+					<FORM onsubmit="doLogin();return false;" style="margin-bottom: 1px;">
+						<P><LABEL for="username">Email:</LABEL> <INPUT id="username" name="username" style="width: 100%;" type="text"></P>
+						<P><LABEL for="password">Password:</LABEL> <INPUT id="password" name="password" style="width: 100%;" onkeydown="if ((event.which &amp;&amp; event.which == 13)||(event.keyCode &amp;&amp; event.keyCode == 13)){doLogin();return false;} else return true;" type="password"></P>
+						<P><INPUT value="Login" type="submit"></P>
+					</FORM>	
+				</DIV>
+				<DIV id="loginUpperArea" style="display:none;"></DIV>
+				<DIV style="display: none; text-align: left;" id="loginMessage"></DIV>	
+				<H2>New Users:</H2>
+				<P><INPUT value="Register" id="submitButton" onclick="javascript:document.location.href=&#39;/reginit.action&#39;" type="button"></P>
+			</DIV>
+		</DIV>
+</DIV>
+</DIV>
+<DIV id="tagPopup" style="display:none;"></DIV>
+<DIV id="container">
+	<H1 class="logo"><A href="http://www.infoq.com/articles/testing-in-spring#">InfoQ</A></H1>
+
+	
+
+
+
+
+
+
+
+
+
+<DIV id="header">
+	<P class="skip"><A href="http://www.infoq.com/articles/testing-in-spring#content">Skip to Content</A></P>
+
+	<DIV id="quote"><P>Tracking change and innovation in the enterprise software development community</P></DIV>
+
+	<DIV style="float: left;width: 29%;position: relative;margin: 0 0 2px 0;padding: 0;">
+		
+
+
+
+
+
+
+
+
+<P style="margin:0;padding: 6px 37px 0 0;margin: 0;float: right;">
+	En | <A href="http://www.infoq.com/cn/">中文</A> | <A href="http://www.infoq.com/jp/">日本語</A> | <A href="http://www.infoq.com/br/">Br</A>
+	
+</P>
+<P style="margin: 0;padding: 6px 9px;text-align:left;">
+	
+	
+</P>
+	</DIV>
+</DIV>
+
+
+
+	
+	<DIV id="sidebar">
+	<DIV id="sidebar-wrapper">
+		
+
+
+
+
+
+
+<DIV class="s-logo">
+	
+	<P class="r-logo"><A href="http://www.infoq.com/"><IMG src="./Software Testing With Spring Framework_files/logo.gif" alt="InfoQ"></A></P>
+</DIV>
+
+
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<SPAN style="font-size: x-small;#font-size: xx-small;">
+
+    
+    
+413,935 Nov unique visitors
+</SPAN>
+
+
+
+		    
+		
+		
+
+
+
+
+
+
+
+
+	<DIV class="box-simple">
+		<DIV class="box-simple-top"></DIV>
+		<DIV id="mainLoginArea" class="box-simple-content">
+			
+			
+			<UL>
+	            <LI><A href="http://www.infoq.com/reginit.action">Register</A></LI>
+			    <LI><A href="javascript:void(0)" onclick="javascript:showLoginWindow(this,ALIGN_LEFT,new Function(&#39;void(0);&#39;));">Login</A></LI>
+	            <LI><A href="http://www.infoq.com/about">About us</A></LI>
+	            
+	            
+		        	
+		        		
+		        	
+	   	            <LI><A href="http://www.infoq.com/rss/rss.action?token=AaLEwmOutlNnrRc1ycCDKJU27W3JrKvY">Personal feed <IMG src="./Software Testing With Spring Framework_files/btn-rss-blue.gif" alt="RSS Feed"></A></LI>
+				
+			    <LI><A href="http://www.infoq.com/">Home</A></LI>
+			</UL>
+			
+		</DIV>
+		<DIV class="box-simple-bottom"></DIV>
+	</DIV>
+
+
+		
+
+
+
+
+
+
+
+
+<DIV id="mainCommunitiesArea" class="box">
+    <H2>Your Communities</H2>
+    <DIV class="top-corners"><DIV></DIV></DIV>
+    <DIV class="box-content">
+    <DIV class="box-content-2">
+    	
+
+
+
+
+
+
+<SCRIPT language="JavaScript">
+var communityChangeMessage = 'Your new preferences will be used starting with the next refresh.';
+</SCRIPT>	
+
+<DIV id="communities">
+    <UL>
+	
+		<LI><INPUT type="checkbox" name="java" value="true" checked="checked" id="community1" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/java/">Java</A></LI>
+	
+		<LI><INPUT type="checkbox" name="dotnet" value="true" checked="checked" id="community4" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/dotnet/">.NET</A></LI>
+	
+		<LI><INPUT type="checkbox" name="ruby" value="true" checked="checked" id="community5" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/ruby/">Ruby</A></LI>
+	
+		<LI><INPUT type="checkbox" name="soa" value="true" checked="checked" id="community2" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/soa/">SOA</A></LI>
+	
+		<LI><INPUT type="checkbox" name="agile" value="true" checked="checked" id="community3" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/agile/">Agile</A></LI>
+	
+		<LI><INPUT type="checkbox" name="architecture" value="true" checked="checked" id="community1389" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/architecture/">Architecture</A></LI>
+	
+    </UL>
+</DIV>
+<DIV id="communitiesMessage"></DIV>
+    </DIV></DIV>
+    <DIV class="bottom-corners"><DIV></DIV></DIV>
+</DIV>
+
+
+
+
+		
+
+
+
+
+
+
+
+<SCRIPT type="text/javascript">
+	function doSearch(){
+		var searchString = document.getElementById("searchId").value;
+		document.getElementById("searchTerm").value =  searchString + " site:www.infoq.com";		
+		document.getElementById("submitForm").submit();
+	}
+	
+	function clearSearchText(){	
+		var searchtext =  document.getElementById("searchId").value
+		if(searchtext==JSResource.search){
+			document.getElementById("searchId").value="";
+		}
+	}
+</SCRIPT>
+<FORM action="http://www.google.com/search" method="GET" id="submitForm" target="_blank">
+	<INPUT type="hidden" name="q" id="searchTerm">
+</FORM>
+
+	<DIV style="background: url(&#39;http://cdn1.infoq.com/styles/i/bg-search.gif&#39;) no-repeat 0 4px;">	
+			<INPUT type="text" name="search" id="searchId" value="Search" style="width: 85%; border: 0px none; background-color: transparent; height: 19px; padding-left:9px; padding-right:9px; padding-top:0; padding-bottom:0" onclick="clearSearchText();" onkeypress="if ((event.which &amp;&amp; event.which == 13)||(event.keyCode &amp;&amp; event.keyCode == 13)){doSearch();}" onblur="if(this.value==&#39;&#39;) this.value=JSResource.search">	
+			<A href="http://www.infoq.com/articles/testing-in-spring#" onclick="doSearch();return false;"><IMG src="./Software Testing With Spring Framework_files/btn-search.gif" alt="Search"></A> 
+	</DIV>
+
+		
+
+
+
+
+
+
+<DIV class="box-simple">
+<DIV class="box-simple-top"></DIV>
+<DIV id="featuredTopics" class="box-simple-content">
+
+    <H2>Featured Topics</H2>
+    <DIV>
+		<UL>
+			<LI><A href="http://www.infoq.com/adopting-agile/">Adopting Agile</A></LI>
+            <LI><HR style="width: 100%; height: 1px; border: 0; color: #C8C8C8; background-color: #C8C8C8;"></LI>            			
+            <LI><A href="http://www.infoq.com/agile_techniques/">Agile Techniques</A></LI>
+            <LI><HR style="width: 100%; height: 1px; border: 0; color: #C8C8C8; background-color: #C8C8C8;"></LI>
+            <LI><A href="http://www.infoq.com/testing/">Testing</A></LI>
+            <LI><HR style="width: 100%; height: 1px; border: 0; color: #C8C8C8; background-color: #C8C8C8;"></LI>
+            <LI><A href="http://www.infoq.com/agile2009/">Agile 2009</A></LI>
+        </UL>
+	</DIV>
+		
+</DIV>
+<DIV class="box-simple-bottom"></DIV>
+</DIV>
+	
+		
+
+
+
+
+
+
+
+
+<!-- Widgets -->
+
+
+
+
+
+
+            
+
+
+<!-- /Widgets -->
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+<DIV class="box-simple">
+	<DIV class="box-simple-top"></DIV>
+	<DIV class="box-simple-content">
+		<P class="banner" id="bannerparagraph">
+			
+			
+				<IFRAME src="./Software Testing With Spring Framework_files/01.htm" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" topmargin="0" leftmargin="0" allowtransparency="true" width="120" height="600">
+&lt;script language="JavaScript" type="text/javascript"&gt;
+document.write('&lt;a href="http://clk.atdmt.com/MRT/go/174242312/direct/01/" target="_blank"&gt;&lt;img src="http://view.atdmt.com/MRT/view/174242312/direct/01/"/&gt;&lt;/a&gt;');
+&lt;/script&gt;&lt;noscript&gt;&lt;a href="http://clk.atdmt.com/MRT/go/174242312/direct/01/" target="_blank"&gt;&lt;img border="0" src="http://view.atdmt.com/MRT/view/174242312/direct/01/" /&gt;&lt;/a&gt;&lt;/noscript&gt;</IFRAME>
+			
+		</P>
+	</DIV>
+	<DIV class="box-simple-bottom"></DIV>
+</DIV>
+
+
+
+
+	<DIV class="box-simple">
+		<DIV class="box-simple-top"></DIV>
+		<DIV class="box-simple-content adsTower2" id="leftbartextlinks">
+			<DIV style="width:120px;background:white;">
+				
+
+
+
+
+
+
+
+	
+	
+		<H3>Sponsored Links</H3>
+		
+			<P><A id="tl-150" href="http://www.infoq.com/ads/textLinkUrlAction.action?i=150&url=http%3A%2F%2Fwww.mulesoft.com%2Fdownload-tcat-server%2Finfoqtl%2F1109" target="_blank">Monitor Tomcat</A> +<BR>Performance<BR>diagnostics<BR>Tcat Server -<BR><A id="tl-150" href="http://www.infoq.com/ads/textLinkUrlAction.action?i=150&url=http%3A%2F%2Fwww.mulesoft.com%2Fdownload-tcat-server%2Finfoqtl%2F1109" target="_blank">Free Download!</A></P>
+		
+			<P><A id="tl-141" href="http://www.infoq.com/ads/textLinkUrlAction.action?i=141&url=http%3A%2F%2Fwww.infoq.com%2Fvendorcontent%2Fshow.action%3Fvcr%3D741" target="_blank">Agile Project<BR>Management</A><BR>Improving Your<BR>Organization's<BR>Effectiveness</P>
+		
+			<P>SOA for Dummies<BR>Mini eBook<BR><A id="tl-151" href="http://www.infoq.com/ads/textLinkUrlAction.action?i=151&url=http%3A%2F%2Fwww.infoq.com%2Fvendorcontent%2Fshow.action%3Fvcr%3D723" target="_blank">Download<BR>Now!</A></P>
+		
+			<P><A id="tl-147" href="http://www.infoq.com/ads/textLinkUrlAction.action?i=147&url=http%3A%2F%2Fwww.intel.com%2Fsoftware%2Fsoae%2Fwebinars" target="_blank">Tutorial:</A><BR>SOA Governance<BR>&amp; Security<BR><A id="tl-147" href="http://www.infoq.com/ads/textLinkUrlAction.action?i=147&url=http%3A%2F%2Fwww.intel.com%2Fsoftware%2Fsoae%2Fwebinars" target="_blank">Maturity</A> Model<BR>Intel &amp; SoftwareAG</P>
+		
+	
+
+			</DIV>
+		</DIV>
+		<DIV class="box-simple-bottom"></DIV>
+	</DIV>
+
+
+<DIV style="margin-top:5px;">
+	<A href="http://planet.infoq.com/" target="_blank">
+	   <IMG src="./Software Testing With Spring Framework_files/banner-InfoQ_Planet.jpg" style="width:140px;">
+	</A>
+</DIV>
+
+<DIV class="box-simple">
+	<DIV class="box-simple-top"></DIV>
+	<DIV class="box-simple-content">
+		<P class="banner">
+			<IMG src="./Software Testing With Spring Framework_files/books.gif" usemap="#booksmap" alt="">
+			<MAP name="booksmap">
+				<AREA href="http://www.infoq.com/minibooks/scrum-xp-from-the-trenches" alt="Scrum and XP from the Trenches" title="Scrum and XP from the Trenches" shape="rect" coords="0,75,120,100">
+				<AREA href="http://www.infoq.com/minibooks/starting-struts2" alt="Starting Struts 2" title="Starting Struts 2" shape="rect" coords="0,110,120,125">		     	
+				<AREA href="http://www.infoq.com/minibooks/agile-patterns" alt="Agile Patterns: The Technical Cluster" title="Agile Patterns: The Technical Cluster" shape="rect" coords="0,130,120,160">
+				<AREA href="http://www.infoq.com/minibooks/ruby" alt="Mr. Neighborly&#39;s Humble Little Ruby Book" title="Mr. Neighborly&#39;s Humble Little Ruby Book" shape="rect" coords="0,165,120,205">
+				<AREA href="http://www.infoq.com/minibooks/grails" alt="Getting Started with Grails" title="Getting Started with Grails" shape="rect" coords="0,210,120,235">
+				<AREA href="http://www.infoq.com/minibooks/domain-driven-design-quickly" alt="Domain Driven Design Quickly" title="Domain Driven Design Quickly" shape="rect" coords="0,245,120,270">
+				<AREA href="http://www.infoq.com/minibooks/scrum-checklists" alt="Scrum Checklists" title="Scrum Checklists" shape="rect" coords="0,275,120,290">
+				<AREA href="http://www.infoq.com/minibooks/enterprise-soa" alt="Enterprise SOA Adoption Strategies" title="Enterprise SOA Adoption Strategies" shape="rect" coords="0,300,120,323">
+				<AREA href="http://www.infoq.com/minibooks/vsnettt" alt="Visual Studio .NET Tips and Tricks" title="Visual Studio .NET Tips and Tricks" shape="rect" coords="0,330,120,355">
+				<AREA href="http://www.infoq.com/minibooks/JTDS" alt="Java Transaction Design Strategies" title="Java Transaction Design Strategies" shape="rect" coords="0,365,120,390">
+			</MAP>
+		</P>
+	</DIV>
+	<DIV class="box-simple-bottom"></DIV>
+</DIV>
+
+
+		
+		<DIV class="sidebar-bottom"></DIV>
+	</DIV>
+	</DIV>
+	
+
+	<DIV id="clearer"></DIV>
+
+	
+	<DIV id="content">
+	<DIV id="content-wrapper">
+		
+		<DIV class="box">
+			
+			
+
+	<DIV class="contribute contribute-print">
+		<UL>
+			<LI class="c-news"><LI class="c-print"><A href="javascript:print()">Print</A></LI>
+		</UL>		        
+	</DIV>			
+	<H2>Article</H2>
+    <DIV class="top-corners"><DIV></DIV></DIV>
+    
+    <DIV class="box-content">
+    <DIV class="box-content-2">
+    <DIV class="box-content-5">
+	
+    	
+    		<P class="h1-r"><IMG src="./Software Testing With Spring Framework_files/metal-spring.jpg" alt=""></P>
+    	
+	
+	    <H1>Software Testing With Spring Framework</H1>
+	
+		<P class="info">
+			Posted by
+			
+				
+			
+			<STRONG><A href="http://www.infoq.com/author/Srini-%26-Kavitha-Penchikala" class="editorlink">
+Srini &amp; Kavitha Penchikala</A>
+</STRONG>
+			
+			on
+			Nov 12, 2007
+		</P>
+		
+    	<DL class="tags2">
+			<DT class="community">Community</DT>
+			
+				<DD><A href="http://www.infoq.com/java" name="java" id="1" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Java</A></DD>
+			
+			
+	     	
+	       		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<DT class="topics">Topics</DT>
+
+   	<DD>
+   		
+   			
+   			<A href="http://www.infoq.com/debugging" name="debugging" id="158" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Debugging</A>
+    
+   		,
+   	</DD>
+
+   	<DD>
+   		
+   			
+   			<A href="http://www.infoq.com/software_testing" name="software_testing" id="277" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Software Testing</A>
+    
+   		
+   	</DD>
+
+
+	<DT class="topics">Tags</DT>
+	
+		<DD>
+			
+				
+				<A href="http://www.infoq.com/JUnit" name="JUnit" id="400" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">JUnit</A>
+    
+			,
+		</DD>
+	
+		<DD>
+			
+				
+				<A href="http://www.infoq.com/JPA" name="JPA" id="170" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">JPA</A>
+    
+			,
+		</DD>
+	
+		<DD>
+			
+				
+				<A href="http://www.infoq.com/eclipse" name="eclipse" id="340" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Eclipse</A>
+    
+			,
+		</DD>
+	
+		<DD>
+			
+				
+				<A href="http://www.infoq.com/spring" name="spring" id="17" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Spring</A>
+    
+			
+		</DD>
+	
+
+	       		
+			
+
+		</DL>
+   	    
+       	<H2>Introduction</H2>
+<P>Testing is an integral part of enterprise software development. It is as important, if not the most important, as any other phase of the Software Development Lifecycle (SDLC). But testing an enterprise application is easier said than done. There are several constraints that make testing effort in a project a major challenge. These constraints usually fall into two categories: framework related constraints and project methodology related constraints.</P>
+
+		
+
+
+
+
+
+
+
+
+<DIV class="vendor-content-box-float">
+	<H3>Related<SPAN class="vendor">Vendor</SPAN>Content</H3>
+	
+	
+	
+
+	
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=757" target="_blank">
+				Jira 4 Issue Tracker – 50 new features, improved UI and Query Functions
+			</A>
+		</P>
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=740">
+				Domain-Specific Languages for Functional Testing
+			</A>
+		</P>
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=771">
+				Proactive Performance Tuning/Testing for Enterprise Java Developers
+			</A>
+		</P>
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=716">
+				Open Source Middleware Reference Architecture Whitepaper
+			</A>
+		</P>
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=689">
+				Lean development governance whitepaper by Scott Ambler and Per Kroll
+			</A>
+		</P>
+	
+
+	
+	
+		
+		
+	
+	
+	
+	
+	
+		
+			
+		
+
+
+
+
+
+
+
+
+	
+</DIV>
+
+
+
+       	
+<P>An example of framework related constraints is that J2EE architecture model does not take into account the aspect of unit testing as part of the software development. Since the container (application server) is the core component of J2EE run-time architecture, it is difficult to test applications built based on J2EE API, outside the container. Unit testing (outside the container) is essential to achieve high test coverage. It's also easy to reproduce many failure scenarios without the overhead of application server setup and code deployment. It is vital to ensure that tests can be run quickly which is important in development or production support phases of the project. The task of verifying code using unit testing minimizes unproductive time spent waiting for the application to be deployed every time we make a code change.</P>
+<P>Since the code in a traditional J2EE application depends heavily on the application server, its functionality can be fully tested only when deployed inside a J2EE container. But in-container testing is too slow and too much of an obstacle to developer productivity especially if the project is relatively large and number of code artifacts (java source files) is high.</P>
+<P>There are some J2EE frameworks that are built from ground-up to provide excellent support for integrating software testing into the development process. <A href="http://www.springframework.org/">Spring</A> is one of such java enterprise application development frameworks.</P>
+<P>Recently, I did some consulting on an enterprise java application my wife worked on for a local Tier-One automotive supplier company. The project was to create a Customer Profile Management System used to track the profiles of their customer companies. The architecture of this application included Hibernate 3.0, Spring 2.0, and JBoss 4.0 technologies. The project team followed an Agile software development approach to deliver the requirements in one-week iterations. They used the integration testing features offered by Spring framework, to test the application code in Data Access and Service layers. We really liked the testing support provided by Spring framework. It simplified testing to a great extent and made the aggressive one-week development iterations possible and manageable.</P>
+<P>This article provides an overview of the support provided by Spring framework in the areas of unit and integration testing. I will use a sample loan processing web application to help the readers in implementing an Agile Testing framework in a typical Java EE application and how to use Spring test classes to test the application functionality.</P>
+<H2>Agile Software Testing</H2>
+<P>A software development project must include good design and architecture practices as well as good testing practices. An application may have a very good architecture, design and code, but if it's not well tested, it cannot be considered a successful product. Some companies (software service vendors) live and die by the quality of their products and testing is crucial in the success of these companies.</P>
+<P>Agile software development requires a comprehensive testing strategy in order to achieve the agility and quality in the software development project. Agile testing includes unit testing as well as integration testing. This means that we should be able to execute the tests as quickly as possible (one way to achieve the agility is to run the tests outside the  application server). Test Driven Development (<A href="http://www.testdriven.com/">TDD</A>) is one of the key elements of Agile development process. Spring and other light-weight containers such as <A href="http://www.picocontainer.org/">PicoContainer</A> and <A href="http://hivemind.apache.org/">HiveMind</A> provide great support for test driven software development.</P>
+<P>Let's briefly look at the significance of unit and integration testing in a typical Java EE development project and objectives and constraints of each testing approach.</P>
+<H2>Unit Testing</H2>
+<P>Unit testing is used to test a specific unit (class) in the application. Unit tests should be written to test all the methods in the class including all exception paths in the methods. The objective of unit testing is to be able to quickly test any new code or changes to existing code without the overhead and additional time involved in tasks such as server configuration, services setup and application deployment. Developer unit testing is critical since it is easier and cheaper to find and fix bugs earlier in software development lifecycle (at coding and unit testing phases) rather than in the later stages.</P>
+<P><A href="http://www.junit.org/">JUnit</A> is the popular testing framework used for writing unit tests. In JUnit tests, we simply instantiate the objects using <CODE>new</CODE> operator, without having to worry about the container's JNDI resources and J2EE services such as resource pooling, JDBC connection pools and JMS queues. We can also use testing techniques like <A href="http://www.mockobjects.com/">Mock Objects</A> to test the code in isolation. With unit testing, there is no need for any infrastructure setup for an application server or even a database server.</P>
+<P>There are some limitations to unit testing. Unit tests don't address the testing of functional requirements of the application. These tests only cover testing of each module in the application. Also, we can't test scenarios like asynchronous services which require JMS message queues configured inside the application server. But we should still be able to unit test as much application functionality as possible and use the in-container tests for only those functions that cannot be tested outside the container.</P>
+<H2>Integration Testing</H2>
+<P>Unit tests are very useful to test a module or class in isolation. But it's also important to do integration testing of the application to see how various modules would work together when assembled in the integrated environment. Some functions that work fine at module level may not work correctly when integrated with other modules in the application. This scenario is very realistic in an agile development environment where different developers work on different parts of the application at the same time and they need to merge code changes on a regular (in some development teams daily) basis. The integration tests include testing round-trip calls between client and service layers of the application. Most of the integration tests usually run in the container. But to be truly agile, we will need to run atleast some integration tests without any code deployment to the container.</P>
+<P>Integration tests are useful in DAO layer where the implementations of DAO interfaces cannot be unit tested effectively. Other objectives of integration testing is to test aspects such as remote service, state (session) management, web flow and transaction management. Integration testing has some constraints as well. It takes longer time to run these tests. Since the application needs to be deployed inside Java EE container, there is also the server setup and configuration overhead involved in running these tests.</P>
+<P>It should be noted that integration testing is complimentary testing, not a substitute for unit testing. Developers should first write sufficient unit tests for each java class in the application to achieve a good code coverage. At the same time, there should be enough integration tests written to cover different use case scenarios in the application that can not be tested with unit tests.</P>
+<P>There are several other types of testing in addition to unit and integration tests. Following table lists different testing strategies and their objectives.</P>
+<P><SMALL><EM><STRONG>Table 1. Java EE Testing Strategies</STRONG></EM></SMALL></P>
+<TABLE cellspacing="0" cellpadding="1" border="1">
+    <TBODY>
+        <TR>
+            <TH><SMALL>Test Strategy</SMALL></TH>
+            <TH><SMALL>Objective</SMALL></TH>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Unit Testing</SMALL></TD>
+            <TD valign="top"><SMALL>Test the application at class level to test all methods in each class.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Mock Objects</SMALL></TD>
+            <TD valign="top"><SMALL>Mock Objects are used in Client and Service layers of the application to test the class methods without having to really connect to back-end database or other network resources.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>ORM Testing</SMALL></TD>
+            <TD valign="top"><SMALL>Verify the integrity of database table mappings defined in ORM layer. These test classes use database metadata information to check ORM mappings.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>DB Testing</SMALL></TD>
+            <TD valign="top"><SMALL>Test data access classes (DAOs) in isolation. These tests put the database tables into a known state for each test run.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>XML Testing</SMALL></TD>
+            <TD valign="top"><SMALL>Test XML documents, their validity, and compare two different documents to assert if they are same or not.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Integration Testing</SMALL></TD>
+            <TD valign="top"><SMALL>Test website navigation, web flow, and state (session) management and transaction management.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Regression Testing</SMALL></TD>
+            <TD valign="top"><SMALL>Test the application functionality as an end-user would use the application when it's deployed in production environment. These tests are usually run by a dedicated QA team using automated testing tools such as Mercury QuickTest Professional (<A href="http://www.mercury.com/us/products/quality-center/functional-testing/quicktest-professional/">QTP</A>).</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Load Testing</SMALL></TD>
+            <TD valign="top"><SMALL>Test the scalability of the application. These performance tests are usually run by a dedicated load testing team using tools such as Mercury <A href="http://www.mercury.com/us/products/performance-center/loadrunner/">LoadRunner</A>, <A href="http://www.loadtestingtool.com/">WAPT</A>, and <A href="http://jakarta.apache.org/jmeter/index.html">JMeter</A>.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Profiling</SMALL></TD>
+            <TD valign="top"><SMALL>Test for any memory leaks, memory usage, garbage collection etc at application run-time. Developers run the application through a java profiler such as <A href="http://www.ej-technologies.com/products/jprofiler/overview.html">JProfiler</A>, Quest <A href="http://www.quest.com/jprobe/">JProbe</A>, Eclipse Test and Performance Tools Platform (<A href="http://www.eclipse.org/tptp/">TPTP</A>).</SMALL></TD>
+        </TR>
+    </TBODY>
+</TABLE>
+<P>There are a variety of open source testing frameworks to perform the various test strategies listed above. Following is a list of some of these frameworks.</P>
+<UL>
+    <LI>JUnit</LI>
+    <LI>JMock</LI>
+    <LI>ORMUnit</LI>
+    <LI>DBUnit</LI>
+    <LI>XMLUnit</LI>
+    <LI>JUnitEE</LI>
+    <LI>MockEJB</LI>
+    <LI>Cactus</LI>
+</UL>
+<P>Since the testing aspect determines the success or failure of a project, any Java EE framework we use for software development should provide the support for seamless integration of testing into design and development phases. Let's look at some of the characteristics that an ideal Java EE framework should have, from unit and integration testing stand-point.</P>
+<P><STRONG><EM>Agile Development:</EM></STRONG> <BR>
+The framework should aid in an Iterative and Agile software development of the application. Agile methodologies are being adapted by more development teams and agile testing and early feedback is the main part of iterative development.</P>
+<P><STRONG><EM>Test Driven Development:</EM></STRONG> <BR>
+It is a well proven fact that the testing concern needs to be addressed right from the early phases of application development lifecycle. It is lot cheaper and more effective to find and fix the bugs earlier in the process. And the best way to find any bugs is by testing "early and often" in design and development phases of each iteration in the project.</P>
+<P><STRONG><EM>Interface based design:</EM></STRONG> <BR>
+One of the best practices that we object oriented programmers try to strive for is to write java classes to interfaces instead of concrete classes. Writing to interfaces gives us a great flexibility in running the unit and integration tests without having to modify the client code whenever the implementation of a service component is changed.</P>
+<P><STRONG><EM>Separation of Concerns:</EM></STRONG> <BR>
+We achieve a "separation of concerns" (SOC) when we consciously design and write code in separate modules based on the specific application concern that we are trying to address (like domain, business logic, data access and infrastructure logic). This way different concerns like logging, exception handling and application security can be tested in isolation without any dependencies on other modules.</P>
+<P><STRONG><EM>Layered Architecture:</EM></STRONG> <BR>
+A typical Java enterprise application is designed in such a way that there are client, service, domain and persistence layers. Any element of a layer should only depend on other elements in the same layer or on elements of the layer just "beneath" it (assuming that presentation is the topmost layer and persistence is the bottom most layer in the architecture layers). What this means is the client layer can only depend on service layer. Service layer can only depend on Domain layer and domain layer can only depend on persistence layer. The Java EE framework should support unit and integration testing in all these layers without any dependency on other layers.</P>
+<P><STRONG><EM>Non-Invasive:</EM></STRONG> <BR>
+Frameworks like EJB and Struts force developers to extend framework specific classes (like <STRONG>EJBObject</STRONG>, <STRONG>ActionForm</STRONG>, <STRONG>Action</STRONG> etc) in the application. This creates an application dependency on the specific framework which makes unit testing a challenge and also leads to extra work when we need to switch to a different (and better) framework. These frameworks are invasive in nature and should be carefully chosen with future extensibility requirements in mind. Note that the latest version of EJB specification (version 3.0), which is part of Java EE 5, is less invasive as the Entities (formerly called Entity Beans) and Session beans are plain java classes that can be tested outside the container similar to Spring beans.</P>
+<P><STRONG><EM>Inversion Of Control (IoC):</EM></STRONG> <BR>
+The framework should provide support for Inversion of Control on the objects created in the application. Inversion Of Control or IoC (also known as Dependency Injection, <A href="http://www.martinfowler.com/articles/injection.html">DI</A>) design pattern brings several benefits to integration testing. The primary benefit is that the application designed based on IoC pattern depends far less on the container than one created using traditional J2EE application architecture.</P>
+<P><STRONG><EM>Aspect Oriented Programming (AOP):</EM></STRONG> <BR>
+<A href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">AOP</A> enables behavior, that would otherwise be scattered through different classes, to be centralized in a single module. It's very useful in unit and integration testing where we can test Java EE services such as transaction management and role based security declaratively using <STRONG>Aspects</STRONG>.</P>
+<P><STRONG><EM>Service Oriented Architecture:</EM></STRONG> <BR>
+Testing is a critical component in a SOA infrastructure since a Service is used in different modules and applications in the enterprise. If a specific use case of a service component is not tested completely, it could potentially cause production problems and quality issues when code changes are implemented in the production environment.</P>
+<P><STRONG><EM>Data Access Abstraction:</EM></STRONG> <BR>
+A consistent architectural approach to data access is also very important in testing the data access functions of an application. The data access abstraction should be agnostic to any persistence implementation framework (such as <STRONG>Hibernate</STRONG>, <STRONG>JPA</STRONG>, <STRONG>JDO</STRONG>, <STRONG>iBATIS</STRONG>, <STRONG>OJB</STRONG>, and <STRONG>Spring JDBC</STRONG>). It should also nicely handle data access exceptions thrown in the persistence layer.</P>
+<P><STRONG><EM>Transaction management:</EM></STRONG> <BR>
+The framework should provide an abstraction interface for testing transaction management. It should integrate with <STRONG>JDBC</STRONG> and <STRONG>JTA</STRONG> transactions (for both <STRONG>Container</STRONG> and <STRONG>Bean</STRONG> managed transactions) and other transaction objects such as Hibernate <STRONG>Transaction</STRONG>.</P>
+<H2>Spring Support For Testing</H2>
+<P>Spring framework was designed based on agile testing strategies to help developers follow sound design and effective unit testing best practices. It also provides a great support for running integration tests outside the application server. Spring is a non-invasive framework in the sense that when we use Spring, there is a minimal dependency of application code on the framework. We can configure application objects as plain java classes (POJOs) without having to extend any Spring specific classes (Note: When you use Spring template helper classes such as <STRONG>JDBCTemplate</STRONG>, <STRONG>JNDITemplate</STRONG>, <STRONG>HibernateDaoSupport</STRONG> etc, you are adding the dependency on the Spring framework). We can even configure any legacy classes that were written prior to the existence of Spring.</P>
+<P>Spring framework in general, and Spring Testing module in particular support the following aspects:</P>
+<P><STRONG><EM>Isolation:</EM></STRONG> <BR>
+Spring gives J2EE developers the flexibility to test java classes in isolation by injecting mock implementations. For example, we can test a service class using a mock implementation of the corresponding Repository class. This way, we can test business logic in the service class without worrying about the persistence details of connecting to a database.</P>
+<P><STRONG><EM>Inversion of Control:</EM></STRONG> <BR>
+The framework provides sophisticated configuration management for POJOs. Spring IoC container can manage fine or coarse grained java classes. It uses a bean factory to instantiate application objects and wire them together using constructor or setter injection mechanisms.</P>
+<P><STRONG><EM>Data Access:</EM></STRONG> <BR>
+It provides a nice persistence architecture for data access and a good hierarchy of data access exceptions. It provides helper classes (such as <STRONG>JdbcTemplate</STRONG>, <STRONG>HibernateTemplate</STRONG>, <STRONG>TopLinkTemplate</STRONG>, <STRONG>JpaTemplate</STRONG>) to work with the leading persistence frameworks.</P>
+<P><STRONG><EM>Transaction Management:</EM></STRONG> <BR>
+Spring provides a nice abstraction framework for managing transactions (both local and global). This abstraction provides a consistent programming model in a wide range of development environments and is the basis for Spring's declarative and programmatic transaction management.</P>
+<H2>Integration Testing using Spring</H2>
+<P>Spring configuration, dependency injection (DI), data access (CRUD), and transaction management are some of the concerns that we can test outside the server environment using Spring Testing framework. The data access tests are executed against a real database so no need to use any mock objects in these tests.</P>
+<P>Spring context load time may not be an issue in small to medium size web applications. But for a large size enterprise application, it could take significant time to instantiate the classes in the application. Also, the overhead of running every single test case in every single test fixture leads to slower overall test runs and adversely affects developer productivity. Keeping these concerns in mind, Spring development team wrote some test classes that can be used as integration tests running outside the container. Since these test classes are extensions of <STRONG>JUnit</STRONG> API, we get all the benefits of <STRONG>JUnit</STRONG> right out of the box when we use the Spring test classes. These test classes setup a transaction for each test method and automatically cleanup (rolling back the transaction at end of each method) eliminating the necessity for any database setup and teardown tasks.</P>
+<P>Following is a list of items we can verify when we run integration tests in a Spring application:</P>
+<UL>
+    <LI>Loading of Spring contexts and management of the contexts by caching loaded contexts between execution of each test case. Also, verify correct wiring of application contexts by Spring IoC container.</LI>
+    <LI>Dependency Injection of test fixtures and Spring configuration details (To verify if a specific data access (Repository) class configuration is loaded correctly).</LI>
+    <LI>Convenience variables for data access and CRUD operations (The logic of data access class to test database select and updates).</LI>
+    <LI>Transaction management.</LI>
+    <LI>ORM mapping file configuration (Verify if everything related to a persistence object is mapped correctly and correct lazy-loading semantics are in place).</LI>
+</UL>
+<P>We can run integration tests just like JUnit tests. They are slower to run compared to unit tests because we are testing the code at integration level rather than just at a class level. But these integration tests are lot faster to execute than the tests created using in-container testing frameworks such as <A href="http://www.junitee.org/">JUnitEE</A> or <A href="http://jakarta.apache.org/cactus/">Cactus</A> which rely on deployment of the application to the container before the tests can be executed.</P>
+<P>Spring integration test classes were designed to address various testing concerns so there are different test classes in <STRONG>org.springframework.test</STRONG> package. Following table shows some of the test classes provided in Spring framework for integration testing and in what scenarios they can be used.</P>
+<P><STRONG><EM><SMALL>Table 2. Spring Test Classes</SMALL></EM></STRONG></P>
+<TABLE cellspacing="0" cellpadding="1" border="1">
+    <TBODY>
+        <TR>
+            <TH><SMALL>Test Class Name</SMALL></TH>
+            <TH><SMALL>Description</SMALL></TH>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>AbstractDependencyInjection             SpringContextTests</SMALL></TD>
+            <TD valign="top"><SMALL> This test class injects test dependencies so we don't need to specifically perform the Spring application context lookups. It also automatically locates the corresponding object in the set of configuration files specified in the <STRONG>getConfigLocations()</STRONG> method.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>AbstractTransactionalDataSource             SpringContextTests</SMALL></TD>
+            <TD valign="top"><SMALL> This test class is used to test the code that runs inside a transaction. It creates and rolls back a transaction for each test case. We write code with the assumption that there is a transaction present. It provides the fields such as a <STRONG>JdbcTemplate</STRONG> that can be used to verify database state after test operations, or verify the results of queries performed by application code. An <STRONG>ApplicationContext</STRONG> is also inherited, and can be used for explicit lookup if necessary.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>AbstractJpaTests</SMALL></TD>
+            <TD valign="top"><SMALL> This test class is used for testing JPA functionality. It provides an <STRONG>EntityManager</STRONG> instance that we can use to call JPA methods.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>AbstractAspectjJpaTests</SMALL></TD>
+            <TD valign="top"><SMALL> This class extends from <STRONG>AbstractJpaTests</STRONG> and it is used for load-time weaving (LTW) purposes using <STRONG>AspectJ</STRONG>. We override the method <STRONG>getActualAopXmlLocation()</STRONG> to specify the location of AspectJ's configuration xml file.</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>AbstractModelAndViewTests</SMALL></TD>
+            <TD valign="top"><SMALL> This is a convenient base class for testing the presentation and controller layers (using Spring MVC) in the application.</SMALL></TD>
+        </TR>
+    </TBODY>
+</TABLE>
+<P>Figure 1 below shows the class hierarchy diagram of Spring framework test classes extending from JUnit <STRONG>TestCase</STRONG> class. Note: These test classes are part of <STRONG>spring-mock.jar</STRONG> file (located in <STRONG>dist</STRONG> folder inside Spring framework installation directory).</P>
+<P><A target="_blank" href="http://www.infoq.com/resource/articles/testing-in-spring/en/resources/SpringTestClassHierarchy_lg.GIF"><IMG alt="" _href="img://SpringTestClassHierarchy.GIF" src="./Software Testing With Spring Framework_files/SpringTestClassHierarchy.GIF" _p="true"></A></P>
+<P><EM>Figure 1. Spring test class hierarchy (Click on the screen shot to open a full-size view.)</EM></P>
+<P>Following is a list of the factors to consider when deciding on which test class to extend from:</P>
+<UL>
+    <LI>To use the Spring application context without having to write the code to initialize and manage it.</LI>
+    <LI>To test the data access (using data source)</LI>
+    <LI>To test a method inside a transaction (using transactionmanager)</LI>
+    <LI>JDK Version: If you are using JDK 1.4 so you can't take the advantage of Annotations introduced in JDK 1.5.</LI>
+</UL>
+<P>The following section gives more details of these test classes.</P>
+<P><STRONG><EM>AbstractSpringContextTests:</EM></STRONG> <BR>
+This is the base class for all Spring test classes. It provides convenience methods to load Spring application context. We extend this class when we need to test loading of Spring context without having to explicitly manage the dependency injection. It maintains a static cache of contexts by key which helps in significant performance benefit if the application has several Spring beans (especially beans such as LocalSessionFactoryBean for working with an ORM tool such as Hibernate) to load. Hence, in most cases, it makes sense to initialize the application context once and cache it for subsequent lookups.</P>
+<P><STRONG><EM>AbstractSingleSpringContextTests:</EM></STRONG> <BR>
+This is an abstract test class that exposes a single Spring <STRONG>ApplicationContext</STRONG>. It will cache the application contexts based on a context key which is usually the config locations (String[]) describing the Spring resource descriptors. It encapsulates all the functions related to loading and managing the Spring context.</P>
+<P><EM><STRONG>AbstractDependencyInjectionSpringContextTests:</STRONG></EM> <BR>
+This is a convenient super class for tests that depend on the Spring application context. It has <STRONG>setAutowireMode()</STRONG> method used to set the autowire mode for test properties set by Dependency Injection. The default is <STRONG>AUTOWIRE_BY_TYPE</STRONG> but it can also be set to <STRONG>AUTOWIRE_BY_NAME</STRONG> or <STRONG>AUTOWIRE_NO</STRONG>.</P>
+<P><STRONG><EM>AbstractTransactionalSpringContextTests:</EM></STRONG> <BR>
+This class has several convenient methods to make the transaction management task easier when running the integration tests. It provides the transaction variables <STRONG>transactionManager</STRONG>, <STRONG>transactionDefinition</STRONG>, and <STRONG>transactionStatus</STRONG> for managing the transactions in the test methods. It also has a method called <STRONG>endTransaction()</STRONG> to force a commit or rollback of the transaction. And <STRONG>startNewTransaction()</STRONG> method is used to start a new transaction, which is called after calling <STRONG>endTransaction()</STRONG>.</P>
+<P><EM><STRONG>AbstractTransactionalDataSourceSpringContextTests:</STRONG></EM> <BR>
+This is one of the mostly used Spring test classes. It provides useful inherited protected fields, such as a <STRONG>JdbcTemplate</STRONG> that can be used to run CRUD operations on the database. It also executes each test method in its own transaction, which is automatically rolled back by default. This means that even if tests change the database state (with insert, update, or delete), there is no need for a teardown or cleanup script because the database changes are automatically rolled back. The other helper methods in this class are <STRONG>countRowsInTable()</STRONG> which is a handy method to check if a new record has been added or an existing record has been deleted, <STRONG>deleteFromTables</STRONG> is used to delete all rows from the tables, <STRONG>executeSqlScript</STRONG> is used to execute a given SQL script (These DB changes will be rolled back based on the state of the current transaction).</P>
+<P><STRONG><EM>AbstractAnnotationAwareTransactionalTests:</EM></STRONG> <BR>
+This test class exposes <STRONG>SimpleJdbcTemplate</STRONG> variable. Using this class, we can control transactional behavior using <STRONG>@Transactional</STRONG> annotation. We can also use <STRONG>@NotTransactional</STRONG> to prevent any transaction being created at all (Note these two are Spring specific annotations and they create a dependency on Spring framework. You can use this feature only if you are using JDK 1.5.</P>
+<P><STRONG><EM>AbstractJpaTests:</EM></STRONG> <BR>
+This is base test class to extend from when we want to test a DAO class written using JPA API. It exposes an <STRONG>EntityManagerFactory</STRONG> and a shared <STRONG>EntityManager</STRONG> for persistence methods. It requires <STRONG>DataSource</STRONG> and <STRONG>JpaTransactionManager</STRONG> to be injected.</P>
+<P>Once you decide on which test class to extend, here are the steps required to integrate Spring test classes in your integration tests:</P>
+<UL>
+    <LI>Extend one of Spring test classes (usually <STRONG>AbstractTransactionalDataSourceSpringContextTests</STRONG> or <STRONG>AbstractJpaTests</STRONG> if you specifically want to test JPA functionality). Note that JPA is Java SE 5.0 only so if you are using pre-JDK1.5 version in your application, you can't extend this class.</LI>
+    <LI>Override <STRONG>getConfigLocations()</STRONG> method to load all the configuration files for data source, transaction manager, and other resources used in the application code. Use <STRONG>@Override</STRONG> annotation to specify that we are overriding this method defined in the super class (<STRONG>AbstractSingleSpringContextTests</STRONG>).</LI>
+    <LI>Write setter methods for all the DAO objects used in the test class (these DAO objects are injected by Spring IoC container using the specified auto-wire option).</LI>
+    <LI>Add the test methods using these DAO objects (which in turn use the data source), transaction manager, and ORM persistence helper methods.</LI>
+</UL>
+<P>Rod Johnson's presentation on <A href="http://www.infoq.com/presentations/system-integration-testing-with-spring">System Testing Using Spring</A> is an excellent resource on the support Spring Test API offers in unit and integration testing.</P>
+<H2>Sample Application</H2>
+<P>The sample application used in this article is a home loan processing system. The use case is to process the funding of a mortgage in the system. When a loan application is submitted to a mortgage lending company, it first goes through the underwriting process where the underwriters approve or deny loan request based on customer's income details, credit history and several other factors. If the loan application is approved it goes through the closing and funding processes.</P>
+<P>Funding module in the loan processing application automates the process of disbursement of funds. Funding process typically starts with the lender company forwarding the loan package to a title company. The title company then reviews the loan package and schedules a date and time for closing the loan. Borrower and the seller meet with the closing agent at the title company.</P>
+<P>During closing, the buyer (borrower) and the seller read and sign the final loan documents. The borrower would pay the down payment and money for any fees associated with closing the loan. Also, closing costs and escrow fees are paid at the time of the closing process. After the closing meeting, the title company sends the signed agreement to the lender for funding. The lender transfers the funds to the title company.</P>
+<P><EM><STRONG>Application Architecture:</STRONG></EM> </P>
+<P>I followed the popular layered architecture in the design of the sample application. These layers are Presentation, Application (Controller), Service, Domain and Data Access layers. I named the data access classes (DAO) as Repositories following the naming conventions recommended in <A href="http://www.domaindrivendesign.org/">Domain Driven Design</A> principles. I wrote the service, domain, and data access layers as plain java classes. I won't cover the Presentation and Application layer classes in this article.</P>
+<P>The application architecture diagram of LoanApp web application is shown in Figure 2 below.</P>
+<P><A target="_blank" href="http://www.infoq.com/resource/articles/testing-in-spring/en/resources/LoanAppArchitecture_lg.gif"><IMG src="./Software Testing With Spring Framework_files/LoanAppArchitecture.gif" _href="img://LoanAppArchitecture.gif" alt="" _p="true"></A></P>
+<P><EM>Figure 2. LoanApp application architecture diagram (Click on the screen shot to open a full-size view.)</EM></P>
+<P><EM><STRONG>Data Model:</STRONG></EM> <BR>
+I created the loan application database (called <STRONG>LoanDB</STRONG>) for the loanapp application using <A href="http://www.hsqldb.org/">HSQL</A> database. For the demo purposes, I kept the data model simple with 3 tables called <STRONG>LOANDETAILS</STRONG>, <STRONG>FUNDINGDETAILS</STRONG>, and <STRONG>BORROWERDETAILS</STRONG>.</P>
+<P><EM><STRONG>Domain Model:</STRONG></EM> <BR>
+There are three domain objects in the model, namely <STRONG>LoanDetails</STRONG>, <STRONG>BorrowerDetails</STRONG>, and <STRONG>FundingDetails</STRONG> to capture the business entities required in the funding module in the loan processing system.</P>
+<P>Note: The model used in the sample application is just for demonstration purposes. A real world application domain model would be more complex than what is described here.</P>
+<P>I wrote the data access classes for each of the domain classes. The DAO classes are <STRONG>LoanDetailsRepositoryJpaImpl</STRONG>, <STRONG>BorrowerDetailsRepositoryJpaImpl</STRONG>, and <STRONG>FundingDetailsRepositoryJpaImpl</STRONG>. And there is a service class called <STRONG>FundingServiceImpl</STRONG> that encapsulates the logic to process a funding request. It calls the DAO's in order to approve, deny, or void the funding request for a specified loan.</P>
+<P><EM><STRONG>Persistence:</STRONG></EM> <BR>
+I used <A href="http://java.sun.com/javaee/technologies/entapps/persistence.jsp">Java Persistence API</A> (JPA) as the persistence model for object-relational mapping (ORM) requirements in the web application. Spring provides support for all the leading persistence frameworks such as <STRONG>Hibernate</STRONG>, <STRONG>JDO</STRONG>, <STRONG>iBATIS</STRONG>, <STRONG>TopLink</STRONG>, and <STRONG>JPA</STRONG>. Spring JPA, which is part of Spring 2.0 release, includes JPA helper classes in <STRONG>org.springframework.orm.jpa</STRONG> package. I used the <STRONG>EntityManager</STRONG> option (instead of JPA Template) for the persistence concern. This approach has no dependency on Spring and still can be managed using Spring application context. We can also take advantage of Annotations to inject <STRONG>EntityManager</STRONG> using <STRONG>@PersistenceContext</STRONG> and <STRONG>@PersistenceUnit</STRONG> tags.</P>
+<P>Following table shows the frameworks and technologies used in the sample application.</P>
+<P><SMALL><STRONG>Table 3. Technologies used in the sample application</STRONG></SMALL></P>
+<TABLE cellspacing="0" cellpadding="1" border="1">
+    <TBODY>
+        <TR>
+            <TH><SMALL>Layer</SMALL></TH>
+            <TH><SMALL>Technology</SMALL></TH>
+            <TH><SMALL>Version</SMALL></TH>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Controller</SMALL></TD>
+            <TD valign="top"><SMALL>Spring MVC</SMALL></TD>
+            <TD valign="top"><SMALL>2.0</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Service</SMALL></TD>
+            <TD valign="top"><SMALL>Spring</SMALL></TD>
+            <TD valign="top"><SMALL>2.0</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Domain</SMALL></TD>
+            <TD valign="top"><SMALL>Plain Java Classes</SMALL></TD>
+            <TD valign="top"><SMALL>&nbsp;</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Persistence</SMALL></TD>
+            <TD valign="top"><SMALL>JPA</SMALL></TD>
+            <TD valign="top"><SMALL>&nbsp;</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Database</SMALL></TD>
+            <TD valign="top"><SMALL>HSQLDB server</SMALL></TD>
+            <TD valign="top"><SMALL>1.8.0</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Java</SMALL></TD>
+            <TD valign="top"><SMALL>Java SE</SMALL></TD>
+            <TD valign="top"><SMALL>6.0</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Build</SMALL></TD>
+            <TD valign="top"><SMALL>Ant</SMALL></TD>
+            <TD valign="top"><SMALL>1.7</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>IDE</SMALL></TD>
+            <TD valign="top"><SMALL>Eclipse</SMALL></TD>
+            <TD valign="top"><SMALL>3.3</SMALL></TD>
+        </TR>
+    </TBODY>
+</TABLE>
+<P>The other tools I used in the sample application are <A href="http://metrics.sourceforge.net/">Metrics</A> and <A href="http://findbugs.sourceforge.net/">FindBugs</A> for static code analyses, <A href="http://eclemma.sourceforge.net/">EclEmma</A> for code coverage.</P>
+<H2>Testing</H2>
+<P>Here is a quick reiteration of what our objectives are in writing and executing the tests.</P>
+<UL>
+    <LI>We want to code and run the tests without leaving the IDE (Eclipse).</LI>
+    <LI>There should be no special deployment of the code required</LI>
+    <LI>We should be able to exploit other code analysis tools such as Metrics and FindBugs right from within the IDE so we can find any bugs right away and fix those issues.</LI>
+</UL>
+<P>In addition to the traditional unit tests (using JUnit) for each of the Repository classes in the application (namely <STRONG>LoanDetailsRepositoryJpaImpl</STRONG>, <STRONG>BorrowerDetailsRepositoryJpaImpl</STRONG>, and <STRONG>FundingDetailsRepositoryJpaImpl</STRONG>), I also wrote integration tests to verify <STRONG>FundingServiceImpl</STRONG> class methods.</P>
+<P>Following table shows the list of the main and corresponding test classes.</P>
+<P><SMALL> <STRONG>Table 4: List of test cases in the loan application</STRONG></SMALL></P>
+<TABLE cellspacing="0" cellpadding="1" border="1">
+    <TBODY>
+        <TR>
+            <TH><SMALL>Application Layer</SMALL></TH>
+            <TH><SMALL>Main Class</SMALL></TH>
+            <TH><SMALL>Test Class(es)</SMALL></TH>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Data Access</SMALL></TD>
+            <TD valign="top"><SMALL>LoanDetailsRepositoryImpl</SMALL></TD>
+            <TD valign="top"><SMALL>LoanDetailsRepositoryJpaImplTest,<BR>
+            LoanDetailsRepositoryJpaImplSpringDITest</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Data Access</SMALL></TD>
+            <TD valign="top"><SMALL>BorrowerDetailsRepository</SMALL></TD>
+            <TD valign="top"><SMALL>BorrowerDetailsRepositoryJpaImplTest</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Data Access</SMALL></TD>
+            <TD valign="top"><SMALL>FundingDetailsRepositoryImpl</SMALL></TD>
+            <TD valign="top"><SMALL>FundingDetailsRepositoryJpaImplTest</SMALL></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><SMALL>Service</SMALL></TD>
+            <TD valign="top"><SMALL>FundingServiceImpl</SMALL></TD>
+            <TD valign="top"><SMALL>FundingServiceImplIntegrationTest,<BR>
+            FundingServiceImplSpringDITest,<BR>
+            FundingServiceImplSpringJPATest</SMALL></TD>
+        </TR>
+    </TBODY>
+</TABLE>
+<P>To compare Spring's integration testing support, I first wrote the funding service integration test without using Spring test classes (<STRONG>FundingServiceImplTest</STRONG>). Then I wrote two other test classes (<STRONG>FundingServiceImplSpringDITest</STRONG> and <STRONG>FundingServiceImplSpringJpaTest</STRONG>) to test the logic in <STRONG>FundingServiceImpl</STRONG> class, but this time using Spring test classes. I used several helper variables and methods to aid in running the database queries. These are variables <STRONG>jdbcTemplate</STRONG>, <STRONG>simpleJdbcTemplate</STRONG>, <STRONG>sharedEntityManager</STRONG>, and methods <STRONG>countRowsInTable()</STRONG>, <STRONG>deleteFromTables()</STRONG>, and <STRONG>endTransaction()</STRONG>.</P>
+<P>Let's take a look code examples of these unit and integration test classes to see how many boiler-plate testing tasks are automated by Spring Testing API so the developers can focus on asserting the actual business logic.</P>
+<P>First of all, let's look at the Spring configuration XML file. This file has the Spring bean definitions for repository (DAO) classes used in the sample application. Listing 1 shows the code for <STRONG>loanApplicationContext-jpa.xml</STRONG> configuration file.</P>
+<P><SMALL>Listing 1. LoanApp Spring configuration details</SMALL></P>
+<PRE> &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+ &lt;beans xmlns="http://www.springframework.org/schema/beans"
+ 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	   xmlns:tx="http://www.springframework.org/schema/tx"
+ 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+ 	   http://www.springframework.org/schema/tx
+ 	   http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"&gt;
+  	&lt;!--
+ 	 ! Load JDBC Properties
+ 	 !--&gt;
+ 	&lt;bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"&gt;
+ 		&lt;property name="location" value="classpath:jdbc.properties"/&gt;
+ 	&lt;/bean&gt;
+
+  	&lt;!--
+ 	 ! Service classes
+ 	 !--&gt;
+ 	&lt;bean id="fundingService" class="com.ideature.agiletestingspring.loanapp.service.FundingServiceImpl" &gt;
+ 		&lt;property name="loanDetailsRepository" ref="loanDetailsRepository"/&gt;
+ 		&lt;property name="borrowerDetailsRepository" ref="borrowerDetailsRepository"/&gt;
+ 		&lt;property name="fundingDetailsRepository" ref="fundingDetailsRepository"/&gt;
+ 	&lt;/bean&gt;
+
+  	&lt;!--
+ 	 ! Repository classes
+ 	 !--&gt;
+ 	&lt;bean id="loanDetailsRepository" class="com.ideature.agiletestingspring.loanapp.repository.LoanDetailsRepositoryJpaImpl" /&gt;
+ 	&lt;bean id="borrowerDetailsRepository" class="com.ideature.agiletestingspring.loanapp.repository.BorrowerDetailsRepositoryJpaImpl" /&gt;
+ 	&lt;bean id="fundingDetailsRepository" class="com.ideature.agiletestingspring.loanapp.repository.FundingDetailsRepositoryJpaImpl" /&gt;
+
+  	&lt;!--
+ 	 ! Configure the JDBC datasource. Use the in-container datasource
+ 	 ! (retrieved via JNDI) in the production environment.
+ 	 !--&gt;
+ 	&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt;
+ 		&lt;property name="driverClassName" value="${jdbc.driverClassName}"/&gt;
+ 		&lt;property name="url" value="${jdbc.url}"/&gt;
+ 		&lt;property name="username" value="${jdbc.username}"/&gt;
+ 		&lt;property name="password" value="${jdbc.password}"/&gt;
+ 	&lt;/bean&gt;
+
+  	&lt;!--
+ 	 ! Configure the entity manager.
+ 	 !--&gt;
+ 	&lt;bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"&gt;
+
+  		&lt;property name="persistenceUnitName" value="LoanDBSpring"/&gt;
+
+  		&lt;property name="dataSource" ref="dataSource"/&gt;
+ 		&lt;property name="loadTimeWeaver"&gt;
+ 		  &lt;!--  InstrumentationLoadTimeWeaver expects you to start the appserver with
+ 				 -javaagent:/Java/workspace2/spring/dist/weavers/spring-agent.jar
+ 		   --&gt;
+ 		  &lt;bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/&gt;
+ 		&lt;/property&gt;
+
+  		&lt;!--
+ 		 ! JPA Adapter
+ 		 !--&gt;
+ 		&lt;property name="jpaVendorAdapter"&gt;
+ 			&lt;bean class="org.springframework.orm.jpa.vendor.TopLinkJpaVendorAdapter"&gt;
+ 				&lt;property name="databasePlatform"
+ 						value="oracle.toplink.essentials.platform.database.HSQLPlatform"/&gt;
+ 				&lt;property name="generateDdl" value="false"/&gt;
+ 				&lt;property name="showSql" value="true" /&gt;
+ 			&lt;/bean&gt;
+  			&lt;!--
+ 			&lt;bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"&gt;
+ 				&lt;property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect" /&gt;
+ 				&lt;property name="generateDdl" value="true" /&gt;
+ 				&lt;property name="showSql" value="true" /&gt;
+ 			&lt;/bean&gt;
+ 			--&gt;
+
+  		&lt;/property&gt;
+ 	&lt;/bean&gt;
+  	&lt;!--
+ 	 ! Transaction manager for EntityManagerFactory.
+ 	 !--&gt;
+ 	&lt;bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"&gt;
+ 		&lt;property name="entityManagerFactory" ref="entityManagerFactory"/&gt;
+ 		&lt;property name="dataSource" ref="dataSource"/&gt; 	&lt;/bean&gt;
+
+  	&lt;!--
+ 	 ! Use Spring's declarative @Transaction management 	 !--&gt;
+ 	&lt;tx:annotation-driven/&gt;
+
+  	&lt;!--
+ 	 ! Configure to make Spring perform persistence injection using
+ 	 ! @PersistenceContext/@PersitenceUnit annotations
+ 	 !--&gt;
+ 	&lt;bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/&gt;
+
+  &lt;/beans&gt;  </PRE>
+<P>I wrote two base classes that all test classes in the sample application extend from. These are <STRONG>BaseDataSourceSpringContextIntegrationTest</STRONG> and <STRONG>BaseJpaIntegrationTest</STRONG>.</P>
+<P><STRONG>BaseDataSourceSpringContextIntegrationTest:</STRONG> <BR>
+This is the base test class for testing the data access and Spring context loading functions. It extends Spring's <STRONG>AbstractTransactionalDataSourceSpringContextTests</STRONG> class. It loads the application context by calling <STRONG>getConfigLocations()</STRONG> method. The source code for this abstract test class is shown in Listing 2.</P>
+<P><SMALL>Listing 2. BaseDataSourceSpringContextIntegrationTest base test class</SMALL></P>
+<PRE>package com.ideature.agiletestingspring.loanapp;
+
+ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
+ public abstract class BaseDataSourceSpringContextIntegrationTest extends AbstractTransactionalDataSourceSpringContextTests {
+ 	private static final String[] configFiles = new String[]{"loanapp-applicationContext-jpa.xml"};
+
+ 	@Override
+ 	protected String[] getConfigLocations() {
+ 		return configFiles;
+ 	}
+ } </PRE>
+<P><STRONG>BaseJpaIntegrationTest:</STRONG> <BR>
+This is the base class for all the integration tests created to test ORM functions using JPA. It extends Spring's <STRONG>AbstractJpaTests</STRONG> class. Listing 3 below shows the code for <CODE>BaseJpaIntegrationTest class. </CODE></P>
+<P><SMALL>Listing 3. BaseJpaIntegrationTest test class</SMALL></P>
+<PRE>package com.ideature.agiletestingspring.loanapp;
+
+import org.springframework.test.jpa.AbstractJpaTests;
+
+public class BaseJpaIntegrationTest extends AbstractJpaTests {
+ 	private static final String[] configFiles = new String[]{"loanapp-applicationContext-jpa.xml"};
+
+ 	@Override
+ 	protected String[] getConfigLocations() {
+ 		return configFiles;
+ 	}
+ } </PRE>
+<P>The details of the other test classes in LoanApp application are as follows:</P>
+<P><STRONG><EM>LoanDetailsRepositoryJpaImplTest:</EM></STRONG> <BR>
+This is the plain vanilla repository unit test class to test CRUD logic in <STRONG>LoanDetailsRepositoryJpaImpl</STRONG> class. It explicitly initializes the Spring application context, retrieves <STRONG>loanDetailsRepository</STRONG> from context, and then calls CRUD methods in the repository class. It also calls the delete method to remove the new record added in <STRONG>LOANDETAILS</STRONG> table. This test class also has <STRONG>setUp()</STRONG> and <STRONG>tearDown()</STRONG> methods to initialize and cleanup the resources used in the test methods.</P>
+<P><STRONG><EM>LoanDetailsRepositoryJpaImplSpringDITest:</EM></STRONG> <BR>
+This test class is similar to <STRONG>LoanDetailsRepositoryJpaImplTest</STRONG> but it uses Spring test classes to make it very easy to test data access methods in <STRONG>LoanDetailsRepository</STRONG> class. It extends <STRONG>BaseDataSourceSpringContextIntegrationTest</STRONG>. It has a setter method for <STRONG>setLoanDetailsRepository()</STRONG>, so Spring's IoC container will inject the correct implementation of the repository interface at runtime. There is no boiler-plate code such as initializing the application context, or <STRONG>setUp()</STRONG> and <STRONG>tearDown()</STRONG> methods. Also, there is no need to call the delete method since all the DB changes are automatically rolled back at the end of each test method. We use <STRONG>AUTOWIRE_BY_TYPE</STRONG> (default option) to auto-wire <STRONG>LoanDetailsRepository</STRONG> using <STRONG>setLoanDetailsRepository()</STRONG> method.</P>
+<P><STRONG><EM>FundingServiceImplIntegrationTest:</EM></STRONG> <BR>
+This is the test class for <STRONG>FundingServiceImpl</STRONG> class. It shows how much code we have to write if we were not taking the advantage of Spring test classes. Listing 4 shows the code of this integration test class.</P>
+<P><SMALL>Listing 4. Sample code for FundingServiceImplIntegrationTest</SMALL></P>
+<PRE>package com.ideature.agiletestingspring.loanapp.service;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.Collection;
+import java.util.Date;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.ideature.agiletestingspring.loanapp.LoanAppConstants;
+import com.ideature.agiletestingspring.loanapp.LoanAppException;
+import com.ideature.agiletestingspring.loanapp.domain.BorrowerDetails;
+import com.ideature.agiletestingspring.loanapp.domain.FundingDetails;
+import com.ideature.agiletestingspring.loanapp.domain.LoanDetails;
+import com.ideature.agiletestingspring.loanapp.dto.FundingDTO;
+import com.ideature.agiletestingspring.loanapp.repository.BorrowerDetailsRepository;
+import com.ideature.agiletestingspring.loanapp.repository.FundingDetailsRepository;
+import com.ideature.agiletestingspring.loanapp.repository.LoanDetailsRepository;
+import com.ideature.agiletestingspring.loanapp.repository.RepositoryException;
+
+public class FundingServiceImplIntegrationTest {
+ 	private static final Log log = LogFactory.getLog(FundingServiceImplIntegrationTest.class);
+
+ 	private static final String[] configFiles = new String[] {
+ 		"loanapp-applicationContext-jpa.xml"};
+
+ 	private ApplicationContext ctx = null;
+
+ 	private LoanDetailsRepository loanDetailsRepository = null;
+ 	private BorrowerDetailsRepository borrowerDetailsRepository = null;
+ 	private FundingDetailsRepository fundingDetailsRepository = null;
+ 	private FundingService fundingService;
+
+ 	@Before
+ 	public void setUp() {
+ 		ctx = new ClassPathXmlApplicationContext(configFiles);
+ 		log.debug("ctx: "+ctx);
+ 		loanDetailsRepository = (LoanDetailsRepository)ctx.getBean("loanDetailsRepository");
+ 		borrowerDetailsRepository = (BorrowerDetailsRepository)ctx.getBean("borrowerDetailsRepository");
+ 		fundingDetailsRepository = (FundingDetailsRepository)ctx.getBean("fundingDetailsRepository");
+ 		log.debug("loanDetailsRepository: "+loanDetailsRepository);
+
+ 		fundingService = (FundingService)ctx.getBean("fundingService");
+ 		log.debug("fundingService: " + fundingService);
+ 	}
+
+ 	@After
+ 	public void tearDown() {
+ 		fundingService = null;
+ 		loanDetailsRepository = null;
+ 		borrowerDetailsRepository = null;
+ 		fundingDetailsRepository = null;
+ 		ctx = null;
+ 		log.debug("ctx set null.");
+ 	}
+
+ 	@Test
+ 	public void testLoanFunding() {
+
+ 		// -------------------------------------------
+ 		// Set LOAN details
+ 		// -------------------------------------------
+ 		long loanId = 100;
+ 		LoanDetails loanDetails = new LoanDetails();
+ 		loanDetails.setLoanId(loanId);
+ 		loanDetails.setLoanAmount(450000);
+ 		loanDetails.setLoanStatus("REQUESTED");
+ 		loanDetails.setProductGroup("FIXED");
+ 		loanDetails.setProductId(1234);
+ 		loanDetails.setPurchasePrice(500000);
+
+ 		// -------------------------------------------
+ 		// Set BORROWER details
+ 		// -------------------------------------------
+ 		BorrowerDetails borrowerDetails = new BorrowerDetails();
+ 		long borrowerId = 131;
+ 		borrowerDetails.setBorrowerId(borrowerId);
+ 		borrowerDetails.setFirstName("BOB");
+ 		borrowerDetails.setLastName("SMITH");
+ 		borrowerDetails.setPhoneNumber("123-456-7890");
+ 		borrowerDetails.setEmailAddress("test.borr@abc.com");
+ 		borrowerDetails.setLoanId(loanId);
+
+ 		// -------------------------------------------
+ 		// Set FUNDING details
+ 		// -------------------------------------------
+ 		long fundingTxnId = 300;
+ 		FundingDetails fundingDetails = new FundingDetails();
+ 		fundingDetails.setFundingTxnId(fundingTxnId);
+ 		fundingDetails.setLoanId(loanId);
+ 		fundingDetails.setFirstPaymentDate(new Date());
+
+		fundingDetails.setFundType(LoanAppConstants.FUND_TYPE_WIRE);
+ 		fundingDetails.setLoanAmount(450000);
+ 		fundingDetails.setMonthlyPayment(2500);
+ 		fundingDetails.setTermInMonths(360);
+
+ 		// Populate the DTO object
+ 		FundingDTO fundingDTO = new FundingDTO();
+ 		fundingDTO.setLoanDetails(loanDetails);
+ 		fundingDTO.setBorrowerDetails(borrowerDetails);
+ 		fundingDTO.setFundingDetails(fundingDetails);
+
+ 		try {
+ 			Collection<LOANDETAILS> loans = loanDetailsRepository.getLoans();<BR> 			log.debug("loans: " + loans.size());<BR> 			// At this time, there shouldn't be any loan records<BR> 			assertEquals(0, loans.size());<BR><BR> 			Collection<BORROWERDETAILS> borrowers = borrowerDetailsRepository.getBorrowers();<BR> 			log.debug("borrowers: " + borrowers.size());<BR> 			// There shouldn't be any borrower records either<BR> 			assertEquals(0, borrowers.size());<BR><BR> 			Collection<FUNDINGDETAILS> fundingDetailsList = fundingDetailsRepository.getFundingDetails();<BR> 			log.debug("FundingDetails: " + fundingDetailsList.size());<BR> 			// There shouldn't be any fundingDetails records<BR> 			assertEquals(0, fundingDetailsList.size());<BR><BR> 			// Call service method now<BR> 			fundingService.processLoanFunding(fundingDTO);<BR><BR> 			// Assert that the new record has been saved to the DB.<BR> 			loans = loanDetailsRepository.getLoans();<BR> 			log.debug("After adding a new record - loans 2: " + loans.size());<BR> 			// Now, there should be one loan record<BR> 			assertEquals(1, loans.size());<BR><BR> 			borrowers = borrowerDetailsRepository.getBorrowers();<BR> 			log.debug("After adding a new record - borrowers2: " + borrowers.size());<BR> 			// Same with borrower record<BR> 			assertEquals(1, borrowers.size());<BR><BR> 			fundingDetailsList = fundingDetailsRepository.getFundingDetails();<BR> 			log.debug("After adding a new record - # of records: " + fundingDetailsList.size());<BR> 			// Same with funding details record<BR> 			assertEquals(1, fundingDetailsList.size());<BR><BR> 			// Now, delete the newly added records<BR><BR> 			// Delete the funding details record<BR> 			fundingDetailsRepository.deleteFundingDetails(fundingTxnId);<BR><BR> 			// Delete the borrower details record<BR> 			borrowerDetailsRepository.deleteBorrower(borrowerId);<BR><BR> 			// Delete loan details record last<BR> 			loanDetailsRepository.deleteLoanDetails(loanId);<BR><BR> 		} catch (RepositoryException re) {<BR> 			log.error("RepositoryException in testLoanFunding() method.", re);<BR> 		} catch (LoanAppException lae) {<BR> 			log.error("LoanAppException in testLoanFunding() method.", lae);<BR> 		}<BR> 	}<BR> } </FUNDINGDETAILS></BORROWERDETAILS></LOANDETAILS></PRE>
+<P>As you can see in <STRONG>testLoanFunding()</STRONG> method, we have to explicitly call the delete methods in <STRONG>FundingDetailsRepository</STRONG> class to keep the DB state same as it was before running this test.</P>
+<P><STRONG><EM>FundingServiceImplSpringDITest:</EM></STRONG> <BR>
+This class extends <STRONG>BaseDataSourceSpringContextIntegrationTest</STRONG> base class. It has the setter methods for Repository objects so these will be injected by Spring DI container when the application context is loaded. The source code for this integration test class is shown in Listing 5.</P>
+<P><SMALL> Listing 5. FundingServiceImplSpringDITest test class</SMALL></P>
+<PRE>package com.ideature.agiletestingspring.loanapp.service;
+
+import java.util.Collection;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.internal.runners.TestClassRunner;
+import org.junit.runner.RunWith;
+
+import com.ideature.agiletestingspring.loanapp.BaseDataSourceSpringContextIntegrationTest;
+import com.ideature.agiletestingspring.loanapp.LoanAppConstants;
+import com.ideature.agiletestingspring.loanapp.domain.LoanDetails;
+import com.ideature.agiletestingspring.loanapp.repository.LoanDetailsRepository;
+import com.ideature.agiletestingspring.loanapp.repository.RepositoryException;
+
+@RunWith(TestClassRunner.class)
+public class FundingServiceImplSpringDITest extends BaseDataSourceSpringContextIntegrationTest {
+
+  	private static final Log log = LogFactory.getLog(FundingServiceImplSpringDITest.class);
+
+ 	private LoanDetailsRepository loanDetailsRepository = null;
+
+ 	public void setLoanDetailsRepository(LoanDetailsRepository loanDetailsRepository) {
+ 		this.loanDetailsRepository = loanDetailsRepository;
+ 	}
+
+     @Before
+     public void initialize() throws Exception {
+         super.setUp();
+     }
+
+     @After
+     public void cleanup() throws Exception {
+         super.tearDown();
+     }
+
+     @Test
+     public void testFindLoans() throws RepositoryException {
+ 		// First delete all the records from LoanDetails table
+ 		// by calling deleteFromTables() helper method.
+ 		deleteFromTables(new String[]{"LoanDetails"});
+ 		Collection<LOANDETAILS> loans = loanDetailsRepository.getLoans();<BR> 		assertEquals(0, loans.size());<BR> 	}<BR><BR> 	@Test<BR> 	public void testJdbcQueryUsingJdbcTemplate() {<BR> 		// Use jdbcTemplate to get the loan count<BR> 		int rowCount = jdbcTemplate.queryForInt("SELECT COUNT(0) from LoanDetails");<BR> 		assertEquals(rowCount,0);<BR> 	}<BR><BR>  	@Test<BR> 	public void testLoadLoanDetails() throws RepositoryException {<BR> 		int rowCount = countRowsInTable("LOANDETAILS");<BR> 		log.info("rowCount: " + rowCount);<BR><BR> 		long loanId = 100;<BR> 		double loanAmount = 450000.0;<BR> 		String loanStatus = LoanAppConstants.STATUS_REQUESTED;<BR> 		String productGroup = "FIXED";<BR> 		long productId = 1234;<BR> 		double purchasePrice = 500000.0;<BR><BR> 		// Add a new record<BR> 		LoanDetails newLoan = new LoanDetails();<BR> 		newLoan.setLoanId(loanId);<BR> 		newLoan.setLoanAmount(loanAmount);<BR> 		newLoan.setLoanStatus(loanStatus);<BR> 		newLoan.setProductGroup(productGroup);<BR> 		newLoan.setProductId(productId);<BR> 		newLoan.setPurchasePrice(purchasePrice);<BR><BR> 		// Insert a new record using jdbcTemplate helper attribute<BR> 		jdbcTemplate.update("insert into LoanDetails (LoanId,ProductGroup,ProductId,LoanAmount,PurchasePrice," +<BR> 				"PropertyAddress,LoanStatus) values (?,?,?,?,?,?,?)",<BR> 				new Object[] { new Long(newLoan.getLoanId()),newLoan.getProductGroup(),new Long(newLoan.getProductId()),<BR> 				new Double(newLoan.getLoanAmount()), new Double(newLoan.getPurchasePrice()),"123 MAIN STREET","IN REVIEW" });<BR><BR> 		// Explicitly end the transaction so the new record will be<BR> 		// saved in the database table.<BR> 		endTransaction();<BR><BR> 		// Start a new transaction to get a different unit of work (UOW)<BR> 		startNewTransaction();<BR><BR> 		rowCount = countRowsInTable("LOANDETAILS");<BR> 		log.info("rowCount: " + rowCount);<BR><BR> 		LoanDetails loanDetails1 = loanDetailsRepository.loadLoanDetails(loanId);<BR> 		// We should get a null as the return value.<BR> 		assertNull(loanDetails1);<BR> 	}<BR><BR> 	@Test<BR> 	public void testInsertLoanDetails() throws RepositoryException {<BR> 		int loanCount = 0;<BR> 		Collection<LOANDETAILS> loans = loanDetailsRepository.getLoans();<BR><BR> 		loanCount = loans.size();<BR> 		assertTrue(loanCount==0);<BR><BR> 		long loanId = 200;<BR><BR> 		LoanDetails loanDetails = loanDetailsRepository.loadLoanDetails(loanId);<BR> 		assertNull(loanDetails);<BR><BR> 		double loanAmount = 600000.0;<BR> 		String loanStatus = LoanAppConstants.STATUS_IN_REVIEW;<BR> 		String productGroup = "ARM";<BR> 		long productId = 2345;<BR> 		double purchasePrice = 700000.0;<BR><BR> 		// Add a new record<BR> 		LoanDetails newLoan = new LoanDetails();<BR> 		newLoan.setLoanId(loanId);<BR> 		newLoan.setLoanAmount(loanAmount);<BR> 		newLoan.setLoanStatus(loanStatus);<BR> 		newLoan.setProductGroup(productGroup);<BR> 		newLoan.setProductId(productId);<BR> 		newLoan.setPurchasePrice(purchasePrice);<BR><BR> 		loanDetailsRepository.insertLoanDetails(newLoan);<BR><BR> 		loans = loanDetailsRepository.getLoans();<BR> 		log.info("loans.size(): " + loans.size());<BR> 		System.out.println("loans.size(): " + loans.size());<BR> 		assertEquals(loanCount + 1, loans.size());<BR> 	}<BR><BR> 	@Test<BR> 	public void testUpdateLoanDetails() throws Exception {<BR> 		// First, insert a new record<BR> 		long loanId = 100;<BR> 		double loanAmount = 450000.0;<BR> 		String oldStatus = LoanAppConstants.STATUS_FUNDING_COMPLETE;<BR> 		String productGroup = "FIXED";<BR> 		long productId = 1234;<BR> 		double purchasePrice = 500000.0;<BR> 		String propertyAddress = "123 MAIN STREET";<BR><BR> 		// Add a new record<BR> 		LoanDetails newLoan = new LoanDetails();<BR> 		newLoan.setLoanId(loanId);<BR> 		newLoan.setLoanAmount(loanAmount);<BR> 		newLoan.setLoanStatus(oldStatus);<BR> 		newLoan.setProductGroup(productGroup); 		newLoan.setProductId(productId);<BR> 		newLoan.setPurchasePrice(purchasePrice);<BR> 		newLoan.setPropertyAddress(propertyAddress);<BR><BR> 		// Insert a new record using jdbcTemplate helper attribute<BR> 		jdbcTemplate.update("insert into LoanDetails (LoanId,ProductGroup,ProductId,LoanAmount,PurchasePrice," +<BR> 				"PropertyAddress,LoanStatus) values (?,?,?,?,?,?,?)",<BR> 				new Object[] { new Long(newLoan.getLoanId()),newLoan.getProductGroup(),new Long(newLoan.getProductId()),<BR> 				new Double(newLoan.getLoanAmount()), new Double(newLoan.getPurchasePrice()),newLoan.getPropertyAddress(),<BR> 				newLoan.getLoanStatus() });<BR><BR> 		LoanDetails loanDetails1 = loanDetailsRepository.loadLoanDetails(loanId);<BR> 		String status = loanDetails1.getLoanStatus();<BR> 		assertEquals(status, oldStatus);<BR><BR> 		String newStatus = LoanAppConstants.STATUS_FUNDING_DENIED;<BR><BR> 		// Update status field<BR> 		loanDetails1.setLoanStatus(newStatus);<BR> 		loanDetailsRepository.updateLoanDetails(loanDetails1);<BR> 		status = loanDetails1.getLoanStatus();<BR> 		assertEquals(status, newStatus);<BR> 	}<BR> } </LOANDETAILS></LOANDETAILS></PRE>
+<P>The helper method <STRONG>deleteFromTables()</STRONG> is used in this class to delete the data from <STRONG>FUNDINGDETAILS</STRONG> table. This method is available from the Spring test super class. I also used <STRONG>jdbcTemplate</STRONG> variable in one case and <STRONG>countRowsInTable()</STRONG> in another instance, to get the row count from the specified table.</P>
+<P><STRONG><EM>FundingServiceImplSpringJpaTest:</EM></STRONG> <BR>
+This class extends <STRONG>BaseJpaIntegrationTest</STRONG> base class to take the advantage of the convenience methods that the super class provides. It uses <STRONG>simpleJdbcTemplate</STRONG> helper variable to get the row count from <STRONG>FUNDINGDETAILS</STRONG> table. I also run a test against an invalid query using <STRONG>createQuery()</STRONG> method on <STRONG>sharedEntityManager</STRONG> attribute. Listing 6 shows the source for FundingServiceImplSpringJpaTest class.</P>
+<P><SMALL>Listing 6. FundingServiceImplSpringJpaTest class</SMALL></P>
+<PRE>package com.ideature.agiletestingspring.loanapp.service;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.EntityManager;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.internal.runners.TestClassRunner;
+import org.junit.runner.RunWith;
+import org.springframework.test.annotation.ExpectedException;
+
+import com.ideature.agiletestingspring.loanapp.BaseJpaIntegrationTest;
+import com.ideature.agiletestingspring.loanapp.LoanAppConstants;
+import com.ideature.agiletestingspring.loanapp.domain.BorrowerDetails;
+import com.ideature.agiletestingspring.loanapp.domain.FundingDetails;
+import com.ideature.agiletestingspring.loanapp.domain.LoanDetails;
+import com.ideature.agiletestingspring.loanapp.repository.BorrowerDetailsRepository;
+import com.ideature.agiletestingspring.loanapp.repository.FundingDetailsRepository;
+import com.ideature.agiletestingspring.loanapp.repository.LoanDetailsRepository;
+import com.ideature.agiletestingspring.loanapp.repository.RepositoryException;
+
+@RunWith(TestClassRunner.class)
+public class FundingServiceImplSpringJpaTest extends BaseJpaIntegrationTest {
+
+ 	private static final Log log = LogFactory.getLog(FundingServiceImplSpringDITest.class);
+
+ 	private LoanDetailsRepository loanDetailsRepository = null;
+ 	private BorrowerDetailsRepository borrowerDetailsRepository = null;
+ 	private FundingDetailsRepository fundingDetailsRepository = null;
+
+ 	public void setLoanDetailsRepository(LoanDetailsRepository loanDetailsRepository) {
+ 		this.loanDetailsRepository = loanDetailsRepository;
+ 	}
+
+  	public void setBorrowerDetailsRepository(BorrowerDetailsRepository borrowerDetailsRepository) {
+ 		this.borrowerDetailsRepository = borrowerDetailsRepository;
+ 	}
+
+ 	public void setFundingDetailsRepository(FundingDetailsRepository fundingDetailsRepository) {
+ 		this.fundingDetailsRepository = fundingDetailsRepository;
+ 	}
+
+     @Before
+     public void initialize() throws Exception {
+         super.setUp();
+     }
+
+     @After
+     public void cleanup() throws Exception {
+         super.tearDown();
+     }
+
+     @Test
+ 	@ExpectedException(IllegalArgumentException.class)
+ 	public void testInvalidQuery() {
+ 		sharedEntityManager.createQuery("select test FROM TestTable test").executeUpdate();
+ 	}
+
+     @Test
+ 	public void testApplicationManaged() {
+ 		EntityManager entityManager = entityManagerFactory.createEntityManager();
+ 		entityManager.joinTransaction();
+ 	}
+
+     @Test
+ 	public void testJdbcQueryUsingSimpleJdbcTemplate() {
+ 		// Use simpleJdbcTemplate to get the loan count
+ 		int rowCount = simpleJdbcTemplate.queryForInt("SELECT COUNT(*) from LoanDetails");
+ 		assertEquals(rowCount,0);
+ 	}
+
+     @Test
+     public void testInsertLoanDetails() throws RepositoryException {
+ 		int loanCount = 0;
+ 		Collection<LOANDETAILS> loans = loanDetailsRepository.getLoans();<BR> 		loanCount = loans.size();<BR> 		assertTrue(loanCount==0);<BR><BR> 		long loanId = 200;<BR> 		LoanDetails loanDetails = loanDetailsRepository.loadLoanDetails(loanId);<BR> 		assertNull(loanDetails);<BR><BR> 		double loanAmount = 600000.0;<BR> 		String loanStatus = LoanAppConstants.STATUS_IN_REVIEW;<BR> 		String productGroup = "ARM";<BR> 		long productId = 2345;<BR> 		double purchasePrice = 700000.0;<BR><BR> 		// Add a new record<BR> 		LoanDetails newLoan = new LoanDetails();<BR> 		newLoan.setLoanId(loanId);<BR> 		newLoan.setLoanAmount(loanAmount);<BR> 		newLoan.setLoanStatus(loanStatus);<BR> 		newLoan.setProductGroup(productGroup);<BR> 		newLoan.setProductId(productId);<BR> 		newLoan.setPurchasePrice(purchasePrice);<BR><BR> 		loanDetailsRepository.insertLoanDetails(newLoan);<BR><BR> 		loans = loanDetailsRepository.getLoans();<BR> 		assertEquals(loanCount + 1, loans.size());<BR> 	}<BR><BR>     @Test<BR>     public void testLoanFunding() throws RepositoryException {<BR><BR> 		long loanId = 100;<BR> 		// -------------------------------------------<BR> 		// Insert LOAN details<BR> 		// -------------------------------------------<BR> 		Collection<LOANDETAILS> loans = loanDetailsRepository.getLoans();<BR> 		log.debug("loans: " + loans.size());<BR><BR> 		// Add a new record<BR> 		LoanDetails newLoan = new LoanDetails();<BR> 		newLoan.setLoanId(loanId);<BR> 		newLoan.setLoanAmount(450000);<BR> 		newLoan.setLoanStatus("REQUESTED");<BR> 		newLoan.setProductGroup("FIXED");<BR> 		newLoan.setProductId(1234);<BR> 		newLoan.setPurchasePrice(500000);<BR><BR> 		loanDetailsRepository.insertLoanDetails(newLoan);<BR><BR> 		loans = loanDetailsRepository.getLoans();<BR> 		log.debug("After adding a new record - loans 2: " + loans.size());<BR><BR> 		// -------------------------------------------<BR> 		// Insert BORROWER details<BR> 		// -------------------------------------------<BR> 		long borrowerId = 131;<BR>  		Collection<BORROWERDETAILS> borrowers = borrowerDetailsRepository.getBorrowers();<BR> 		log.debug("borrowers: " + borrowers.size());<BR><BR> 		// Add a new Borrower<BR> 		BorrowerDetails newBorr = new BorrowerDetails();<BR> 		newBorr.setBorrowerId(borrowerId);<BR> 		newBorr.setFirstName("BOB");<BR> 		newBorr.setLastName("SMITH");<BR> 		newBorr.setPhoneNumber("123-456-7890");<BR> 		newBorr.setEmailAddress("test.borr@abc.com");<BR> 		newBorr.setLoanId(loanId);<BR><BR> 		borrowerDetailsRepository.insertBorrower(newBorr);<BR><BR> 		borrowers = borrowerDetailsRepository.getBorrowers();<BR> 		log.debug("After adding a new record - borrowers2: " + borrowers.size());<BR><BR> 		// -------------------------------------------<BR> 		// Insert FUNDING details<BR> 		// -------------------------------------------<BR> 		long fundingTxnId = 300;<BR><BR> 		Collection<FUNDINGDETAILS> fundingDetailsList = fundingDetailsRepository.getFundingDetails();<BR> 		log.debug("FundingDetails: " + fundingDetailsList.size());<BR><BR> 		// Add a new record<BR> 		FundingDetails newFundingDetails = new FundingDetails();<BR> 		newFundingDetails.setFundingTxnId(fundingTxnId);<BR> 		newFundingDetails.setLoanId(loanId);<BR> 		newFundingDetails.setFirstPaymentDate(new Date());<BR>		newFundingDetails.setFundType(LoanAppConstants.FUND_TYPE_WIRE);<BR> 		newFundingDetails.setLoanAmount(450000);<BR> 		newFundingDetails.setMonthlyPayment(2500);<BR> 		newFundingDetails.setTermInMonths(360);<BR><BR>		fundingDetailsRepository.insertFundingDetails(newFundingDetails);<BR><BR> 		fundingDetailsList = fundingDetailsRepository.getFundingDetails();<BR> 		log.debug("After adding a new record - # of records: " + fundingDetailsList.size());<BR><BR> 		// Delete the borrower details record<BR> 		borrowerDetailsRepository.deleteBorrower(borrowerId);<BR><BR> 		// Delete the funding details record<BR>		fundingDetailsRepository.deleteFundingDetails(fundingTxnId);<BR><BR> 		// Delete loan details record last<BR> 		loanDetailsRepository.deleteLoanDetails(loanId); 	}<BR>  } </FUNDINGDETAILS></BORROWERDETAILS></LOANDETAILS></LOANDETAILS></PRE>
+<P>The transaction is rolled back at the end of <STRONG>testInsertLoanDetails()</STRONG> method. This is why even though we call <STRONG>insertLoanDetails</STRONG> method to insert a loan record, the database insert is undone when the transaction is rolled back. This way we don't have to worry about leaving any test data in the tables after the integration tests are executed or run any special DB cleanup scripts to delete the test data created during the tests.</P>
+<P>To test transaction state, <STRONG>testLoadLoanDetails()</STRONG> method calls transaction manager helper methods <STRONG>endTransaction()</STRONG> and <STRONG>startNewTransaction()</STRONG> to commit the current transaction and get a new transaction respectively. The new transaction starts a new Unit Of Work (UOW) where the <STRONG>LoanDetails</STRONG> domain object doesn't exist in the system. These helper methods are useful for testing lazy loading feature in ORM tools such as <STRONG>Hibernate</STRONG>, <STRONG>TopLink</STRONG>, and <STRONG>OpenJPA</STRONG>. Note: These helper methods work in pre-Java 5 applications as well.</P>
+<P><STRONG><EM>AllIntegationTests:</EM></STRONG> <BR>
+Finally, there is <STRONG>AllIntegationTests</STRONG> test suite that runs all Funding Service related tests in one execution. Listing 7 shows the source for this test suite class.</P>
+<P><SMALL> Listing 7. FundingServiceImplSpringJpaTest class</SMALL></P>
+<PRE>package com.ideature.agiletestingspring.loanapp;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+import com.ideature.agiletestingspring.loanapp.service.FundingServiceImplIntegrationTest;
+import com.ideature.agiletestingspring.loanapp.service.FundingServiceImplSpringDITest;
+import com.ideature.agiletestingspring.loanapp.service.FundingServiceImplSpringJpaTest;
+import com.ideature.agiletestingspring.loanapp.service.FundingServiceImplTest;
+
+@RunWith(Suite.class)
+@SuiteClasses(value = {
+ 		FundingServiceImplTest.class,
+ 		FundingServiceImplIntegrationTest.class,
+ 		FundingServiceImplSpringDITest.class,
+ 		FundingServiceImplSpringJpaTest.class
+})
+public class AllIntegrationTests {
+} </PRE>
+<P>To execute these tests make sure the configuration file (<STRONG>loanapp-applicationContext-jpa.xml</STRONG>) location is specified in the test classpath. You can enable Log4J logging to verify that Spring beans are being loaded by the application context. Look for <STRONG>CachedIntrospectionResults</STRONG> DEBUG messages that show the loading of entity manager, datasource, transaction manager and other objects required for running the integration tests.</P>
+<H2>Conclusions</H2>
+<P>Spring makes test driven J2EE application development a reality by offering Java EE developers an easy and powerful framework to write and run both unit and integration tests outside the container. Its non-invasive configuration management, dependency injection to use mock objects, and consistent abstraction over hard-to-stub APIs makes unit testing outside the container easy. Its testing module uses Dependency Injection (DI) and Aspect Oriented Programming (AOP) techniques to create a foundation on which we can build our unit and integration tests.</P>
+<P>Some of the best practices of writing tests using Spring test classes are as follows:</P>
+<UL>
+    <LI>Make sure you have the same Spring configuration files in the integration tests as in the deployed environment so you don't need to worry about any differences that may cause problems when the application is deployed in the production environment.</LI>
+    <LI>There are some differences that are related to database connection pooling and transaction infrastructure to keep in mind when using Spring framework. If you are deploying to a full-blown application server, you will probably use its connection pool (available through JNDI) and JTA implementation. Thus in production you will use a <STRONG>JndiObjectFactoryBean</STRONG> for the DataSource, and <STRONG>JtaTransactionManager</STRONG>. JNDI and JTA will not be available in out-of-container integration tests, so we should use Commons DBCP <STRONG>BasicDataSource</STRONG> and <STRONG>DataSourceTransactionManager</STRONG> or <STRONG>HibernateTransactionManager</STRONG> for these tests.</LI>
+    <LI>Spring's integration testing support is not a replacement for the real regression testing . Regression testing the application functionality is as close as we can get to how the end-users will use the application when it's implemented in the production environment.</LI>
+</UL>
+<P>We should make it a practice to think and plan about testing and involve QA team right from the beginning of a project. We should write unit tests to cover as many as scenarios and paths (including exception paths) in the main class. Test Driven Development (TDD) is a great way to achieve the desired test coverage and production quality in the code we write in the project. If we can't get this TDD going in our projects, we should atleast try the other TDD (Test During Development) and make sure the code is unit tested before it's deployed to the integration environment (usually Test environment).</P>
+<H3>Resources</H3>
+<UL>
+    <LI><A href="http://static.springframework.org/spring/docs/2.0.x/reference/testing.html">Spring Testing Documentation</A></LI>
+    <LI><A href="http://www.manning.com/walls3/">Spring in Action, Second Edition</A>, Craig Walls with Ryan Breidenbach, Manning Publications</LI>
+    <LI><A href="http://www.infoq.com/presentations/system-integration-testing-with-spring"> System Integration Testing Using Spring </A>, Rod Johnson, The Spring Experience 2006.</LI>
+    <LI><A href="http://java.sun.com/javaee/technologies/entapps/persistence.jsp"> Java Persistence API </A></LI>
+    <LI><A href="http://static.springframework.org/spring/docs/2.0.x/reference/orm.html#orm-jpa"> Spring JPA Documentation </A></LI>
+</UL>
+       	
+   		<DIV style="display:block;margin-top:15px;">
+            <DIV align="right" style="display: inline; margin-right: 0px;">
+                
+	            
+
+
+
+
+
+
+<DL class="tags3">
+<DT>Bookmark</DT>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://digg.com/submit?phase=2&amp;url=&#39; + escape(window.location)" rel="nofollow">digg+</A>,
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://reddit.com/submit?url=&#39; + escape(window.location) + &#39;&amp;title=&#39; + escape(&#39;Software Testing With Spring Framework&#39;)" rel="nofollow">reddit+</A>,
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://del.icio.us/post?url=&#39; + escape(window.location) + &#39;&amp;title=&#39; + escape(&#39;Software Testing With Spring Framework&#39;)" rel="nofollow">del.icio.us+</A>,
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://www.dzone.com/links/add.html?url=&#39; + escape(window.location) + &#39;&amp;title=&#39; + escape(&#39;Software Testing With Spring Framework&#39;)" rel="nofollow">dzone+</A>,
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://www.facebook.com/share.php?u=&#39; + escape(window.location)" rel="nofollow">facebook+</A>
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://slashdot.org/slashdot-it.pl?op=basic&amp;url=&#39; + encodeURIComponent(location.href)" rel="nofollow">slashdot+</A>
+</DD>
+</DL>
+
+            </DIV>
+   		 	
+		</DIV>
+		
+		
+
+
+
+
+
+
+
+
+		
+		
+        
+        
+        	
+        
+
+
+
+
+
+
+<SCRIPT type="text/javascript">
+var replyEnabled=true;
+var forumID=1;
+var threadID=3552;
+var previewText='Preview';
+var pleaseWait='Please Wait ...';	
+var reply='Reply';
+var postMessage='Post Message';	
+var errorSubject='Please enter a subject.';	
+var errorBody='You can not post a blank message. Please type your message and try again.';
+var cancel='Cancel';
+var goBackOrEdit='Go Back/Edit';
+var re='Re:';
+var lastMessage=0;
+var stopWatchText='Stop Watching Thread';
+var startWatchText='Watch Thread';
+var descending='false';
+var ctxPath= '';
+var postAddress= ctxPath + '/forum/post!post.action?language=' + 'en';
+var postAddWatches= ctxPath + '/forum/watches!add.action';
+var postRemoveWatches= ctxPath + '/forum/watches!remove.action';
+var loggedIn=false;	
+
+
+var forumNotificationDefault=false;
+
+</SCRIPT>
+
+<SCRIPT src="./Software Testing With Spring Framework_files/forum.js" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript" src="./Software Testing With Spring Framework_files/ForumNotifications.js"></SCRIPT>
+
+	<DIV class="comments-header">
+	    <H3><SPAN id="comments-number">15</SPAN> comments</H3>
+	    <P>
+			
+				
+				
+	                <SPAN id="watch">
+	                    <A href="javascript:void(0)" class="comment-watch" onclick="javascript:loggedIn?startWatch():showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;startWatch();&#39;));">
+	                        Watch Thread
+	                    </A>
+	                </SPAN>	
+				
+				
+			<A href="javascript:void(0)" class="comment-reply" onclick="javascript:loggedIn?replyFromTooltip(11492,true):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromTooltip(11492,true)&#39;));">Reply</A>
+		</P>
+	</DIV>
+	
+	<SPAN id="newMessage" style="display:none;"></SPAN>
+	
+	<SPAN id="replyTree_11492"></SPAN>	  	
+	<SPAN id="replyMessage_11492"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_13695" style="cursor:pointer; cursor:hand;">there is just so much wrong with that article &amp; the code in it.</SPAN>		
+			</A>
+			by 
+			James Richardson 
+			Posted
+	        Nov 13, 2007 10:38 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_13695', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_13695', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_13695"></SPAN>
+		<SPAN id="replyMessage_13695"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_13723" style="cursor:pointer; cursor:hand;">Re: there is just so much wrong with that article &amp; the code in it.</SPAN>		
+			</A>
+			by 
+			Nathan Hughes 
+			Posted
+	        Nov 14, 2007 12:28 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_13723', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_13723', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_13723"></SPAN>
+		<SPAN id="replyMessage_13723"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_13741" style="cursor:pointer; cursor:hand;">Re: there is just so much wrong with that article &amp; the code in it.</SPAN>		
+			</A>
+			by 
+			Morgan Creighton 
+			Posted
+	        Nov 14, 2007 1:20 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_13741', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_13741', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_13741"></SPAN>
+		<SPAN id="replyMessage_13741"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 30px; margin-right: 30px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_13744" style="cursor:pointer; cursor:hand;">new as dependency injection</SPAN>		
+			</A>
+			by 
+			James Richardson 
+			Posted
+	        Nov 14, 2007 5:29 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_13744', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_13744', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_13744"></SPAN>
+		<SPAN id="replyMessage_13744"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 45px; margin-right: 45px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_14619" style="cursor:pointer; cursor:hand;">Re: new as dependency injection</SPAN>		
+			</A>
+			by 
+			Tim Andersen 
+			Posted
+	        Nov 27, 2007 1:18 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_14619', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_14619', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_14619"></SPAN>
+		<SPAN id="replyMessage_14619"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 60px; margin-right: 60px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_14663" style="cursor:pointer; cursor:hand;">Re: new as dependency injection</SPAN>		
+			</A>
+			by 
+			James Richardson 
+			Posted
+	        Nov 28, 2007 10:42 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_14663', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_14663', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_14663"></SPAN>
+		<SPAN id="replyMessage_14663"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 75px; margin-right: 75px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_18780" style="cursor:pointer; cursor:hand;">Re: new as dependency injection</SPAN>		
+			</A>
+			by 
+			Y Z 
+			Posted
+	        Feb 24, 2008 9:08 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_18780', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_18780', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_18780"></SPAN>
+		<SPAN id="replyMessage_18780"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_13967" style="cursor:pointer; cursor:hand;">Re: there is just so much wrong with that article &amp; the code in it.</SPAN>		
+			</A>
+			by 
+			Luc Dewavrin 
+			Posted
+	        Nov 18, 2007 9:04 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_13967', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_13967', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_13967"></SPAN>
+		<SPAN id="replyMessage_13967"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 30px; margin-right: 30px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_14013" style="cursor:pointer; cursor:hand;">fully worked example</SPAN>		
+			</A>
+			by 
+			James Richardson 
+			Posted
+	        Nov 18, 2007 5:28 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_14013', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_14013', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_14013"></SPAN>
+		<SPAN id="replyMessage_14013"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 45px; margin-right: 45px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_28739" style="cursor:pointer; cursor:hand;">Re: fully worked example</SPAN>		
+			</A>
+			by 
+			Thomas Anderson 
+			Posted
+	        Jul 10, 2008 10:12 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_28739', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_28739', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_28739"></SPAN>
+		<SPAN id="replyMessage_28739"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 60px; margin-right: 60px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_28740" style="cursor:pointer; cursor:hand;">Re: fully worked example</SPAN>		
+			</A>
+			by 
+			Thomas Anderson 
+			Posted
+	        Jul 10, 2008 10:24 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_28740', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_28740', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_28740"></SPAN>
+		<SPAN id="replyMessage_28740"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_49029" style="cursor:pointer; cursor:hand;">Re: there is just so much wrong with that article &amp; the code in it.</SPAN>		
+			</A>
+			by 
+			Andreas Breiter 
+			Posted
+	        Oct 16, 2009 3:17 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_49029', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_49029', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_49029"></SPAN>
+		<SPAN id="replyMessage_49029"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_49257" style="cursor:pointer; cursor:hand;">Re: there is just so much wrong with that article &amp; the code in it.</SPAN>		
+			</A>
+			by 
+			Daniel Sobral 
+			Posted
+	        Oct 20, 2009 3:54 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_49257', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_49257', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_49257"></SPAN>
+		<SPAN id="replyMessage_49257"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_14190" style="cursor:pointer; cursor:hand;">Tear down the wall!</SPAN>		
+			</A>
+			by 
+			Michael James 
+			Posted
+	        Nov 20, 2007 10:46 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_14190', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_14190', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_14190"></SPAN>
+		<SPAN id="replyMessage_14190"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_22077" style="cursor:pointer; cursor:hand;">Guice anyone?</SPAN>		
+			</A>
+			by 
+			Tom Nichols 
+			Posted
+	        Apr 30, 2008 10:29 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_22077', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_22077', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_22077"></SPAN>
+		<SPAN id="replyMessage_22077"></SPAN>
+	
+	
+	<DIV class="comments-sort">
+		<SPAN id="comments-sort">
+			
+			
+				<A class="comment-sort-desc" href="javascript:changeOrder(2);">Sort by date descending</A>
+			
+		</SPAN>
+	</DIV>
+	
+	<OL class="comments">
+	
+	
+	
+		<LI id="comment-13695">
+			<A name="view_13695"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_13695">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_13695" name="13695" onclick="javascript:hideTooltip();return true;">there is just so much wrong with that article &amp; the code in it.</A></H4>
+	                <P class="comment-author">
+	                    Nov 13, 2007 10:38 AM
+	                    by
+	                    <STRONG>
+	                        James Richardson 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_13695">
+			<P>
+				<SPAN id="quote_13695">
+					where to start?<BR><BR>Spring - Java has a perfectly good dependency injection framework built in. Its called 'new'.<BR><BR>Extremely weak naming of tests - Looking at the test name in isolation give you no idea what the test is trying to prove.<BR><BR>Needless logging in tests - Just what is the point - if you care about something then you can assert() it.<BR><BR>Extremely poor class naming - LoanDetailsRepositoryJpaImpl (!)<BR><BR>No generics - You're using Java 5 constructs: @Test, but then reverting to 1.4 typeless collections.<BR><BR>No content testing - You persist fields into the database, but then dont check that you load then back in correctly. The content testing you do do doesn't purge the entity from memory - thus making it meaningless.<BR><BR>Bad data type modelling - Using doubles for money amounts is poor practice.<BR><BR>you talk about UnitOfWork - but then don't abstract it - making it very unclear as to whats going on.<BR><BR>Suggestions: <BR><BR>Use simple constructors to "Repositories" that take an entity manager. <BR><BR>Create EntityManagers simply using java in your test code.<BR><BR>Use transactional aware wrappers that allow your tests to work in the correct transactional context.<BR><BR>Use the Builder pattern to reduce the amount of set up code for the items you create.<BR><BR>Use sensible names for your classes &amp; methods: <BR>  not LoanDetails, but Loan<BR>  not loanDetailsRepository.insertLoanDetails(..), but persistentLoans.add(loan)<BR>  not LoanDetailsRepositoryJpaImpl but PersistentLoans<BR>  not testLoanFunding, but testCanAddALoanAndFindItByItsPrimaryKey<BR><BR>Compose don't inherit - look at how deep your inheritance hierarchy is...<BR><BR>Use Hamcrest to give you an extremely powerful set of assertions.<BR><BR>An example (also look no spring!):<BR><BR></SPAN></P><PRE><BR>  public void setUp() throws SQLException, EnvironmentException {<BR>        SystemConfiguration systemConfiguration = SystemConfiguration.load();<BR>        DatabaseCleaner.forAllTables(systemConfiguration).clean();<BR>        entityManager = TestConfiguration.createEntityManager(systemConfiguration);<BR>        transactomatic = new Transactomatic(entityManager);<BR>        <BR>        todoList = new PersistentTodoList(entityManager);<BR>    }<BR><BR><BR>  public void testCanAddAMaturingLoanAndFindItByItsPrimaryKey() throws Exception {<BR>        final int remoteSystemId = 765;<BR><BR>        final AbstractMaturingLoanTodoItem item = new PositionLevelMaturingLoanTodoItemBuilder()<BR>                .withRemoteSystemId(remoteSystemId)<BR>                .build();<BR><BR>        transactomatic.perform(new UnitOfWork() {<BR>            public void work() {<BR>                todoList.addItem(item);<BR>            }<BR>        });<BR><BR>        transactomatic.perform(new UnitOfWork() {<BR>            public void work() throws Exception {<BR>                AbstractMaturingLoanTodoItem found = (AbstractMaturingLoanTodoItem) todoList.findById(item.getId());<BR>                assertThat(found, SamePublicFieldsMatcher.samePublicFieldsAs(item));<BR>            }<BR>        });<BR>    }<BR><BR><BR></PRE><BR><BR>James Richardson<BR><A rel="nofollow" href="http://www.time4tea.net/">time4tea technology</A>
+				
+			<P></P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(13695):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(13695);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_13695"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_13695"></SPAN>	
+	
+		<LI id="comment-13723">
+			<A name="view_13723"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_13723">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_13723" name="13723" onclick="javascript:hideTooltip();return true;">Re: there is just so much wrong with that article &amp; the code in it.</A></H4>
+	                <P class="comment-author">
+	                    Nov 14, 2007 12:28 PM
+	                    by
+	                    <STRONG>
+	                        Nathan Hughes 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_13723">
+			<P>
+				<SPAN id="quote_13723">
+					how amazingly clueless of you.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(13723):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(13723);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_13723"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_13723"></SPAN>	
+	
+		<LI id="comment-13741">
+			<A name="view_13741"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_13741">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_13741" name="13741" onclick="javascript:hideTooltip();return true;">Re: there is just so much wrong with that article &amp; the code in it.</A></H4>
+	                <P class="comment-author">
+	                    Nov 14, 2007 1:20 PM
+	                    by
+	                    <STRONG>
+	                        Morgan Creighton 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_13741">
+			<P>
+				<SPAN id="quote_13741">
+					James, your first comment is the most interesting.  Can "new" really be thought of as a dependency injector?  The thing about "new" is that whoever is calling it needs to know the implementation of the interface.<BR></SPAN></P><PRE><BR>MyInterface foo = new MyImplementation();<BR></PRE><BR>It's not always desirable for the caller to have to worry about that.  Particularly, when unit testing, and a separate implementation would be desired.<BR><PRE><BR>MyInterface foo = new MyImplemenationMock();<BR></PRE><BR>To me, the most important advantage of Spring is AOP.  One can advise methods of <I>MyInterface</I> without polluting the biz logic, or altering the code that acquires the <I>foo</I> instance.
+				
+			<P></P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(13741):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(13741);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_13741"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_13741"></SPAN>	
+	
+		<LI id="comment-13744">
+			<A name="view_13744"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_13744">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_13744" name="13744" onclick="javascript:hideTooltip();return true;">new as dependency injection</A></H4>
+	                <P class="comment-author">
+	                    Nov 14, 2007 5:29 PM
+	                    by
+	                    <STRONG>
+	                        James Richardson 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_13744">
+			<P>
+				<SPAN id="quote_13744">
+					I think it can.<BR><BR>Whoever is calling "new" does indeed need to pick an implementation. Really all that spring is doing is moving that "new" call out of java (where its easily refactored) and into xml(where it isn't).  Additionally, by using the xml, you are losing so much information - such as the interface names, the generic types, and a visual understanding of how it all fits together.<BR><BR>By simply calling the object constructor with the implementations you need in that instance (thereby making your object fully functional at construction time) you have "injected" it with its dependencies. If thats hard, it probably means that the object acts on too many things, and thus could do with some refactoring.<BR><BR>By losing the visual clues, you also lose important information about how your application _reads_, because you are too concerned with the xml. Nobody would talk about a FruitBean, and a FruitBeanGreenRoundImpl and FruitBeanYellowLongBitCurvyImpl, most people would talk about Fruit, Apples and Bananas.<BR><BR>How can spring help when unit testing? In a unit test you will be testing the functionality of only a single class. Why would you want an entire framework to get in the way? Writing an xml file, configuring an applicationcontext and pulling the object out of the map cannot possibly be easier than writing new()...if you need a mock or stub then just make one. Again - if thats hard because of all the mock setup you need to do, then you probably need to refactor... If a testcase can't fit into a single screenful of code, mocks or no, then its an indicator that there's too much going on...<BR><BR>AOP is a bit different - if you need it then fine, but I wouldn't advise it for greenfield applications where you control the source - just make your code do what you want it to do... <BR><BR><BR><BR>James Richardson<BR><A rel="nofollow" href="http://www.time4tea.net/">time4tea technology</A>
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(13744):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(13744);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_13744"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_13744"></SPAN>	
+	
+		<LI id="comment-13967">
+			<A name="view_13967"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_13967">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_13967" name="13967" onclick="javascript:hideTooltip();return true;">Re: there is just so much wrong with that article &amp; the code in it.</A></H4>
+	                <P class="comment-author">
+	                    Nov 18, 2007 9:04 AM
+	                    by
+	                    <STRONG>
+	                        Luc Dewavrin 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_13967">
+			<P>
+				<SPAN id="quote_13967">
+					Hi James,<BR><BR>I have read your comments and tend to agree with you. I have seen awful testing implementations with Spring like wrapper as Spring beans that started transactions and executed the real unit test methods. Then, the unit test starter classes loaded these wrapper beans and executed methods on them. <BR><BR>Also with Spring we had to maintain Spring context files for both production and testing.<BR><BR>Your all Java solution looks much simpler. Are the utility classes that you used in your example opensource, or would you know an opensource project that has tests with similar classes ?
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(13967):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(13967);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_13967"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_13967"></SPAN>	
+	
+		<LI id="comment-14013">
+			<A name="view_14013"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_14013">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_14013" name="14013" onclick="javascript:hideTooltip();return true;">fully worked example</A></H4>
+	                <P class="comment-author">
+	                    Nov 18, 2007 5:28 PM
+	                    by
+	                    <STRONG>
+	                        James Richardson 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_14013">
+			<P>
+				<SPAN id="quote_14013">
+					Is <A href="http://www.time4tea.net/wiki/display/MAIN/Testing+Persistent+Objects+Without+Spring">here</A>
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(14013):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(14013);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_14013"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_14013"></SPAN>	
+	
+		<LI id="comment-14190">
+			<A name="view_14190"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_14190">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_14190" name="14190" onclick="javascript:hideTooltip();return true;">Tear down the wall!</A></H4>
+	                <P class="comment-author">
+	                    Nov 20, 2007 10:46 PM
+	                    by
+	                    <STRONG>
+	                        Michael James 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_14190">
+			<P>
+				<SPAN id="quote_14190">
+					There's really a continuum between unit testing, integration testing, regression testing, etc.  As the article states, "usually" regression testing is done using specialized QA tools, often with expensive licenses in proprietary scripting languages that "programmers" don't have access to, don't easily snap into your continuous integration server, etc.  But this needn't be so.  Nowadays we can do more and more of our testing in the JUnit framework, including what we used to call "system tests" or "regression tests" working the whole system from the end user's perspective.<BR><BR>I wrote about this below, though I didn't address Spring specifically:<BR><A rel="nofollow" href="http://danube.com/blog/michaeljames/junit_is_not_just_for_unit_testing_anymore" target="_blank">danube.com/blog/michaeljames/junit_is_not_just_...</A><BR><BR>--mj
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(14190):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(14190);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_14190"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_14190"></SPAN>	
+	
+		<LI id="comment-14619">
+			<A name="view_14619"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_14619">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_14619" name="14619" onclick="javascript:hideTooltip();return true;">Re: new as dependency injection</A></H4>
+	                <P class="comment-author">
+	                    Nov 27, 2007 1:18 PM
+	                    by
+	                    <STRONG>
+	                        Tim Andersen 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_14619">
+			<P>
+				<SPAN id="quote_14619">
+					"Whoever is calling "new" does indeed need to pick an implementation." ... unless you are using the Dependency Injection Pattern<BR><BR>Martin Fowler does a much better job of explaining this than I ever could:<BR><A rel="nofollow" href="http://martinfowler.com/articles/injection.html" target="_blank">martinfowler.com/articles/injection.html</A><BR><BR>The Spring Testing article isn't perfect, but it did a good job of making it's main point about testing by using loosely coupled objects by injecting responsibility using inversion of control, a.k.a. the Hollywood principle -- (don't call me, 'll call you).
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(14619):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(14619);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_14619"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_14619"></SPAN>	
+	
+		<LI id="comment-14663">
+			<A name="view_14663"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_14663">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_14663" name="14663" onclick="javascript:hideTooltip();return true;">Re: new as dependency injection</A></H4>
+	                <P class="comment-author">
+	                    Nov 28, 2007 10:42 AM
+	                    by
+	                    <STRONG>
+	                        James Richardson 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_14663">
+			<P>
+				<SPAN id="quote_14663">
+					Nope - sorry.<BR><BR>The point of "dependency injection" is that the object that you are creating doesn't need to know what implementation it will be given, not that the programmer doesn't need to know!<BR><BR>So rather than doing new Implementation() within a class, or calling SomeSingleton.getInstance(), or the class receives a implementation that it can use, but it doesn't know, or need to know, which one.<BR><BR>Hence the "dependency" has been "injected".<BR><BR>I tried to write a concrete example here, but was defeated by the editor not allowing XML.<BR><BR>I showed a spring example, and a Java one. Both needed to pick a real implementation of the interface. Spring uses bean class="", Java uses new xxx().<BR><BR>In both cases the programmer needs to know what implementation they are picking. They of course can choose different implementations for different circumstances, as can another user of the class. Eventually somebody needs to pick an implementation though!<BR><BR>Unfortunately both "Dependency Injection" and "Inversion of Control" are terrible names for what is about "Exposing Dependencies".<BR><BR>I do totally agree with Martin Fowler when he says in the article you quoted "My long running default with objects is as much as possible, to create valid objects at construction time."<BR><BR>James Richardson<BR><A rel="nofollow" href="http://www.time4tea.net/">time4tea technology</A>
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(14663):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(14663);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_14663"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_14663"></SPAN>	
+	
+		<LI id="comment-18780">
+			<A name="view_18780"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_18780">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_18780" name="18780" onclick="javascript:hideTooltip();return true;">Re: new as dependency injection</A></H4>
+	                <P class="comment-author">
+	                    Feb 24, 2008 9:08 AM
+	                    by
+	                    <STRONG>
+	                        Y Z 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_18780">
+			<P>
+				<SPAN id="quote_18780">
+					new is not dependency injection (DI)<BR><BR>DI is made possible by setters, constructors, and other means<BR><BR>Both primitive Java code and Spring DI container (XML configuration or Java code to call Spring) can achieve DI.<BR><BR>Spring defines conventions to implement and enforce DI consistently.<BR><BR>Spring is not only about DI.<BR><BR>In real world, developers need to define and/or know implementations for interfaces.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(18780):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(18780);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_18780"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_18780"></SPAN>	
+	
+		<LI id="comment-22077">
+			<A name="view_22077"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_22077">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_22077" name="22077" onclick="javascript:hideTooltip();return true;">Guice anyone?</A></H4>
+	                <P class="comment-author">
+	                    Apr 30, 2008 10:29 AM
+	                    by
+	                    <STRONG>
+	                        Tom Nichols 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_22077">
+			<P>
+				<SPAN id="quote_22077">
+					Although I don't necessarily agree with James I can see where he's coming from.  Personally I don't mind pushing the DI into XML files but if that is a problem then Guice would seem to be the answer.  It is XML-free and type-safe.  Also now that Spring 2.5 supports annotations I wonder if he's changed his tune any.  <BR><BR>XML isn't the best solution, but a huge Java file that wires everything together when you've got a lot of dependencies isn't much better (if any).  Me?  I like the Spring Bean Builder in Grails.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(22077):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(22077);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_22077"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_22077"></SPAN>	
+	
+		<LI id="comment-28739">
+			<A name="view_28739"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_28739">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_28739" name="28739" onclick="javascript:hideTooltip();return true;">Re: fully worked example</A></H4>
+	                <P class="comment-author">
+	                    Jul 10, 2008 10:12 AM
+	                    by
+	                    <STRONG>
+	                        Thomas Anderson 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_28739">
+			<P>
+				<SPAN id="quote_28739">
+					Your example looks worse than the spring example.<BR><BR>Codes in unit test should be simple as possible. Spring allows you to hide most of the complexity while testing.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(28739):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(28739);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_28739"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_28739"></SPAN>	
+	
+		<LI id="comment-28740">
+			<A name="view_28740"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_28740">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_28740" name="28740" onclick="javascript:hideTooltip();return true;">Re: fully worked example</A></H4>
+	                <P class="comment-author">
+	                    Jul 10, 2008 10:24 AM
+	                    by
+	                    <STRONG>
+	                        Thomas Anderson 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_28740">
+			<P>
+				<SPAN id="quote_28740">
+					</SPAN></P><BLOCKQUOTE>Your example looks worse than the spring example.<BR><BR>Codes in unit test should be simple as possible. Spring allows you to hide most of the complexity while testing.</BLOCKQUOTE><BR><BR>I mean James Richardson  code.
+				
+			<P></P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(28740):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(28740);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_28740"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_28740"></SPAN>	
+	
+		<LI id="comment-49029">
+			<A name="view_49029"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_49029">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_49029" name="49029" onclick="javascript:hideTooltip();return true;">Re: there is just so much wrong with that article &amp; the code in it.</A></H4>
+	                <P class="comment-author">
+	                    Oct 16, 2009 3:17 AM
+	                    by
+	                    <STRONG>
+	                        Andreas Breiter 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_49029">
+			<P>
+				<SPAN id="quote_49029">
+					I personally have no problem with using XML. If you do, you should try Spring Java Config, which is now part of Spring 3:<BR></SPAN></P><UL type="square"><BR><LI><A rel="nofollow" href="http://www.springsource.org/javaconfig" target="_blank">www.springsource.org/javaconfig</A></LI><BR><LI><A rel="nofollow" href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/ch03s11.html" target="_blank">static.springsource.org/spring/docs/3.0.x/sprin...</A></LI><BR></UL>
+				
+			<P></P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(49029):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(49029);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_49029"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_49029"></SPAN>	
+	
+		<LI id="comment-49257">
+			<A name="view_49257"></A>
+			<DIV class="comment-header">
+				<P class="comment-top">
+					<A style="position:relative;" href="http://www.infoq.com/articles/testing-in-spring#">Back to top</A>
+				</P>
+				
+				<DIV id="header_49257">
+	                <H4><A href="http://www.infoq.com/articles/testing-in-spring#view_49257" name="49257" onclick="javascript:hideTooltip();return true;">Re: there is just so much wrong with that article &amp; the code in it.</A></H4>
+	                <P class="comment-author">
+	                    Oct 20, 2009 3:54 PM
+	                    by
+	                    <STRONG>
+	                        Daniel Sobral 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_49257">
+			<P>
+				<SPAN id="quote_49257">
+					There are some good (and some bad) advises in there, all completely spoiled by a an absurd assertion that "new" can stand for Dependency Injection.<BR><BR>Go learn about dependency injection. Maybe watch the Guice presentation. Because, to put it plainly, you just put yourself in the same company as those who defended "goto" instead of structured programming, or manual memory management instead of automatic.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(49257):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(49257);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_49257"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_49257"></SPAN>	
+	
+	
+	<SPAN id="lastMessages"></SPAN>
+	<SPAN id="replyFlatMessage_11492"></SPAN>
+	
+	</OL>
+
+
+    <DIV class="box-bottom"></DIV>
+    </DIV>
+    </DIV> 
+    <DIV class="bottom-corners"><DIV></DIV></DIV>
+    </DIV> 
+  
+
+			
+		</DIV>
+		
+	</DIV></DIV>
+	
+		
+	
+
+
+
+
+
+
+
+<!-- right side start -->
+
+	<DIV id="rightbar">
+	<DIV id="right-wrapper">
+	    <!-- box start -->
+	    <DIV class="box">
+	        <H2>Educational Content</H2>
+	        <UL class="menu" id="tabsmenu">
+	   			<LI id="tab_ALL_EXCEPT_NEWS" class="m-ALL_EXCEPT_NEWS-on"><A href="http://www.infoq.com/articles/testing-in-spring#" onclick="ContentSummary.switchTab(&#39;ALL_EXCEPT_NEWS&#39;);return false;">All</A></LI>
+	            <LI id="tab_ARTICLE" class="m-ARTICLE-off"><A href="http://www.infoq.com/articles/testing-in-spring#" onclick="ContentSummary.switchTab(&#39;ARTICLE&#39;);return false;">Articles</A></LI>
+	            <LI id="tab_PRESENTATION" class="m-PRESENTATION-off"><A href="http://www.infoq.com/articles/testing-in-spring#" onclick="JSResource.presentationsTab();return false;">Presentations</A></LI>
+	            <LI id="tab_INTERVIEW" class="m-INTERVIEW-off"><A href="http://www.infoq.com/articles/testing-in-spring#" onclick="JSResource.interviewsTab();return false;">Interviews</A></LI>
+	            <LI id="tab_MINIBOOK" class="m-MINIBOOK-off"><A href="http://www.infoq.com/articles/testing-in-spring#" onclick="JSResource.minibooksTab();return false;">Minibooks</A></LI>
+	        </UL>
+		    <DIV class="top-corners"><DIV></DIV></DIV>
+		    
+		    <DIV class="box-content">
+			    <DIV class="box-content-2">
+			    <DIV id="rightbarcontentbox" class="box-content-3">
+                    
+					
+                        
+						
+								
+<FORM id="tabstateform" onsubmit="customOnsubmit(); return true;" action="">
+<INPUT id="startIndex" type="hidden" name="startIndex" value="0"><INPUT id="selectedTab" type="hidden" name="selectedTab" value="ALL_EXCEPT_NEWS"><INPUT id="rightBarLanguage" type="hidden" name="language" value="en"><TABLE class="wwFormTable">
+
+	<TBODY>
+	
+	
+</TBODY></TABLE>
+</FORM>
+
+
+<SCRIPT>
+	function customOnsubmit() {
+		
+	}
+</SCRIPT>
+
+
+
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-articles"><A href="http://www.infoq.com/articles/aspnet-mvc-in-action">Interview and Book Excerpt: ASP.NET MVC in Action</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/articles/aspnet-mvc-in-action"><IMG src="./Software Testing With Spring Framework_files/aspnetmvcinaction_cover100.jpg" alt="aspnetmvcinaction_cover"></A></P>
+        
+        <P>Today, InfoQ publishes an excerpt from ASP.NET MVC in Action written by Jeffrey Palermo, Ben Scheirman and Jimmy Bogard. We also used the opportunity to interview the authors.</P>
+        <UL class="info link-col">
+            <LI>
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Dec 09, 2009,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/articles/aspnet-mvc-in-action"><SPAN>&nbsp;</SPAN>
+	    	    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-articles"><A href="http://www.infoq.com/articles/hewitt-javasoacookbook">Interview and Book Excerpt: Eben Hewitt's Java SOA Cookbook</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/articles/hewitt-javasoacookbook"><IMG src="./Software Testing With Spring Framework_files/java_soa_cookbook_cover_sm.gif" alt="Java SOA Cookbook"></A></P>
+        
+        <P>Java SOA Cookbook, by Eben Hewitt, covers Service Oriented Architecture from a Java implementation stand-point. Eben discusses SOA basics, tools, best practices and SOA Governance topics.
+</P>
+        <UL class="info link-col">
+            <LI>
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Dec 07, 2009,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/articles/hewitt-javasoacookbook"><SPAN>&nbsp;</SPAN>
+	    	    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-articles"><A href="http://www.infoq.com/articles/write-behind-caching">Extreme Transaction Processing Patterns: Write-behind Caching </A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/articles/write-behind-caching"><IMG src="./Software Testing With Spring Framework_files/image_grid-arrow-db.jpg" alt=""></A></P>
+        
+        <P>Lan Vuong shows the benefits of asychronous batch updates to the data base (the write-behind pattern), instead of synhronous write-through updates typical in web apps.</P>
+        <UL class="info link-col">
+            <LI>
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Dec 07, 2009,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/articles/write-behind-caching"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			6
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-presentations"><A href="http://www.infoq.com/presentations/Lessons-Learned-from-Java-EE">Lessons Learned From Java EE’s Evolution</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/presentations/Lessons-Learned-from-Java-EE"><IMG src="./Software Testing With Spring Framework_files/RodJohnson.jpg" alt=""></A></P>
+        
+        <P>Rod Johnson talks about Java’s evolution, in particular J2EE, presenting the lessons to be learned from its failures, preparing to avoid such mistakes in the future.</P>
+        <UL class="info link-col">
+            <LI>
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Dec 05, 2009,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/presentations/Lessons-Learned-from-Java-EE"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			3
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-articles"><A href="http://www.infoq.com/articles/MicroORM">MicroORM - A Dynamically Typed ORM for VB and C# in about 160 Lines</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/articles/MicroORM"><IMG src="./Software Testing With Spring Framework_files/orm.jpg" alt=""></A></P>
+        
+        <P>Using the new DLR features in .NET 4 you can build a configuration-free ORM that uses the normal object-dot-property syntax without interfaces to define, classes to implement, or XML data mapping.</P>
+        <UL class="info link-col">
+            <LI>
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Dec 05, 2009,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/articles/MicroORM"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			6
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-interviews"><A href="http://www.infoq.com/interviews/Ralph-Johnson-Parallel-Programming-Patterns">Ralph Johnson on Parallel Programming Patterns</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/interviews/Ralph-Johnson-Parallel-Programming-Patterns"><IMG src="./Software Testing With Spring Framework_files/RalphJohnson.jpg" alt=""></A></P>
+        
+        <P>Ralph Johnson, a GoF author, talks about the upcoming book “The Patterns for Parallel Programming” highlighting the difficulties in discovering and writing down patterns, and choosing a pattern to use</P>
+        <UL class="info link-col">
+            <LI>
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Dec 04, 2009,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/interviews/Ralph-Johnson-Parallel-Programming-Patterns"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			2
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-presentations"><A href="http://www.infoq.com/presentations/Five-Considerations-for-Software-Architects">Five Considerations for Software Architects</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/presentations/Five-Considerations-for-Software-Architects"><IMG src="./Software Testing With Spring Framework_files/KevlinH.jpg" alt=""></A></P>
+        
+        <P>Kevlin Henney does not make recommendations for architecting software but rather brings into discussion 5 considerations useful to be reflected upon: economy, visibility, spacing, symmetry, emergence.</P>
+        <UL class="info link-col">
+            <LI>
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Dec 04, 2009,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/presentations/Five-Considerations-for-Software-Architects"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			2
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-presentations"><A href="http://www.infoq.com/presentations/bdd-and-ddd">BDD &amp; DDD</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/presentations/bdd-and-ddd"><IMG src="./Software Testing With Spring Framework_files/DanNorth.jpg" alt=""></A></P>
+        
+        <P>Dan North gives an overview of Domain Driven Design and Behavior Driven Development then ties them together for a powerful mix.</P>
+        <UL class="info link-col">
+            <LI>
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Dec 03, 2009,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/presentations/bdd-and-ddd"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			3
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+
+<UL class="newsnav link-col">
+
+
+    <LI><A href="http://www.infoq.com/articles/testing-in-spring#" onclick="ContentSummary.setStartIndex(&#39;8&#39;);return false;">Older &gt;</A></LI>
+
+</UL>
+
+	                <!-- Rightbar:3ms -->
+    
+				    <DIV class="box-bottom"></DIV>
+				</DIV>
+				</DIV>
+				<DIV class="bottom-corners"><DIV></DIV></DIV>
+			</DIV>
+		</DIV>
+		<!-- box end -->
+		<SCRIPT type="text/javascript">
+			ContentSummary.setSelectedTab('en');
+		</SCRIPT>
+	</DIV>
+	</DIV>
+
+<!-- right side end -->
+
+
+	<DIV class="clearer"></DIV>
+
+	
+
+
+
+
+
+
+
+
+	<DIV id="footer">
+		<P>
+			InfoQ.com and all content copyright © 2006-2009 C4Media Inc.
+			InfoQ.com hosted at <A href="http://www.contegix.com/">Contegix</A>, the best ISP we've ever worked with.
+			<A href="http://www.infoq.com/PrivacyPolicy.jsp">Privacy policy</A>
+		</P>
+	</DIV>
+
+
+</DIV>
+
+<SCRIPT src="./Software Testing With Spring Framework_files/__utm.js" type="text/javascript"></SCRIPT><SCRIPT language="JavaScript1.5">_ujv='1.5';</SCRIPT>
+<SCRIPT src="./Software Testing With Spring Framework_files/engine.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Software Testing With Spring Framework_files/util.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Software Testing With Spring Framework_files/UserCategoryUtil.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Software Testing With Spring Framework_files/DWRRewriteAction.js" type="text/javascript"></SCRIPT>
+
+
+
+
+
+
+
+<SCRIPT type="text/javascript">
+	var includeName = 'Include';
+	var excludeName = 'Exclude';
+	var includeHint = 'You can include this category.';
+	var excludeHint = 'You can exclude this category.';
+	var excludeCategoryMessage = 'You can re-include from your profile personalization, or right now.<BR />';
+	var viewallCategoryMessage = 'You can view all items that belong to this category.';
+	var busyMessage = 'Please wait...';
+	var contextPath = '' + '/';
+	var viewallCategoryPath= 'en';
+	var includeExcludeLink= true;
+</SCRIPT>
+
+
+
+
+
+
+
+
+
+
+<SCRIPT type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT><SCRIPT src="./Software Testing With Spring Framework_files/ga.js" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6608133-2");
+pageTracker._trackPageview();
+} catch(err) {}
+</SCRIPT>
+
+
+
+
+</BODY></HTML>

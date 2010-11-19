@@ -1,0 +1,389 @@
+
+<!-- saved from url=(0091)http://www2.mokabyte.it/cms/article.run?articleId=HDX-AY6-FJJ-U3H_7f000001_6539645_f593f2eb -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><SCRIPT language="JavaScript" type="text/javascript">
+function openPopup( strURL, intWidth, intHeight, blnNewWindow ) { //zubin
+	var intScreenHeight = 0;
+	//	get screen height
+	if( parseInt( navigator.appVersion ) > 3 ) {
+		intScreenHeight = screen.availHeight;
+		if( !intScreenHeight ) {
+			intScreenHeight = screen.height;
+		}
+	} else if(
+		navigator.appName == "Netscape" && 
+		parseInt( navigator.appVersion ) == 3 && 
+		navigator.javaEnabled()
+	) {
+		var jToolkit = java.awt.Toolkit.getDefaultToolkit();
+		var jScreenSize = jToolkit.getScreenSize();
+		intScreenHeight = jScreenSize.height;
+	} else {
+		alert( 'Can\'t detect screen resolution' );
+		return;
+	}
+	//	adjust dimensions if necessary
+	if( intHeight > intScreenHeight ) {
+		intHeight = intScreenHeight - 10;
+	}
+	if( blnNewWindow ) {
+		//	new window
+		var openPopup = window.open( strURL,'popup','toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=' + intWidth + ',height=' + intHeight );
+		openPopup.focus();
+	} else {
+		//	same window
+		window.resizeTo( intWidth, intHeight );
+	}
+	return;
+}
+</SCRIPT>
+
+
+
+
+
+
+
+
+
+<LINK rel="StyleSheet" href="http://www2.mokabyte.it/cms/resourceproviderservlet?resourceId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-template.css" type="text/css" media="screen">
+<TITLE>MokaByte 121 - Settembre 2007 - spring_webflow</TITLE>
+
+</HEAD><BODY bgcolor="#eef5ee" text="#000000" link="#006600" vlink="#006600" alink="#00CC00">
+<TABLE width="500" align="center" cellpadding="0" cellspacing="0" border="0">
+  <TBODY><TR> 
+    <TD>&nbsp;</TD>
+    <TD rowspan="4" valign="top"><IMG src="http://www2.mokabyte.it/cms/templateimageproviderservlet?imageId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-pixel_trasp.gif" width="5" height="50"></TD>
+    <TD valign="bottom" align="right"> <TABLE width="100%" border="0" cellspacing="0" cellpadding="5">
+        <TBODY><TR> 
+          <TD width="99%"><B><A href="http://www2.mokabyte.it/cms/article.run?articleId=X84-6R2-KQH-FSY_7f000001_4579733_b7c82132" title="Home page">home</A> &gt;&gt; <A href="http://www2.mokabyte.it/cms/section.run?name=mb121" title="MokaByte 121 - Settembre 2007">mb121</A></B> </TD>
+        </TR>
+      </TBODY></TABLE></TD>
+  </TR>
+  <TR> 
+    <TD rowspan="3" valign="top" width="1%"> <TABLE width="99%" border="0" bgcolor="#CCCCCC" cellpadding="0" cellspacing="1">
+        <TBODY><TR> 
+          <TD> <TABLE width="100%" border="0" cellpadding="1" cellspacing="7" align="right" bgcolor="#FFFFFF">
+              <TBODY><TR> 
+                <TD align="center" valign="middle"> <TABLE width="100%" border="0" cellpadding="1" cellspacing="7" align="right" bgcolor="#FFFFFF"><TBODY><TR><TD align="center" valign="middle"><A href="javascript:void(0);" onclick="javascript:openPopup(&#39;writer-popup.run?id=COI-Y2V-6HB-TJP_7f000001_17217852_a6bd4671&#39;,570,480,1);"><IMG src="http://www2.mokabyte.it/cms/writerPictureProviderServlet?writerId=COI-Y2V-6HB-TJP_7f000001_17217852_a6bd4671" width="100" height="150" border="0"></A></TD></TR><TR><TD align="center">di</TD></TR><TR><TD align="center"><P><A href="javascript:void(0);" onclick="javascript:openPopup(&#39;writer-popup.run?id=COI-Y2V-6HB-TJP_7f000001_17217852_a6bd4671&#39;,570,480,1);">Mario Casari</A><BR></P></TD></TR></TBODY></TABLE> 
+                </TD>
+              </TR>
+            </TBODY></TABLE></TD>
+        </TR>
+      </TBODY></TABLE>
+      <IMG src="http://www2.mokabyte.it/cms/templateimageproviderservlet?imageId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-pixel_trasp.gif" width="50" height="5" border="0">
+ <TABLE width="99%" border="0" bgcolor="#CCCCCC" cellpadding="0" cellspacing="1">
+        <TBODY><TR> 
+          <TD> <TABLE width="100%" border="0" cellpadding="0" cellspacing="7" align="right" bgcolor="#FFFFFF">
+              <TBODY><TR> 
+                <TD align="left" nowrap=""> <B>Nella stessa sezione</B><BR><A href="http://www2.mokabyte.it/cms/article.run?articleId=XQI-FOH-KMH-43E_7f000001_6539645_f347d3c5" title="I parte: Gli eventi">actionjsf-1</A><BR><A href="http://www2.mokabyte.it/cms/article.run?articleId=518-LV9-A2T-197_7f000001_6539645_f54307d7" title=" RoR e Web 2.0">ruby-5</A><BR><A href="http://www2.mokabyte.it/cms/article.run?articleId=4AM-5X9-CR4-N4R_7f000001_6539645_f36a858e" title="VII parte: Maven e Ant">maven</A><BR><FONT color="gray"><B>spring_webflow</B></FONT><B></B><BR><A href="http://www2.mokabyte.it/cms/article.run?articleId=XF2-Q24-4RR-NB7_7f000001_6539645_ffb20df2" title="IV parte: RSS">web20-4</A><BR><A href="http://www2.mokabyte.it/cms/article.run?articleId=2TC-F23-CCK-76H_7f000001_6539645_ff929ff0" title="III parte: Web Ontology Language (OWL)">semweb-3</A><BR><A href="http://www2.mokabyte.it/cms/article.run?articleId=SSD-3N3-5UM-QHN_7f000001_6539645_ffed65e7" title="II parte: rappresentazione dei documenti testuali">ontomapping-2</A><BR> </TD>
+              </TR>
+              <TR> 
+                <TD align="left" nowrap="">
+              </TR>
+              <TR> 
+                <TD align="left" nowrap=""><B>Nella stessa serie</B><BR><A href="http://www2.mokabyte.it/cms/article.run?articleId=Q18-USD-6ID-LNE_7f000001_4319767_ba8c8d35">spring_acegi</A><BR><A href="http://www2.mokabyte.it/cms/article.run?articleId=39T-SPM-43J-3IE_7f000001_14191084_7824e0ad">spring_update25</A><BR><FONT color="gray"><B>spring_webflow</B></FONT><B></B><BR></TD>
+              </TR>
+            </TBODY></TABLE>
+         </TD>
+        </TR>
+      </TBODY></TABLE>
+
+     <IMG src="http://www2.mokabyte.it/cms/templateimageproviderservlet?imageId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-pixel_trasp.gif" width="50" height="5" border="0">
+     <TABLE width="99%" border="0" bgcolor="#CCCCCC" cellpadding="0" cellspacing="1">
+        <TBODY><TR> 
+          <TD> <TABLE width="100%" border="0" cellpadding="0" cellspacing="7" align="right" bgcolor="#FFFFFF">
+              <TBODY><TR> 
+                <TD align="left" valign="top">
+				<!-- bannreleft-->
+				<IMG src="http://www2.mokabyte.it/cms/templateimageproviderservlet?imageId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-pixel_trasp.gif" width="120" height="240">
+				</TD>
+              </TR>
+              <TR>
+                <TD align="left" nowrap="">&nbsp;</TD>
+              </TR>
+              <TR>
+                <TD align="left" nowrap="">&nbsp;</TD>
+              </TR>
+            </TBODY></TABLE>
+         </TD>
+        </TR>
+      </TBODY></TABLE>
+
+      <BR> <BR> </TD>
+    <TD valign="top"> <TABLE width="100%" border="0" cellpadding="0" cellspacing="0">
+        <TBODY><TR> 
+          <TD valign="bottom"> <TABLE width="100%" border="0" bgcolor="#CCCCCC" cellpadding="0" cellspacing="1">
+              <TBODY><TR> 
+                <TD> <TABLE width="100%" border="0" cellpadding="1" cellspacing="7" align="right" bgcolor="#FFFFFF">
+                    <TBODY><TR>
+                      <TD align="right" valign="top" height="1"><STRONG>MokaByte 121 - Settembre 2007</STRONG></TD>
+                    </TR>
+                    <TR> 
+                      <TD align="left" valign="top" height="1"> <H1> Spring Web Flow 
+                        </H1></TD>
+                    </TR>
+                    <TR> 
+                      <TD align="left" valign="top" height="99%"> <H2> Un framework per la gestione dei flussi applicativi 
+                        </H2></TD>
+                    </TR>
+                </TBODY></TABLE></TD>
+              </TR>
+            </TBODY></TABLE></TD>
+        </TR>
+      </TBODY></TABLE></TD>
+  </TR>
+  <TR> 
+    <TD> <IMG src="http://www2.mokabyte.it/cms/templateimageproviderservlet?imageId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-pixel_trasp.gif" width="700" height="5" border="0"> </TD>
+  </TR>
+  <TR> 
+    <TD valign="top" width="650"> <TABLE width="100%" border="0" bgcolor="#CCCCCC" cellpadding="0" cellspacing="1">
+        <TBODY><TR> 
+          <TD> <TABLE width="703" border="0" bgcolor="#FFFFFF" cellpadding="0" cellspacing="0" height="100%">
+              <TBODY><TR> 
+                <TD align="center" background="http://www2.mokabyte.it/cms/templateimageproviderservlet?imageId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-bannerseparator.gif" valign="middle" height="70"> 
+					<!-- bannretop-->
+					<A href="http://www2.mokabyte.it/banner/b?config=config_file.properties&mode=2&id=1" target="_blank">
+  					   <IMG src="./MokaByte 121 - Settembre 2007 - spring_webflow_files/b" vspace="0" border="0" height="60" width="468">
+				    </A>
+                </TD>
+              </TR>
+              <TR> 
+                <TD> <TABLE width="99%" border="0" align="center" cellpadding="5" cellspacing="5">
+                    <TBODY><TR> 
+                      <TD valign="top" bordercolor="1" align="center"> <DIDA> 
+                        I framework presenti nel mondo Open Source si preoccupano di mettere a disposizione dello sviluppatore una serie di servizi standard. Tra questi non figura però normalmente alcun prodotto specificamente finalizzato alla gestione dei flussi applicativi. Spring Web Flow sopperisce a questa mancanza e permette di codificare e configurare i flussi in modo centralizzato e armonico rispetto agli altri aspetti del sistema. <DIDA> </DIDA></DIDA></TD>
+                    </TR>
+                    <TR> 
+                      <TD valign="top" bordercolor="1">
+                    </TR>
+                    <TR> 
+                      <TD valign="top" bordercolor="1"> 
+<H3>Introduzione</H3>
+<P>In un precedente articolo abbiamo visto come Spring MVC permetta di gestire la coordinazione tra gli strati di controllo, di vista e il modello dati nell'ambito del pattern Model View Controller. Non offre nessun supporto però per gli aspetti più propriamente legati ai flussi operativi dell'applicazione. La gestione delle transizioni tra i vari stati del sistema nel suo ciclo di vita è demandata all'utilizzo degli strumenti standard del framework, e l'insieme di regole che le determinano è nascosta nei meandri della configurazione e della codifica di questi strumenti. Spring Web Flow sopperisce a questa mancanza mettendo a disposizione un'infrastruttura mirata alla gestione centralizzata e uniforme di questi aspetti. Permette di isolare i flussi applicativi in unità logiche soggette a determinate regole, di serializzare e far persistere su più richieste le istanze di esecuzione del flusso, che possono essere ripristinate con una chiamata specifica, e in determinati casi permette il riutilizzo del flusso stesso in differenti situazioni.</P>
+<P>  
+<BR> 
+</P>
+<H3>Concetti di base</H3>
+<P>Spring Web Flow permette di isolare un particolare flusso applicativo e di codificarlo attraverso una definizione di flusso. La definizione è normalmente rappresentata da un file XML, ma esiste anche la possibilità di utilizzare un'API Java apposita, che in questo articolo tuttavia non verrà trattata (per informazioni a questo riguardo vedere la guida di riferimento <A class="embeddedlink" href="http://static.springframework.org/spring-webflow/docs/current/reference/index.html">http://static.springframework.org/spring-webflow/docs/current/reference/index.html</A>). Attraverso il file XML il framework è in grado di creare un'istanza della org.springframework.webflow.definition.FlowDefinition. I concetti di base nella definizione del flusso sono gli stati, nelle loro varianti, e le transizioni. Gli stati rappresentano degli step nell'esecuzione del flusso l'accesso ai quali può causare l'esecuzione di codice applicativo e quindi modificare l'insieme di dati del sistema, e alla fine restituire un evento che viene interpretato dalle eventuali transizioni configurate all'interno di essi per passare a un altro stato. Uno stato può contenere delle "entryActions" cioè delle action che vengono eseguite nella fase iniziale della vita dello stato stesso, e delle "exit-actions" che vengono eseguite nel momento nella fase finale, prima dell'uscita. Anche le transizioni possono contenere delle action, che permettono di eseguire del codice dopo il "matching" dell'evento ma prima che venga eseguita la transizione al nuovo stato. Un flusso è costituito al minimo da uno StartState che rappresenta il punto iniziale del flusso stesso e opzionalmente da uno o più EndState che rappresentano il punto finale. Lo StartState in realtà si appoggia tramite un riferimento a una delle tipologie di stati disponibili, mentre l'EndState rappresenta esso stesso una tipologia. Le tipologie di stati principali sono le seguenti:</P>
+<UL> 
+<LI>ViewState</LI> 
+<LI>ActionState</LI> 
+<LI>SubflowState</LI> 
+<LI>EndState</LI> 
+</UL>
+<P>  
+<BR> 
+</P>
+<H3>View State</H3>
+<P>Il ViewState rappresenta uno stato che si occupa di segnalare al framework di controllo utilizzato, per esempio Spring MVC, di mandare a video una schermata di interazione utente e di attendere un input dell'utente stesso per effettuare una transizione a un altro stato. Il ViewState può contenere delle "actions" (render-actions), che vengono eseguite prima che venga restituita la "view".</P>
+<P>  
+<BR>Di seguito un esempio di definizione di un flusso (ai minimi termini):</P>
+<CODE>&lt;flow ...&gt;<BR>    &lt;start-state idref="start" /&gt;<BR>    &lt;view-state id="start" view="startView"&gt;</CODE><CODE>        &lt;render-actions&gt;</CODE><CODE>            &lt;action bean="startAction"/&gt;</CODE><CODE>        &lt;/render-actions&gt;</CODE><CODE>        &lt;transition on="goOn" to="finish" /&gt;</CODE><CODE>    &lt;/view-state&gt;<BR> 
+<BR>    &lt;end-state id="finish" /&gt;<BR> 
+<BR>&lt;/flow&gt;</CODE>
+<P>  
+<BR>Come si vede lo StartState è qui rappresentato da un ViewState legato a una "view" chiamata "startState". Uno strato di adattamento tra Spring Web Flow e il framework di controllo utilizzato permette di associare tale nome a una qualunque risorsa atta a renderizzare una schermata di interazione utente, per esempio una pagina JSP. Il view-state contiene poi una "render-action" la cui implementazione è rappresentata dal  componente "startAction", e una transizione che viene eseguita nel momento in cui l'utente esegue una richiesta con l'evento denominato "goOn", e che causa in questo caso il passaggio all'end-state identificato da "finish".</P>
+<P>  
+<BR> 
+</P>
+<H3>Action State</H3>
+<P>L'ActionState, a differenza del ViewState, è una tipologia di stato che permette di eseguire del codice applicativo nel momento in cui vi si accede, ma non implica nessuna interazione con l'utente:</P>
+<P>  
+<BR> 
+</P>
+<CODE>    &lt;action-state id="executeSearch"&gt;</CODE><CODE>        &lt;action bean="searchAction"/&gt;</CODE><CODE>        &lt;transition on="success" to="displayResults"/&gt;</CODE><CODE>    &lt;/action-state&gt;</CODE>
+<P>  
+<BR>La action "searchAction" rappresenta il comportamento applicativo eseguito dallo stato e la transizione in questo caso, in risposta all'evento success restituito dalla action, rimanda a un view-state chiamato "displayResults". Se utilizziamo Spring MVC tale componente sarà un bean configurato nel contesto di Spring e sarà disponibile a SWF attraverso la bean-factory di Spring stesso (vale anche per la render-action dell'esempio precedente). L'unica richiesta è che la classe implementi l'interfaccia org.springframework.webflow.execution.Action. L'interfaccia prevede un metodo execute che riceve in ingresso un oggetto RequestContext attraverso il quale la action stessa ha accesso ai dati di input necessari, e l'implementazione si preoccuperà di rendere disponibili i dati di uscita nel contesto del flusso (flow-scope). È anche possibile configurare dei bean non aderenti a nessuna specifica interfaccia, in tal caso la configurazione sarebbe del tipo:</P>
+<P>  
+<BR> 
+</P>
+<CODE>        &lt;bean-action bean="searchService" method="executeSearch"&gt;</CODE><CODE>            &lt;method-arguments&gt;</CODE><CODE>                &lt;argument expression="${flowScope.criteria}"/&gt;</CODE><CODE>            &lt;/method-arguments&gt;</CODE><CODE>            &lt;method-result name="results"/&gt;</CODE><CODE>        &lt;/bean-action&gt;</CODE>
+<P>  
+<BR> 
+</P>
+<H3>SubFlow State</H3>
+<P>Il subflow-state permette invece di eseguire all'interno del flusso corrente un altro flusso come sottoflusso:</P>
+<P>  
+<BR> 
+</P>
+<CODE>     &lt;subflow-state id="cercaContatto" flow="agenda"&gt;</CODE><CODE>        &lt;attribute-mapper&gt;</CODE><CODE>            &lt;input-mapper&gt;</CODE><CODE>                &lt;mapping source="flowScope.idContatto" target="id"/&gt;</CODE><CODE>            &lt;/input-mapper&gt;</CODE><CODE>        &lt;/attribute-mapper&gt;</CODE><CODE>        &lt;transition on="finish" to="dettaglioContatto"/&gt;</CODE><CODE>    &lt;/subflow-state&gt;</CODE>
+<P>  
+<BR>Il flusso agenda per utilizzare i dati di input deve definire un input-mapper corrispondente come di seguito riportato:</P>
+<P>  
+<BR> 
+</P>
+<CODE>    &lt;input-mapper&gt;</CODE><CODE>        &lt;input-attribute name="shipping"/&gt;</CODE><CODE>    &lt;/input-mapper&gt;</CODE>
+<P>  
+<BR> 
+</P>
+<H3>End State</H3>
+<P>L'EndState rappresenta la fase conclusiva nel ciclo di vita del flusso e non può rimandare a stati precedenti, però può operare una redirezione verso una nuova esecuzione dello stesso o di un altro flusso:</P>
+<P>  
+<BR> 
+</P>
+<CODE>&lt;end-state id="finish" view="flowRedirect:searchFlow"/&gt;</CODE>
+<BR>
+<P>  
+<BR>Può anche fare una redirezione verso un URL esterno.</P>
+<P>  
+<BR>Inoltre permette di definire attraverso l'elemento output-mapper i dati da restituire a un eventuale flusso chiamante, nel caso che venga eseguito come sottoflusso da quest'ultimo:</P>
+<P>  
+<BR> 
+</P>
+<CODE>    &lt;end-state id="finish"&gt;</CODE><CODE>        &lt;output-mapper&gt;</CODE><CODE>            &lt;output-attribute name="datiContatto"/&gt;</CODE><CODE>        &lt;/output-mapper&gt;</CODE><CODE>    &lt;/end-state&gt;</CODE>
+<P>  
+<BR>Il flusso chiamante a sua volta può raccogliere i dati restituiti dal sottoflusso definento un elemento output-mapper nel subflow-state:</P>
+<CODE>    &lt;subflow-state id="cercaContatto" flow="agenda"&gt;</CODE><CODE>        &lt;attribute-mapper&gt;</CODE><CODE>            &lt;input-mapper&gt;</CODE><CODE>                &lt;mapping source="flowScope.idContatto" target="id"/&gt;</CODE><CODE>            &lt;/input-mapper&gt;</CODE><CODE>            &lt;output-mapper&gt;</CODE><CODE>                &lt;output-attribute name="datiContatto"/&gt;</CODE><CODE>            &lt;/output-mapper&gt;</CODE><CODE>        &lt;/attribute-mapper&gt;</CODE><CODE>        &lt;transition on="finish" to="dettaglioContatto"/&gt;</CODE><CODE>    &lt;/subflow-state&gt;</CODE>
+<P>  
+<BR> 
+</P>
+<H3>Esecuzione, repositories e contesti di visibilità </H3>
+<P>A partire da una definizione di flusso è possibile eseguire più istanze dello stesso. Una singola esecuzione implica una serie di interazioni con l'utente, che attraversa più richieste. Possono esistere più richieste in parallelo, anche per lo stesso utente (più finestre del browser aperte). Il sistema è in grado di identificare un'istanza di esecuzione e ogni singolo step all'interno di essa. Inoltre è in grado di salvare su un apposito repository l'istanza di esecuzione ogni volta che si accede a un view-state, il quale implica uno stato di pausa in attesa di un input dell'utente. Quando l'utente effettua una richiesta non fa altro che lanciare un evento che attraverso il matching di una transizione configurata provoca il ripristino dal repository dell'esecuzione del flusso a partire dallo step in cui era stato precedentemente salvato. Per identificare precisamente l'esecuzione di un flusso SWF utilizza un identificatore costituito da due parti: una che identifica l'esecuzione del flusso nel suo complesso e l'altra lo step corrente di esecuzione. Dal punto di vista dello sviluppatore tale identificatore è rappresentato dal nome "_flowExecutionKey". Di seguito un esempio di chiamata con l'utilizzo del  flowExecutionKey:</P>
+<P>  
+<BR> 
+</P>
+<CODE>&lt;a href="flowController.htm?_flowExecutionKey=${flowExecutionKey}&amp;_eventId=submit"&gt;</CODE>
+<P>  
+<BR>Nel frammento mostrato sopra viene rimandato indietro nella richiesta il _flowExecutionKey corrente, recuperato dalla richiesta e viene scatenato un evento submit tramite il parametro _eventId. In questo modo viene ripristinata dal repository l'esecuzione del flusso a partire dallo step corrente e l'esecuzione prosegue in base all'interpretazione dell'evento submit da parte delle transizioni configurate. Per lanciare una nuova esecuzione di un flusso a partire dalla fase iniziale è invece necessario inviare al server una richiesta del tipo:</P>
+<P> 
+<BR> 
+</P>
+<CODE>&lt;a href="phonebook.htm?_flowId=search-flow"&gt;Phonebook&lt;/a&gt;</CODE>
+<P> 
+<BR> 
+</P>
+<P>Dove _flowId è il parametro che identifica la definizione del flusso. Il sistema utilizza in questo caso il valore "search-flow" per identificare il flusso omonimo e lanciarne una nuova esecuzione. L'esecuzione del flusso mantiene poi dei contesti con diverse caratteristiche di visibilità che permettono di accedere a una serie di informazioni sulla stato di esecuzione e di memorizzare informazioni e risorse specifiche, come per esempio parametri di input necessari all'esecuzione di un sottoflusso. I contesti di visibilità esistenti sono i seguenti:</P>
+<P>  
+<BR> 
+</P>
+<UL> 
+<LI>Request</LI> 
+<LI>Flash</LI> 
+<LI>Flow</LI> 
+<LI>Conversation</LI> 
+</UL>
+<P>  
+<BR>La visibilità "Request" ha un ciclo di vita che è quello di una singola richiesta. Quella "Flash" ha termine nel momento in cui viene lanciata una richiesta con un evento associato. La visibilità "Flow" ha un ciclo di vita che può essere temporaneamente interrotto da esecuzioni di sottoflussi. SWF mantiene uno stack di sessioni di flusso, e il flusso corrente è sempre quello in cima allo stack. In questo modo quando viene eseguito un sottoflusso, la sessione del flusso padre viene momentaneamente interrotta e si ha accesso solo alla sessione del sottoflusso correntemente in esecuzione, che si trova in cima allo stack. Quando il sottoflusso termina viene ripristinata la sessione del flusso chiamante. Questo implica che durante l'esecuzione del sottoflusso non è possibile accedere a risorse e informazioni del chiamante attraverso il contesto di visibilità flow ma solo a quelle del sottoflusso stesso. L'unico modo di accedere a informazioni e risorse condivise è utilizzare il contesto di visibilità "Conversation" che copre l'intera esecuzione del flusso.</P>
+<P>  
+<BR> 
+</P>
+<H3>Conclusioni</H3>
+<P>Spring Web Flow fornisce delle funzionalità potenti e si interfaccia senza particolari sforzi con i più noti framework di controllo. Tuttavia potrebbe sarebbe auspicabile una maggiore cura per gli aspetti riguardanti il riutilizzo dei flussi. All'atto pratico succede spesso di trovarsi di fronte a flussi applicativi che logicamente si differenziano solamente per pochi dettagli, ma SWF per ora non ha dei meccanismi di templating o di ereditarietà che sfruttino al meglio tali situazioni. Insomma il riutilizzo è possibile col minimo sforzo e in maniera trasparente solo in casi specifici.</P>
+<P>  
+<BR> 
+</P>
+<H3>Riferimenti</H3>
+<P>[1] "Spring Web Flow Reference"<BR> 
+<A class="embeddedlink" href="http://static.springframework.org/spring-webflow/docs/current/reference/index.html">http://static.springframework.org/spring-webflow/docs/current/reference/index.html</A> 
+</P>
+<P>[2] "Spring Reference" 2.0<BR> 
+<A class="embeddedlink" href="http://www.springframework.org/">http://www.springframework.org/</A> 
+</P>
+<P>[3] Craig Walls - Ryan Breidenbach, "Spring in Action", Manning, 2005</P>
+<BR>
+
+ </TD>
+                    </TR>
+                    <TR> 
+                      <TD valign="top" bordercolor="1"> </TD>
+                    </TR>
+                  </TBODY></TABLE></TD>
+              </TR>
+              <TR>
+                <TD align="center" background="http://www2.mokabyte.it/cms/templateimageproviderservlet?imageId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-bannerseparator.gif" height="70">
+              </TR>
+              <TR> 
+                <TD align="center">
+				<FORM method="POST" action="http://www2.mokabyte.it/mailform/mailform">
+                    <TABLE width="100%" border="0" cellpadding="2">
+                            <TBODY><TR> 
+                              <TD colspan="2"><H3>Invia un commento alla redazione 
+                                  su questo articolo</H3></TD>
+                            </TR>
+                            <TR> 
+                              <TD colspan="2"><P> 
+                                  <INPUT type="hidden" name="configurationId" value="default">
+                                  Mittente (facoltativo, nome e/o email): 
+                                  <INPUT name="sender" type="text" size="80">
+                                </P></TD>
+                            </TR>
+                            <TR> 
+                              <TD><P><STRONG>Come hai trovato questo articolo?</STRONG></P></TD>
+                              <TD><P>&nbsp;</P></TD>
+                            </TR>
+                            <TR> 
+                              <TD><P> 
+                                  <INPUT type="radio" name="head_level" value="Mi sono addormentato">
+                                  Mi sono addormentato</P></TD>
+                              <TD><P> 
+                                  <INPUT type="radio" name="head_level" value="interessante con il giusto taglio">
+                                  Interessante con il giusto taglio</P></TD>
+                            </TR>
+                            <TR> 
+                              <TD><P> 
+                                  <INPUT type="radio" name="head_level" value="non interessante">
+                                  Argomento non interessante </P></TD>
+                              <TD><P> 
+                                  <INPUT type="radio" name="head_level" value="molto interessante">
+                                  Molto interessante</P></TD>
+                            </TR>
+                            <TR> 
+					       <TD> <P> 
+                                  <INPUT type="radio" name="head_level" value="interessante, ma non approfondito">
+                                  Argomento interessante, ma non approfondito</P></TD>
+                              <TD><P> 
+                                  <INPUT type="radio" name="head_level" value="ha risolto i miei problemi">
+                                  Efficace, ha risolto i miei problemi</P></TD>
+                            </TR>
+                            <TR> 
+                              <TD><P> 
+                                  <INPUT type="radio" name="head_level" value="interessante">
+                                  Interessante</P></TD>
+                              <TD><P> 
+                                  <INPUT type="radio" name="head_level" value="Mi sono commosso">
+                                  Mi sono commosso</P></TD>
+                            </TR>
+                            <TR> 
+                              <TD><P>&nbsp;</P>
+                                <P><STRONG>Lascia un commento su questo articolo</STRONG></P></TD>
+                              <TD><P>&nbsp;</P></TD>
+                            </TR>
+                            <TR align="center"> 
+                              <TD colspan="2" align="left"> <TEXTAREA rows="20" cols="80" name="body"></TEXTAREA> 
+                              </TD>
+                            </TR>
+                          </TBODY></TABLE>
+                          <P>
+                            <INPUT type="hidden" name="subject" value="Feedback sull&#39;articolo: &quot;Spring Web Flow&quot;, MokaByte 121 - Settembre 2007">
+                          </P>
+                          <P align="center"> 
+                            <INPUT type="submit" value="invia"></P>
+                            <P></P>
+                        </FORM>
+				
+				</TD>
+              </TR>
+              <TR> 
+                <TD align="center" background="http://www2.mokabyte.it/cms/templateimageproviderservlet?imageId=3AL-IBO-OXU-HC6_7f000001_9783230_b2d0b159-bannerseparator.gif" height="70"> 
+				<!-- bannredown-->
+					<A href="http://www2.mokabyte.it/banner/b?config=config_file.properties&mode=2&id=2" target="_blank">
+  					   <IMG src="./MokaByte 121 - Settembre 2007 - spring_webflow_files/b(1)" vspace="0" border="0" height="60" width="468">
+				    </A>
+                </TD>
+              </TR>
+              <TR> 
+                <TD>&nbsp; </TD>
+              </TR>
+            </TBODY></TABLE></TD>
+        </TR>
+      </TBODY></TABLE></TD>
+  </TR>
+  <TR> 
+    <TD valign="top">&nbsp;</TD>
+    <TD valign="top">&nbsp;</TD>
+    <TD valign="top">&nbsp;</TD>
+  </TR>
+</TBODY></TABLE>
+
+
+</BODY></HTML>

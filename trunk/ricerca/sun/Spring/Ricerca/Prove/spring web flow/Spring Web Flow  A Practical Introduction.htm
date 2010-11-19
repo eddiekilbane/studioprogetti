@@ -1,0 +1,1193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0052)http://www.ervacon.com/products/swf/intro/index.html -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<TITLE>Spring Web Flow: A Practical Introduction</TITLE>
+
+		<LINK rel="StyleSheet" href="./Spring Web Flow  A Practical Introduction_files/style.css" type="text/css">
+		
+		<META http-equiv="Pragma" content="no-cache">
+		<META http-equiv="Cache-Control" content="max-age=0">
+		<META http-equiv="Expires" content="0">
+		
+		<SCRIPT type="text/javascript" src="./Spring Web Flow  A Practical Introduction_files/search.js"></SCRIPT>
+		
+		
+		
+
+		<META name="description" content="Spring Web Flow">
+		<META name="keywords" content="Spring,web flow,servlet,JSP,MVC">
+	
+	</HEAD><BODY>
+		<DIV style="max-width: 1024px; margin-left: auto; margin-right: auto;">
+			<DIV class="headerArea">
+				<TABLE width="100%" cellspacing="0" cellpadding="0">
+	<TBODY><TR>
+		<TD align="left">
+			<A href="http://www.ervacon.com/">
+				<IMG class="logo" src="./Spring Web Flow  A Practical Introduction_files/logo.gif" alt="Logo">
+			</A>
+		</TD>
+		<TD align="right" class="navigationBarText">
+			<FORM action="http://www.ervacon.com/search.html" style="margin-bottom: 5px">
+				<INPUT name="query" type="text" class="textField" size="20" value="Site Search" onblur="searchBlur(this)" onfocus="searchFocus(this)">
+				<INPUT type="image" src="./Spring Web Flow  A Practical Introduction_files/magnifier.png" alt="Search" style="vertical-align: middle">
+			</FORM>
+			<SPAN style="color: #CCCCCC">|</SPAN>
+			<A class="navigationBarLink" href="http://www.ervacon.com/index.html">Home</A>
+			<SPAN style="color: #CCCCCC">|</SPAN>
+			<A class="navigationBarLink" href="http://www.ervacon.com/products/index.html">Products</A>
+			<SPAN style="color: #CCCCCC">|</SPAN>
+			<A class="navigationBarLink" href="http://www.ervacon.com/svn.html">Subversion</A>
+			<SPAN style="color: #CCCCCC">|</SPAN>
+			<A class="navigationBarLink" href="http://www.ervacon.com/blogs.html">Blogs</A>
+			<SPAN style="color: #CCCCCC">|</SPAN>
+			<A class="navigationBarLink" href="http://www.ervacon.com/about.html">About</A>
+			<SPAN style="color: #CCCCCC">|</SPAN>
+			<A class="navigationBarLink" href="http://www.ervacon.com/contact.html">Contact</A>
+			<SPAN style="color: #CCCCCC">|</SPAN>
+		</TD>
+	</TR>
+</TBODY></TABLE>
+
+				<DIV style="clear: both;"></DIV>
+			</DIV>
+			
+			<DIV class="bodyArea">
+				
+					
+					
+						
+		<H1 style="text-align:center">Spring Web Flow</H1>
+		<CENTER>
+			<A href="http://www.springframework.org/webflow">
+				<IMG class="logo" src="./Spring Web Flow  A Practical Introduction_files/spring-webflow-small.png" alt="Spring Web Flow Logo" style="padding-bottom: 15px;">
+			</A>
+		</CENTER>
+		<CENTER>
+			<B>A Practical Introduction</B>
+		</CENTER>
+
+		<BLOCKQUOTE>
+			<I>
+				This article introduces
+				<A href="http://www.springframework.org/webflow">Spring Web Flow</A>,
+				a sub project of the popular Spring	Framework. Core Web Flow principles are explained
+				and illustrated. The article serves as a practical introduction to building a web
+				application	using Spring Web Flow and the Spring Framework by discussing a sample application.
+				<BR>
+				<BR>
+				The reader is assumed to have a basic understanding of JEE web applications, XML,
+				the Spring Framework and particularly the Spring Web MVC framework.
+				Check the <A href="http://www.ervacon.com/products/swf/intro/index.html#resources">resources</A> for links to background information.
+			</I>
+		</BLOCKQUOTE>
+
+		<I>02/01/2007 - By Erwin Vervaet (<A href="mailto:erwin@ervacon.com">erwin@ervacon.com</A>) - Spring Web Flow version 1.0</I>
+
+		<H2>Introduction</H2>
+
+		<P>
+			Traditionally, defining the user interface (UI) flow in a web application has been a less than intuitive process.
+			Frameworks like Struts and Spring Web MVC force you to cut the UI flow into individual controllers and views.
+			Struts, for instance, will map a request to an action. The action will then select a view and forward
+			to it. Although this is a simple and functional system, it has a major disadvantage: the overall UI flow
+			of the web application is not at all clear from looking at the action definitions in the <TT>struts-config.xml</TT> file.
+			Flexibility also suffers since actions cannot easily be reused.
+		</P>
+
+		<P>
+			The Spring Web MVC framework offers a slightly higher level of functionality: form controllers that
+			implement a predefined work flow. Two such controllers are provided out of the box: <TT>SimpleFormController</TT>
+			and <TT>AbstractWizardFormController</TT>. However, these are still hard coded examples of a more
+			general work flow concept.
+		</P>
+
+		<P>
+			This is where <I>Spring Web Flow</I> comes in, allowing you to represent the UI flow in (part of)
+			a web application in a clear and simple way. As we will see, this has several advantages:
+		</P>
+		<UL>
+			<LI>
+				The UI flow in a web application is clearly visible by looking at the corresponding
+				web flow definition (typically in an XML file).
+			</LI>
+			<LI>
+				Web Flows can be designed to be self contained. This allows you to see a part of your
+				application as a module and reuse it in multiple situations.
+			</LI>
+			<LI>
+				Web Flows can define any reasonable UI flow in a web application, always using the same
+				consistent technique. You're not forced into using specialized controllers for very particular
+				situations.
+			</LI>
+		</UL>
+
+		<P>
+			For now it suffices to say that a Web Flow is composed of a set of <I>states</I>. A state is a point
+			in the flow where something happens: for instance showing a view or executing an action. Each state has
+			one or more <I>transitions</I> that are used to move to another state. A transition is triggered by an
+			<I>event</I>. To give you an impression of what a Web Flow might look like, the following piece
+			of XML defines a Web Flow roughly equivalent to the work flow implemented by the <TT>SimpleFormController</TT>.
+			A more detailed explanation of Web Flow principles will follow later on in the article.
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+			    http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd"&gt;
+
+	&lt;start-state idref="showForm" /&gt;
+	
+	&lt;view-state id="showForm" view="form"&gt;
+		&lt;render-actions&gt;
+			&lt;action bean="formAction" method="setupForm"/&gt;
+		&lt;/render-actions&gt;
+		&lt;transition on="submit" to="doSubmit"&gt;
+			&lt;action bean="formAction" method="bindAndValidate"/&gt;
+		&lt;/transition&gt;
+	&lt;/view-state&gt;
+	
+	&lt;action-state id="doSubmit"&gt;
+		&lt;action bean="formAction" method="doSubmit"/&gt;
+		&lt;transition on="success" to="showSuccess"/&gt;
+		&lt;transition on="error" to="showForm"/&gt;
+	&lt;/action-state&gt;
+	
+	&lt;end-state id="showSuccess" view="success"/&gt;
+&lt;/flow&gt;</PRE>
+
+		<P>
+			Readers that are familiar with <I>business process management</I> (BPM) will realize that a Web Flow is
+			a specialized case of a general purpose work flow, so it could theoretically be implemented using a general
+			purpose BPM system. Since simplicity is an important design
+			goal for Spring Web Flow, it does not use such a general purpose work flow engine. Instead
+			it uses a simple Web Flow implementation targeting the definition of UI flows in a web application.
+		</P>
+
+		<P>
+			The source code for the sample application discussed in the remainder of this article (the so called
+			<I>Phonebook</I>) is included in the Spring Web Flow 1.0.x distribution. It might be a good idea to
+			<A href="http://sourceforge.net/project/showfiles.php?group_id=73357&package_id=148517">download</A>
+			this if you haven't already done so. That way you can study the sample while reading through the article.
+			You can also try the Phonebook sample application online at
+			<A href="http://spring.ervacon.com/swf-phonebook/" target="_new">http://spring.ervacon.com/swf-phonebook/</A>.
+		</P>
+
+		<H2>Sample Application</H2>
+
+		<P>
+			The simple application we will use to illustrate the functionality offered by Spring Web Flow
+			is a <I>phonebook</I> application. This is an application typically found on company
+			intranets and most of you will probably be familiar with its concepts. Basically it allows you to locate
+			an employee of the company using some search criteria. Once you have found the right person,
+			you can consult detailed information such as phone number, desk location, manager,
+			colleagues and so on. Figure 1 sketches the basic requirements and UI flow of this phonebook
+			application.
+		</P>
+
+		<CENTER>
+			<IMG src="./Spring Web Flow  A Practical Introduction_files/phonebook-app-sketch.jpg" align="middle" alt="Phonebook Application Sketch"><BR>
+			<B>Figure 1. Overview of the sample application</B>
+		</CENTER>
+
+		<P>
+			As the sketch illustrates, the application really consists of two modules: a <I>search module</I>
+			that allows us to locate a particular person, and a <I>detail module</I> that displays details for
+			a particular person. The search module will use the detail module to display details for one
+			of the people in the search result. The sketch also shows that we can directly access the details
+			for a person's colleague from the detail page. This means that the detail module will also
+			recursively use the detail module to show colleague details.<BR>
+			Later on in the article, we will see that we can define each module in a separate Web Flow.
+			This means we will end up with 2 flows: a search flow and a detail flow.
+		</P>
+
+		<P>
+			Since our focus in this article is the implementation of the web interface of the application,
+			we will just provide a basic business layer containing hard-coded dummy data. The domain objects
+			are contained in the package <TT>org.springframework.webflow.samples.phonebook</TT>. We
+			have 4 main classes:
+		</P>
+		<UL>
+			<LI>
+				<TT>Person</TT> - A simple JavaBean containing person details (first name, last name,
+				phone number, ...). A person object is uniquely identified by an <TT>id</TT> identity field.
+				A person object also maintains a list of references
+				to its colleagues, which are also <TT>Person</TT> instances.
+			</LI>
+			<LI>
+				<TT>SearchCriteria</TT> - A query object representing a search in the phonebook. We
+				can search using the first name, the last name or both.
+			</LI>
+			<LI>
+				<TT>SearchCriteriaValidator</TT> - A validator to validate a <TT>SearchCriteria</TT> object.
+			</LI>
+			<LI>
+				<TT>PhoneBook</TT> - Our main business facade interface. It defines the business methods that we need:
+				<UL>
+					<LI>
+						<TT>public List&lt;Person&gt; search(SearchCriteria criteria);</TT>
+					</LI>
+					<LI>
+						<TT>public Person getPerson(Long id);</TT>
+					</LI>
+				</UL>
+				The <TT>StubPhonebook</TT> implementation of the <TT>Phonebook</TT> interface just hard-codes
+				some dummy data.
+			</LI>
+		</UL>
+
+		<P>
+			With the business functionality out of the way, we are ready to go and develop the web interface
+			for our phonebook application with Spring Web Flow.
+		</P>
+
+		<H2>Spring Web MVC Setup</H2>
+
+		<P>
+			Before we can start using the Web Flow controller, we need to configure a basic Spring
+			web application. The first thing we must do is make sure we have the necessary jar files
+			in our <TT>/WEB-INF/lib</TT> directory. A Spring web application using Spring Web Flow
+			typically requires the following jars in the classpath:
+			<TT>spring.jar</TT> (the Spring Framework),
+			<TT>commons-logging.jar</TT> (Apache commons logging),
+			<TT>spring-binding</TT> (Spring binding framework),
+			<TT>spring-webflow</TT> (Spring Web Flow) and
+			<TT>ognl.jar</TT> (OGNL expression language).
+		</P>
+
+		<P>
+			Since this will be a normal JEE web application, we'll need a <TT>web.xml</TT>
+			deployment descriptor in the <TT>/WEB-INF</TT> directory that describes the elements used
+			in the application. The deployment descriptor for the sample application is shown below.
+			It defines the following things:
+		</P>
+		<UL>
+			<LI>
+				The <TT>ContextLoaderListener</TT>, which initializes the Spring Framework when
+				our web application is loaded by the servlet engine (e.g. Tomcat). The root application
+				context will be loaded from the <TT>services-config.xml</TT> classpath resource.
+			</LI>
+			<LI>
+				A Spring dispatcher servlet named <I>phonebook</I>, loading its configuration from two
+				application context files:
+				<TT>phonebook-servlet-config.xml</TT> and <TT>phonebook-webflow-config.xml</TT>.
+				This servlet is also configured	to handle all requests matching the URL pattern <TT>*.htm</TT>,
+				e.g. all requests for the sample application.
+			</LI>
+			<LI>
+				The welcome page of the application will be <TT>index.jsp</TT>.
+			</LI>
+		</UL>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4"&gt;
+	
+	&lt;context-param&gt;
+		&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+		&lt;param-value&gt;
+			classpath:org/springframework/webflow/samples/phonebook/stub/services-config.xml
+		&lt;/param-value&gt;
+	&lt;/context-param&gt;
+	
+	&lt;listener&gt;
+		&lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+	&lt;/listener&gt;
+
+	&lt;servlet&gt;
+		&lt;servlet-name&gt;phonebook&lt;/servlet-name&gt;
+		&lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+		&lt;init-param&gt;
+			&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+			&lt;param-value&gt;
+				/WEB-INF/phonebook-servlet-config.xml
+				/WEB-INF/phonebook-webflow-config.xml
+			&lt;/param-value&gt;
+		&lt;/init-param&gt;
+	&lt;/servlet&gt;
+	
+	&lt;servlet-mapping&gt;
+		&lt;servlet-name&gt;phonebook&lt;/servlet-name&gt;
+		&lt;url-pattern&gt;*.htm&lt;/url-pattern&gt;
+	&lt;/servlet-mapping&gt;
+
+	&lt;welcome-file-list&gt;
+		&lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;
+	&lt;/welcome-file-list&gt;
+&lt;/web-app&gt;</PRE>
+
+		<P>
+			The root web application context, defined in <TT>services-config.xml</TT> configures
+			our business facade: the <TT>phonebook</TT> bean. By seperating the definition of these
+			business services from web related artifacts, we're following a common best practice.
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"&gt;
+
+	&lt;bean id="phonebook" class="org.springframework.webflow.samples.phonebook.stub.StubPhonebook"/&gt;
+&lt;/beans&gt;</PRE>
+
+		<P>
+			Finally we need to properly configure the dispatcher servlet that we defined in <TT>web.xml</TT>
+			above. It reads its configuration from two application context files:
+			<TT>phonebook-servlet-config.xml</TT> contains classic Spring Web MVC artifacts and
+			<TT>phonebook-webflow-config.xml</TT> contains Spring Web Flow specific elements. Alternatively,
+			we could also have combined all beans into a single web application context.<BR>
+			For Spring Web MVC, the only thing we really need to configure is a	<I>view resolver</I>.
+			This object is responsible for translating symbolical view names (e.g.
+			"searchCriteria") to actual view implementations (e.g. a JSP file <TT>/WEB-INF/jsp/searchCriteria.jsp</TT>). This
+			is done using the <TT>InternalResourceViewResolver</TT> as shown below. So in the case of our
+			sample application, the pages will be located in a directory called <TT>/WEB-INF/jsp</TT>.
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"&gt;
+
+	&lt;bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;
+		&lt;property name="prefix" value="/WEB-INF/jsp/"/&gt;
+		&lt;property name="suffix" value=".jsp"/&gt;
+	&lt;/bean&gt;
+&lt;/beans&gt;</PRE>
+
+		<P>
+			We leave all other dispatcher servlet configuration at its default values. This implies
+			we will be using a simple <TT>BeanNameUrlHandlerMapping</TT> to locate the controller
+			that will handle a request. Consult the Spring Framework reference documentation for further
+			details on how to configure the dispatcher servlet (see <A href="http://www.ervacon.com/products/swf/intro/index.html#resources">resources</A>).
+		</P>
+
+		<H2>The Web Flow Controller</H2>
+
+		<P>
+			Let's now investigate how Spring Web Flow is integrated into a Spring Web MVC application. The component that
+			does this integration is a specialized Spring Web MVC controller:
+			<TT>org.springframework.webflow.executor.mvc.FlowController</TT>.
+			This controller will handle all things Web Flow on behalf of the application. As any Spring Web MVC controller,
+			it needs to be defined as a normal JavaBean in the application context of the dispatcher servlet. In
+			our case we need to include the following bean definition in the <TT>phonebook-servlet-config.xml</TT> file.
+		</P>
+
+		<PRE class="codeFragment">&lt;bean name="/phonebook.htm" class="org.springframework.webflow.executor.mvc.FlowController"&gt;
+	&lt;property name="flowExecutor" ref="flowExecutor"/&gt;
+&lt;/bean&gt;</PRE>
+
+		<P>
+			As you can see, the Web Flow controller references a flow executor. All flow execution management
+			responsabilities will be delegated to that flow executor. The flow executor is defined
+			in the <TT>phonebook-webflow-config.xml</TT> application context.
+		</P>
+		
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:flow="http://www.springframework.org/schema/webflow-config"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/webflow-config
+           http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd"&gt;
+
+	&lt;flow:executor id="flowExecutor" registry-ref="flowRegistry"/&gt;
+	
+	&lt;flow:registry id="flowRegistry"&gt;
+		&lt;flow:location path="/WEB-INF/flows/**-flow.xml"/&gt;
+	&lt;/flow:registry&gt;
+&lt;/beans&gt;</PRE>
+			
+			
+		<P>
+			Using the convenient Spring 2 Web Flow configuration schema, we setup a flow executor and give it
+			a reference to a flow registry. A flow registry loads flow definitions from XML files and makes
+			them available for execution using the flow executor. In our sample application, the flow registry
+			will load flows from XML files found in the <TT>/WEB-INF/flows/</TT> directory that have the
+			<TT>-flow.xml</TT> suffix. The registry will automatically assign an identifier to each loaded flow based
+			on the file name. The search flow defined in <TT>search-flow.xml</TT> will be assigned the id
+			<TT>search-flow</TT>. The detail flow defined in <TT>detail-flow.xml</TT> will receive the id
+			<TT>detail-flow</TT>.
+		</P>
+
+		<P>
+			Remember that we are using the <TT>BeanNameUrlHandlerMapping</TT>, locating handlers
+			for a request by obtaining a bean name from the request. If we assume the sample application will be
+			available under the context root <TT>/swf-phonebook</TT>, a request of the form
+			<TT>http://server/swf-phonebook/phonebook.htm</TT> will be mapped to the Web Flow controller
+			defined above.
+		</P>
+
+		<P>
+			When the Web Flow controller is invoked by the dispatcher servlet to handle a request, it examines
+			the request parameters to determine what to do. The following request parameters are recognized:
+		</P>
+
+		<TABLE border="1" cellpadding="4">
+			<TBODY><TR>
+				<TD><B>Name</B></TD>
+				<TD><B>Description</B></TD>
+			</TR>
+			<TR>
+				<TD valign="top">_flowId</TD>
+				<TD>
+					The value of this parameter provides the id of a flow for which a new execution should
+					be launched. Possible values in our sample application are <TT>search-flow</TT> and
+					<TT>detail-flow</TT>.
+				</TD>
+			</TR>
+			<TR>
+				<TD valign="top">_flowExecutionKey</TD>
+				<TD>
+					The unique id of an ongoing flow execution. The flow executor will use this to resume
+					an ongoing flow execution.
+				</TD>
+			</TR>
+			<TR>
+				<TD valign="top">_eventId</TD>
+				<TD>
+					The event that will be triggered in the current state of the flow. It is required when accessing
+					an ongoing flow execution and not used when launching a new flow execution.
+				</TD>
+			</TR>
+		</TBODY></TABLE>
+
+		<P>
+			Using the values of the request parameters specified above, the flow controller implements the
+			following logic:
+		</P>
+		
+		<OL>
+			<LI>
+				When a request comes in, the "_flowExecutionKey" parameter is retrieved from the request.
+				<UL>
+					<LI>
+						When present, the flow controller will restore the ongoing flow execution and resume it.
+					</LI>
+					<LI>
+						If it is not present, the flow controller launches a new flow execution for the flow
+						identified using the "_flowId" parameter. The new execution will be assigned a unique key.
+					</LI>
+				</UL>
+			</LI>
+			<LI>
+				For an existing flow execution, the value of the "_eventId" request parameter will be used to
+				trigger a transition defined in the current state of the flow. If no event id is specified,
+				the flow execution will just be refreshed.
+			</LI>
+			<LI>
+				The outcome of the steps above is a response instruction containing a model and a view to render.
+				The flow execution key is available in the model using the name "flowExecutionKey". This key can be used by
+				the view to reference back to the ongoing flow execution.
+			</LI>
+		</OL>
+
+		<P>
+			We now have enough information to add a link to our search flow in the <TT>index.jsp</TT> welcome page. Since
+			we want to launch a new flow, we only need to provide the "_flowId" request paramter in the request
+			to the Web Flow controller. The following piece of HTML does exactly that:
+		</P>
+
+		<PRE class="codeFragment">&lt;a href="phonebook.htm?_flowId=search-flow"&gt;Phonebook&lt;/a&gt;</PRE>
+
+		<P>
+			Since the URL of the welcome page will be of the form <TT>http://server/swf-phonebook/</TT>, this relative URL
+			will resolve to <TT>http://server/swf-phonebook/phonebook.htm?_flowId=search-flow</TT>. As we explained before, this will invoke
+			the Web Flow controller, launching a new execution of the search flow.
+		</P>
+
+		<H2>Web Flow Principles</H2>
+
+		<P>
+			With all the infrastructure in place, we are now ready to start looking at Web Flows and what they can do for you.
+			Technically, a Web Flow is nothing more than an XML file representation of the UI flow
+			of a web application. This XML format is defined in an XML schema. To properly
+			indicate that an XML file contains a Web Flow definition, it should contain the following
+			schema reference:
+		</P>
+
+		<PRE class="codeFragment">&lt;flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+			    http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd"&gt;</PRE>
+
+		<P>
+			The Web Flow schema defines that a flow is composed of a set of <I>states</I>. Each state will have a unique
+			id in the flow. The following state types are supported.
+		</P>
+		<UL>
+			<LI>
+				<TT>start-state</TT> - Each flow must have a single start state. This is a marker state
+				defining the id of another state in the flow where flow execution will start.
+			</LI>
+			<LI>
+				<TT>action-state</TT> - A flow can have multiple action states, defining
+				places in the Web Flow where actions take place. An action normally involves such things
+				as processing user input, interacting with the business layer or preparing model data for
+				a view.
+			</LI>
+			<LI>
+				<TT>view-state</TT> - View states define points in the flow where a view (page) will
+				be shown. A Web Flow can have multiple view states.
+			</LI>
+			<LI>
+				<TT>decision-state</TT> - Decision states take routing decisions, selecting possible paths
+				through a flow.
+			</LI>
+			<LI>
+				<TT>subflow-state</TT> - This state type launches another Web Flow as a subflow.
+				It allows you to reuse a flow from inside another flow. Attribute mappers are used
+				to exchange data between a flow and its subflows.
+			</LI>
+			<LI>
+				<TT>end-state</TT> - A state signaling the end of flow execution. Note that a Web Flow
+				can have multiple end states, each representing another final situation (success, error, ...).
+				An end state can optionally have an associated view that will be
+				rendered when the end state is reached if there is no other view to render (e.g. in a
+				parent flow).
+			</LI>
+		</UL>
+
+		<P>
+			As explained in the introduction, each state in a Web Flow (except for the start and end states)
+			defines a number of <I>transitions</I> to move from one state to another.
+			A transition is triggered by an <I>event</I> signaled inside a state. The way a state
+			signals events depends on the state type. For a view state, the event is based on user input submitted
+			to the controller using the "_eventId" request parameter. In case of an action
+			state, the executed actions signal events. Subflow-states signal events based on the outcome of
+			the subflow they spawned.
+		</P>
+
+		<P>
+			To step away from theory, lets try to convert the UI flow of the sample
+			application, as depicted in Figure 1, into a Web Flow. As we mentioned before, our phonebook application
+			really consists of two modules: a search module and a detail module. Starting with just the view
+			states for the search module, we end up with the following flow definition.
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd"&gt;
+
+	&lt;start-state idref="enterCriteria"/&gt;
+
+	&lt;view-state id="enterCriteria" view="searchCriteria"&gt;
+		&lt;transition on="search" to="displayResults"/&gt;
+	&lt;/view-state&gt;
+
+	&lt;view-state id="displayResults" view="searchResults"&gt;
+		&lt;transition on="newSearch" to="enterCriteria"/&gt;
+		&lt;transition on="select" to="...detail module..."/&gt;
+	&lt;/view-state&gt;
+&lt;/flow&gt;</PRE>
+
+		<P>
+			As you can see, this closely follows our initial UI flow design. Note that this flow does
+			not define an end state. This is typical for a Web Flow since there are many web applications that
+			never really end. The flow for the detail module is very similar (see below). In this case we do have
+			an end state since we need to end this flow and return to the calling flow when going <I>back</I>.
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd"&gt;
+
+	&lt;start-state idref="displayDetails" /&gt;
+
+	&lt;view-state id="displayDetails" view="details"&gt;
+		&lt;transition on="back" to="finish" /&gt;
+		&lt;transition on="select" to="...detail module..." /&gt;
+	&lt;/view-state&gt;
+
+	&lt;end-state id="finish" /&gt;
+&lt;/flow&gt;</PRE>
+
+		<P>
+			These Web Flow definitions reference three views (using the <TT>view</TT> attribute):
+			"searchCriteria", "searchResults" and "details". Given the view resolver definition that we're using
+			(discussed earlier), we end up with three corresponding JSP pages: <TT>/WEB-INF/jsp/searchCriteria.jsp</TT>,
+			<TT>/WEB-INF/jsp/searchResults.jsp</TT> and <TT>/WEB-INF/jsp/details.jsp</TT>. Let's now look at
+			the implementation of these JSPs.
+		</P>
+
+		<H2>Views</H2>
+
+		<P>
+			Implementing views used in a Spring Web Flow based application is not that different from view
+			implementation in any other Spring Web MVC application. The only point of interest is linking back
+			to the flow controller and signaling an event. The sample application uses JSP 2.0 as view technology
+			with embedded JSP EL expressions. The Spring 2 bind and form tag libraries are also used.
+		</P>
+
+		<P>
+			Let's start by looking at the "searchCriteria" view, implemented in <TT>/WEB-INF/jsp/searchCriteria.jsp</TT>.
+			This page shows a simple input form submitting phonebook search criteria to the server.
+		</P>
+
+		<PRE class="codeFragment"><B>&lt;form:form commandName="searchCriteria" method="post"&gt;</B>
+&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td&gt;Search Criteria&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td colspan="2"&gt;
+			&lt;hr/&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;spring:hasBindErrors name="searchCriteria"&gt;
+	&lt;tr&gt;
+		&lt;td colspan="2"&gt;
+			&lt;div class="error"&gt;Please provide valid search criteria&lt;/div&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/spring:hasBindErrors&gt;
+	&lt;tr&gt;
+		&lt;td&gt;First Name&lt;/td&gt;
+		&lt;td&gt;
+			&lt;form:input path="firstName" /&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt;Last Name&lt;/td&gt;
+		&lt;td&gt;
+			&lt;form:input path="lastName" /&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td colspan="2"&gt;
+			&lt;hr/&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td colspan="2" class="buttonBar"&gt;
+			<B>&lt;input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}"/&gt;</B>
+			<B>&lt;input type="submit" class="button" name="_eventId_search" value="Search"/&gt;</B>
+		&lt;/td&gt;
+	&lt;/tr&gt;		
+&lt;/table&gt;
+&lt;/form:form&gt;</PRE>
+
+		<P>
+			First of all, notice that we do not specify an "action" on the form. This page is served by the
+			flow controller so the Spring Web MVC form tag library will automatically post the form back to
+			the flow controller. In other words, the form submission
+			will be handled by our Web Flow controller. The next thing to notice is the two special inputs
+			that are contained in the form:
+		</P>
+		<UL>
+			<LI>
+				The hidden field "_flowExecutionKey" is filled with the flow execution key of the current flow
+				execution. As explained above, this key is exposed to the view using the name "flowExecutionKey".
+			</LI>
+			<LI>
+				The "_eventId" is encoded in the name of a button field. Alternatively we could have used a
+				hidden field with as name "_eventId" and as value "search".
+			</LI>
+		</UL>
+		<P>
+			When the form is submitted, the "search" event will be signaled in the current state of the flow.
+			The current state is the "enterCriteria" view state, so in response to the "search" event, the flow will transition
+			to the "displayResults" view state and render the "searchResults" view.
+		</P>
+
+		<P>
+			The "searchResults" view implemented in <TT>/WEB-INF/jsp/searchResults.jsp</TT> and the "details" view implemented
+			in <TT>/WEB-INF/jsp/details.jsp</TT> are very similar. Here is an example from the "details" view that
+			uses an anchor to submit the "select" event in the <TT>detail-flow</TT>. Note that the anchor also submits
+			an "id" request parameter allong with the "select" event.
+		</P>
+
+		<PRE class="codeFragment">&lt;a href="phonebook.htm?_flowExecutionKey=${flowExecutionKey}&amp;_eventId=select&amp;id=${colleague.id}"&gt;
+	${colleague.firstName} ${colleague.lastName}&lt;br/&gt;
+&lt;/a&gt;</PRE>
+
+		<P>
+			Of course the Web Flows discussed so far don't really do anything. They just navigate between pages.
+			To do some actual processing in a Web Flow, we need actions. We'll discuss this next.
+		</P>
+
+		<H2>Actions</H2>
+
+		<P>
+			Actions can be executed at several different locations in a Web Flow: as part of a transition, in a
+			seperate action state, as render actions in a view state and so on.
+			Actions are pieces of code that do useful work in the flow like processing user input, triggering
+			business functionality or preparing model data for a view.
+			When their work is done, actions signal an event allowing the Web Flow to continue. An
+			action is just a simple Java class implementing the
+			<TT>org.springframework.webflow.execution.Action</TT> interface.
+		</P>
+
+		<PRE class="codeFragment">public interface Action {
+    public Event execute(RequestContext context) throws Exception;
+}</PRE>
+
+		<P>
+			Let's examine this method signature. First, the <TT>RequestContext</TT> argument provides the action code
+			access to information about the ongoing flow execution. Among other things, the action can get access to
+			the different scopes defined by Spring Web Flow through the request context. The union of all
+			data available in the different scopes will be exposed to a view when it is rendered. Spring Web Flow
+			defines the following scopes:
+		</P>
+		<UL>
+			<LI>
+				<B>request scope</B> - Local to a single request into the Web Flow system.
+			</LI>
+			<LI>
+				<B>flash scope</B> - Scoped at the level of a user event signaled in an ongoing flow execution.
+				Survives any refreshes of that flow execution.
+			</LI>
+			<LI>
+				<B>flow scope</B> - Persists for the life of a flow session. The states in a flow can share
+				information using flow scope. A parent flow has a different flow session than a subflow.
+			</LI>
+			<LI>
+				<B>conversation scope</B> - Available to all flow sessions in a conversation.
+			</LI>
+		</UL>
+		
+		<P>
+			Finally, the <TT>execute</TT> method returns the event that will be signaled.
+		</P>
+
+		<P>
+			Spring Web Flow provides an action with HTML form handling functionality out-of-the-box:
+			<TT>org.springframework.webflow.action.FormAction</TT>. This action
+			will bind request parameters to a form backing object, validate the form object and put it in a configured
+			flow scope. It's functionality is very similar to that offered by the Spring <TT>BaseCommandController</TT>.
+			Our sample application uses this action to capture the search criteria in a <TT>SearchCriteria</TT> object.
+			Let's add form handling functionality to our search flow:
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd"&gt;
+
+	&lt;start-state idref="enterCriteria"/&gt;
+
+	&lt;view-state id="enterCriteria" view="searchCriteria"&gt;
+		<B>&lt;render-actions&gt;
+			&lt;action bean="formAction" method="setupForm"/&gt;
+		&lt;/render-actions&gt;</B>
+		&lt;transition on="search" to="displayResults"&gt;
+			<B>&lt;action bean="formAction" method="bindAndValidate"/&gt;</B>
+		&lt;/transition&gt;
+	&lt;/view-state&gt;
+
+	&lt;view-state id="displayResults" view="searchResults"&gt;
+		&lt;transition on="newSearch" to="enterCriteria"/&gt;
+		&lt;transition on="select" to="...detail module..."/&gt;
+	&lt;/view-state&gt;
+	
+	<B>&lt;import resource="search-flow-beans.xml"/&gt;</B>
+&lt;/flow&gt;</PRE>
+
+		<P>
+			As you can see, we've added a call to the "setupForm" method of the form action as a render action
+			of the "enterCriteria" view state. Render actions are executed by a view state before they
+			render the view. In this case we use the "setupForm" method to prepare the Spring form handling
+			machinery to properly display the form.<BR>
+			The next thing to notice is that we've added a call to the "bindAndValidate" method of the form action
+			in the "search" transition. When the "search" transition is triggered, it will execute this
+			"bindAndValidate" method to bind incoming request parameters to the form backing object and validate
+			them. If all is well, the flow will transition to the "displayResults" state. If binding or validation
+			fails, the transition will <I>roll back</I> and re-enter the "enterCriteria" state.
+		</P>
+
+		<P>
+			The action definitions shown above reference a bean named "formAction". This bean can be defined in a
+			Spring application context associated with the flow: <TT>/WEB-INF/flows/search-flow-beans.xml</TT>, like so:
+		</P>
+
+		<PRE class="codeFragment">&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd"&gt;
+
+	&lt;bean id="formAction" class="org.springframework.webflow.action.FormAction"&gt;
+		&lt;property name="formObjectClass" value="org.springframework.webflow.samples.phonebook.SearchCriteria"/&gt;
+		&lt;property name="validator"&gt;
+			&lt;bean class="org.springframework.webflow.samples.phonebook.SearchCriteriaValidator"/&gt;
+		&lt;/property&gt;
+	&lt;/bean&gt;
+&lt;/beans&gt;</PRE>
+
+		<P>
+			We tell the form action to use the <TT>SearchCriteria</TT> class as form backing object. Our custom
+			<TT>SearchCriteriaValidator</TT> will ensure that the submitted search criteria are not empty. By
+			default the form action will store the form backing object in flow scope and will assign it a name
+			based on the class name: "searchCriteria" in this case.
+		</P>
+		
+		<P>
+			Now that we've filled our <TT>SearchCriteria</TT> object with user submitted values, we need to pass
+			it to our <TT>Phonebook</TT> service to actually execute the search. We could write a custom action
+			to do this, but Spring Web Flow allows us to directly call methods on any Spring managed bean from
+			inside a Web Flow. Let's do that and add the necessary definitions to our search flow:
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd"&gt;
+
+	&lt;start-state idref="enterCriteria"/&gt;
+
+	&lt;view-state id="enterCriteria" view="searchCriteria"&gt;
+		&lt;render-actions&gt;
+			&lt;action bean="formAction" method="setupForm"/&gt;
+		&lt;/render-actions&gt;
+		&lt;transition on="search" to="displayResults"&gt;
+			&lt;action bean="formAction" method="bindAndValidate"/&gt;
+		&lt;/transition&gt;
+	&lt;/view-state&gt;
+
+	&lt;view-state id="displayResults" view="searchResults"&gt;
+		<B>&lt;render-actions&gt;
+			&lt;bean-action bean="phonebook" method="search"&gt;
+				&lt;method-arguments&gt;
+					&lt;argument expression="flowScope.searchCriteria"/&gt;			
+				&lt;/method-arguments&gt;
+				&lt;method-result name="results"/&gt;
+			&lt;/bean-action&gt;
+		&lt;/render-actions&gt;</B>
+		&lt;transition on="newSearch" to="enterCriteria"/&gt;
+		&lt;transition on="select" to="...detail module..."/&gt;
+	&lt;/view-state&gt;
+	
+	&lt;import resource="search-flow-beans.xml"/&gt;
+&lt;/flow&gt;</PRE>
+
+		<P>
+			By adding a call to the "search" method on the "phonebook" bean (defined earlier) to the render
+			actions of the "displayResults" view state, the search will be executed each time the "searchResults"
+			view needs to be rendered. We pass the "searchCriteria" object found in flow scope as an
+			argument to the "search" method. It was the form action that put the "searchCriteria" object into flow
+			scope during the "bindAndValidate" action. The search results are put into request scope (the default)
+			under the name "results". The "searchResults" view will have access to this result list.
+		</P>
+
+		<P>
+			Similar definitions can be found in the detail flow. It calls the "getPerson" method on the "phonebook"
+			bean to load the details of a selected person.
+		</P>
+
+		<H2>Subflows and Attribute Mappers</H2>
+
+		<P>
+			Let's now look at the subflow state. This state type allows a Web Flow to
+			use another	flow as a <I>subflow</I>. While the subflow is active, execution of the parent flow session
+			is suspended and the subflow handles all requests. When the subflow reaches an end state, execution
+			continues in the parent flow. The event signaled to continue the parent flow is the id of the end state that was
+			reached in the subflow.
+		</P>
+
+		<P>
+			As explained before, our sample application uses 2 modules: a search module and a detail module, each
+			defined in a separate Web Flow. It should now be clear that the search flow will use the detail flow as a subflow
+			to show person details. Since we can directly access a person's colleague's details from the detail flow, the
+			detail flow will also use itself as a subflow! What we have really done now is package the detail flow as a
+			reusable web application module! It can easily be reused in different situations: starting from the search flow,
+			from inside the detail flow, or even as a stand-alone flow if that would be useful. This is a very powerful functionality
+			offered by the Spring Web Flow system.
+		</P>
+
+		<P>
+			Let's now look at the complete search flow definition to see how it invokes the detail flow as a subflow.
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd"&gt;
+
+	&lt;start-state idref="enterCriteria"/&gt;
+
+	&lt;view-state id="enterCriteria" view="searchCriteria"&gt;
+		&lt;render-actions&gt;
+			&lt;action bean="formAction" method="setupForm"/&gt;
+		&lt;/render-actions&gt;
+		&lt;transition on="search" to="displayResults"&gt;
+			&lt;action bean="formAction" method="bindAndValidate"/&gt;
+		&lt;/transition&gt;
+	&lt;/view-state&gt;
+
+	&lt;view-state id="displayResults" view="searchResults"&gt;
+		&lt;render-actions&gt;
+			&lt;bean-action bean="phonebook" method="search"&gt;
+				&lt;method-arguments&gt;
+					&lt;argument expression="flowScope.searchCriteria"/&gt;			
+				&lt;/method-arguments&gt;
+				&lt;method-result name="results"/&gt;
+			&lt;/bean-action&gt;
+		&lt;/render-actions&gt;
+		&lt;transition on="newSearch" to="enterCriteria"/&gt;
+		&lt;transition on="select" to="<B>browseDetails</B>"/&gt;
+	&lt;/view-state&gt;
+
+	<B>&lt;subflow-state id="browseDetails" flow="detail-flow"&gt;
+		&lt;attribute-mapper&gt;
+			&lt;input-mapper&gt;
+				&lt;mapping source="requestParameters.id" target="id" from="string" to="long"/&gt;
+			&lt;/input-mapper&gt;
+		&lt;/attribute-mapper&gt;
+		&lt;transition on="finish" to="displayResults"/&gt;
+	&lt;/subflow-state&gt;</B>
+
+	&lt;import resource="search-flow-beans.xml"/&gt;
+&lt;/flow&gt;</PRE>
+
+		<P>
+			When the "select" event is triggered in the "displayResults" view state, the flow transitions to the
+			"browseDetails" subflow state, which will launch the <TT>detail-flow</TT> as a subflow to
+			show person details. The detail flow defines a "finish" end state, so the subflow state in the
+			parent flow has a corresponding transition taking the flow back to the "displayResults" view state.
+			Here is the complete definition of the detail flow:
+		</P>
+
+		<PRE class="codeFragment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd"&gt;
+
+	<B>&lt;input-mapper&gt;
+		&lt;input-attribute name="id"/&gt;
+	&lt;/input-mapper&gt;</B>
+
+	&lt;start-state idref="displayDetails" /&gt;
+
+	&lt;view-state id="displayDetails" view="details"&gt;
+		&lt;render-actions&gt;
+			&lt;bean-action bean="phonebook" method="getPerson"&gt;
+				&lt;method-arguments&gt;
+					&lt;argument expression="flowScope.id" /&gt;
+				&lt;/method-arguments&gt;
+				&lt;method-result name="person" /&gt;
+			&lt;/bean-action&gt;
+		&lt;/render-actions&gt;
+		&lt;transition on="back" to="finish" /&gt;
+		&lt;transition on="select" to="browseColleagueDetails" /&gt;
+	&lt;/view-state&gt;
+
+	&lt;subflow-state id="browseColleagueDetails" flow="detail-flow"&gt;
+		&lt;attribute-mapper&gt;
+			&lt;input-mapper&gt;
+				&lt;mapping source="requestParameters.id" target="id" from="string" to="long" /&gt;
+			&lt;/input-mapper&gt;
+		&lt;/attribute-mapper&gt;
+		&lt;transition on="finish" to="displayDetails" /&gt;
+	&lt;/subflow-state&gt;
+
+	&lt;end-state id="finish" /&gt;
+&lt;/flow&gt;</PRE>
+
+		<P>
+			We are now left with one remaining unanswered question: how will the detail flow
+			know which person details to show? Or in other words: how does the parent flow pass this kind of information
+			to the subflow? The answer is an attribute mapper. Attribute mappers map model data from a parent flow to
+			a subflow and back again.
+		</P>
+
+		<P>
+			Mapping data <I>to</I> the subflow happens before the subflow session is started. Mapping data <I>from</I> the subflow
+			back to the parent flow is done when the subflow completes and the parent flow session resumes.
+			A model mapper is optional in a subflow state. If no mapper is specified, no mapping will be done.
+			Input and output mappers effectively allow you to define an input-output contract for a Web Flow.
+			Our search flow uses an attribute mapper to map the "id" request parameter to an "id" input attribute
+			for the subflow. The String request parameter will also be converted to a long during the mapping process.
+		</P>
+		
+		<P>
+			The detail flow then captures this "id" input attribute and places it in flow scope (the default in this
+			case). The "id" value in flow scope is passed on to the "getPerson" method of our <TT>Phonebook</TT> service
+			later on when the "displayDetails" view state renders its view.
+		</P>
+
+		<H2>Testing the Application</H2>
+
+		<P>
+			Let's now put our sample application to the test to see what we have created. Follow the instructions
+			included in the Spring Web Flow distribution to build the Phonebook WAR file and deploy it to the
+			servlet engine of your choice.
+		</P>
+
+		<P>
+			Once your server has been started, open the URL <TT>http://localhost:8080/swf-phonebook/</TT>
+			with your browser. You can also just use the publicly available Phonebook sample that can be found at
+			<A href="http://spring.ervacon.com/swf-phonebook/" target="_new">http://spring.ervacon.com/swf-phonebook/</A>.
+			Accessing this URL will display the welcome page of the application: <TT>index.jsp</TT>.
+			This page simply contains a link to the phonebook sample application.
+			Click this link and you will end up on the phonebook search criteria page.
+		</P>
+
+		<CENTER>
+			<IMG src="./Spring Web Flow  A Practical Introduction_files/criteria-page.png" align="middle" alt="Criteria Page"><BR>
+			<B>Figure 2. The search criteria page</B>
+		</CENTER>
+
+		<P>
+			Leaving both fields empty will be refused by the <TT>SearchCriteriaValidator</TT> that we
+			defined: a validation error message will appear at the top of the search criteria page.
+			Entering some valid criteria will trigger a search and displays the results page.
+		</P>
+
+		<CENTER>
+			<IMG src="./Spring Web Flow  A Practical Introduction_files/results-page.png" align="middle" alt="Results Page"><BR>
+			<B>Figure 3. The search results page</B>
+		</CENTER>
+
+		<P>
+			From this page we can go back to the criteria page to start a new search or consult person details
+			for one of the people we found. Click the user id link to get details for a particular person.
+			The detail subflow will be launched, using our <TT>Phonebook</TT> service to
+			retrieve the person details.
+		</P>
+
+		<CENTER>
+			<IMG src="./Spring Web Flow  A Practical Introduction_files/detail-page.png" align="middle" alt="Detail Page"><BR>
+			<B>Figure 4. The person detail page</B>
+		</CENTER>
+
+		<P>
+			The person detail page allows us to go back to the search results page, or directly consult the
+			details for one of the colleagues of a person. The latter results in a recursive invocation of
+			the detail flow. Notice that the <I>Back</I> button behaves
+			differently depending on the situation: you either go back to the search results page or,
+			in case you consulted the details of a colleague, you go back to the details of the previous person.
+		</P>
+		
+		<P>
+			Also note that the application is completely stable when using the browser <I>Back</I> and <I>Refresh</I>
+			buttons. Spring Web Flow handles this using <I>web continuations</I>. A discussion of
+			this technique is beyond the scope of this article.
+		</P>
+
+		<H2>Conclusion</H2>
+
+		<P>
+			This concludes our practical introduction to Spring Web Flow. We talked about the general concepts that
+			underpin this framework and how it is integrated into the Spring Web MVC framework. As an illustration,
+			we used a phonebook sample application.
+		</P>
+
+		<P>
+			Spring Web Flow delivers a number of important benefits:
+		</P>
+		<UL>
+			<LI>
+				Web Flows capture the UI flow in a web application in a clear and easily readable way.
+			</LI>
+			<LI>
+				They provide a consistent manner to model navigation throughout a web application.
+			</LI>
+			<LI>
+				Spring Web Flow handles all navigational control for you, making sure your applications
+				works correctly even when the user uses the dreaded browser <I>back</I> and <I>refresh</I>
+				buttons.
+			</LI>
+			<LI>
+				Web Flows allow you to package a part of a web application as a self contained, reusable
+				module.
+			</LI>
+			<LI>
+				Spring Web Flow offers sophisticated state management, providing several new <I>scopes</I>
+				for conversation related data.
+			</LI>
+			<LI>
+				Web Flows are closely integrated with a Spring application context allowing you to leverage
+				all of Spring's powerful features, e.g. AOP.
+			</LI>
+		</UL>
+
+		<P>
+			There is much more to Spring Web Flow than what we have been able to discuss in this practical
+			introduction. We encourage you to give it a try and tap into the powerfull features it offers!
+			An excellent way to learn more is by reading
+			<A href="http://www.ervacon.com/products/swfbook/index.html">Working with Spring Web Flow</A>.
+		</P>
+
+		<H2>Resources and References</H2>
+		<A id="resources">
+
+		</A><UL><A id="resources">
+			</A><LI><A id="resources">
+				You can find all kinds of Spring Web Flow related content, including downloads and documentation,
+				on the </A><A href="http://www.springframework.org/webflow">Spring Web Flow home page</A>.
+			</LI>
+			<LI>
+				For more Spring Web Flow related information, training and support, visit the Ervacon
+				<A href="http://www.ervacon.com/products/swf/index.html">Spring Web Flow Portal</A>.
+			</LI>
+			<LI>
+				This article is a rework of the
+				<A href="http://www.ervacon.com/products/springwebflow/article/">Spring Web Flows: A Practical Guide</A>
+				article that explained the original Ervacon Spring Web Flow project.
+			</LI>
+			<LI>
+				Read up on Java Servlet Technology and JSPs:
+				<A href="http://java.sun.com/products/servlet/index.jsp">Java Servlet Technology</A>.
+			</LI>
+			<LI>
+				Find out more about Spring at the Spring Framework home page:
+				<A href="http://www.springframework.org/">http://www.springframework.org</A>.
+			</LI>
+		</UL>
+
+		<H2>About the Author</H2>
+
+		<P>
+			Erwin Vervaet is a software engineer with a keen interest in applying modern IT concepts and tools.
+			He holds a master's degree in computer science from the Katholieke Universiteit Leuven in Belgium.
+			Erwin has been using Java since its inception and has extensive experience applying it in IT research,
+			e-commerce projects, open source initiatives, industrial software systems and business support
+			applications. He currently works as an independent consultant, running his own software and consultancy
+			company: <A href="http://www.ervacon.com/">Ervacon</A>.<BR>
+			Erwin also enjoys teaching and speaking on Java and Spring related subjects. As the originator of the
+			Spring Web Flow project, he currently co-leads it's development together with Keith Donald.<BR>
+			You can contact Erwin at <A href="mailto:erwin@ervacon.com">erwin@ervacon.com</A>.
+		</P>
+	
+					
+				
+				<DIV style="clear: both;"></DIV>
+			</DIV>
+	
+			<DIV class="footerArea">		
+				<TABLE width="100%" cellspacing="0" cellpadding="0">
+	<TBODY><TR>
+		<TD valign="middle" align="left">
+			<!-- Google Analytics code -->
+			<SCRIPT src="./Spring Web Flow  A Practical Introduction_files/urchin.js" type="text/javascript">
+			</SCRIPT>
+			<SCRIPT type="text/javascript">
+				_uacct = "UA-2151574-1";
+				urchinTracker();
+			</SCRIPT>
+		</TD>
+		<TD valign="middle" align="right" class="copyrightText">
+			© Copyright Ervacon 2009. All Rights Reserved. <A href="http://www.ervacon.com/contact.html">Contact us</A>.<BR>
+			All trademarks and copyrights on this page are owned by their respective owners.
+		</TD>
+	</TR>
+</TBODY></TABLE>
+
+				<DIV style="clear: both;"></DIV>
+			</DIV>
+		</DIV>
+	
+</BODY></HTML>
