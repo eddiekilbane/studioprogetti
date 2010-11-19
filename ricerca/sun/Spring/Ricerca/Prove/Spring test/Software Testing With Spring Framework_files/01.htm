@@ -1,0 +1,125 @@
+
+<!-- saved from url=(0058)http://view.atdmt.com/MRT/iview/174242312/direct/01?click= -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><TITLE>BIEB_WinServ2ProdQA_D_120x600_v1r1</TITLE>
+<META http-equiv="expires" content="0">
+<META http-equiv="Pragma" content="no-cache">
+</HEAD><BODY style="border-width:0px;margin:0px;" bgcolor="White" marginwidth="0" marginheight="0">
+<SCRIPT type="text/javascript">
+var nRequiredVersion = 8; 
+var bIsRightVersion = false;	
+var isIE = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
+var isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;
+var isOpera = (navigator.userAgent.indexOf("Opera") != -1) ? true : false;
+if(isIE && isWin){
+document.writeln('<SCR' + 'IPT LANGUAGE=VBScript\>');
+document.writeln('on error resume next');
+document.writeln('Set oFlashPlayer = CreateObject("ShockwaveFlash.ShockwaveFlash." & nRequiredVersion)');
+document.writeln('If IsObject(oFlashPlayer) Then');
+document.writeln('bIsRightVersion = True');
+document.writeln('End If');
+document.writeln('If (Not bIsRightVersion) And (nRequiredVersion < 3) Then');
+document.writeln('Set oFlashPlayer = CreateObject("ShockwaveFlash.ShockwaveFlash")');
+document.writeln('If IsObject(oFlashPlayer) Then');
+document.writeln('bIsRightVersion = True');
+document.writeln('End If');
+document.writeln('End If');
+document.writeln('</SCR' + 'IPT\>'); 
+}
+function detectPluginITP1254528475913() 
+{ 
+if (!bIsRightVersion) 
+{
+if (navigator.plugins != null && navigator.plugins.length > 0) {
+if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {
+var swVer2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
+var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
+var descArray = flashDescription.split(" ");
+var tempArrayMajor = descArray[2].split(".");	
+var versionMajor = tempArrayMajor[0];
+bIsRightVersion = (versionMajor >= nRequiredVersion);
+}
+}
+else if (navigator.userAgent.toLowerCase().indexOf("webtv/2.6") != -1)
+{
+bIsRightVersion = (4 >= nRequiredVersion);
+}
+else if (navigator.userAgent.toLowerCase().indexOf("webtv/2.5") != -1)
+{
+bIsRightVersion = (3 >= nRequiredVersion);
+}
+else if (navigator.userAgent.toLowerCase().indexOf("webtv") != -1) 
+{
+bIsRightVersion = (2 >= nRequiredVersion);
+}
+}
+}
+detectPluginITP1254528475913();
+var _ITP1254528475913_Instance =
+{
+click : "",
+clickThruUrl: "http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.$num$/01/",
+imgs : []
+};
+if (!window.armapi_a1_a1)
+{
+var armapi_a1_a1 =
+{
+initialize : function(unique_id){},
+click : function(unique_id, num, suffix)
+{
+this.clickTrack(unique_id);
+this.clickThru(unique_id, num, suffix);
+},
+clickTrack : function(unique_id, num)
+{
+var instance = window[unique_id + "_Instance"];
+if (instance.click != "")
+{
+var img = new Image();
+img.src = instance.click + "http://t.atdmt.com";
+instance.imgs.push(img); 
+}
+},
+clickThru : function(unique_id, num, suffix) { 
+var instance = window[unique_id + "_Instance"];
+var url = instance.clickThruUrl.replace("$num$", num) + suffix;
+window.open(url, "_blank"); 
+}
+};
+}
+var armapi_ArmClickType = isIE ? "ext" : "";
+var _strContentITP1254528475913 = '';
+if(bIsRightVersion) 
+{ 
+var strFQDN = "HTTP://spe.atdmt.com/ds/NMMRTUMISITP/"; 
+var index = strFQDN.indexOf("/ds/");
+strFQDN = strFQDN.substring(0, index);
+_strContentITP1254528475913 = '' + '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="HTTP://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="idSWFITP1254528475913" width="120" height="600">'
++ '<param name="movie" value="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/FY10_BIEB_ProductQA/BIEB_WinServ2ProdQA_D_120x600_v1r1.swf?ver=1&clickTag1=!~!click!~!http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01&clickTag=!~!click!~!http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01" />'
++ '<param name="base" value="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/" />'
++ '<param name="FlashVars" value="ArmClickType='+ armapi_ArmClickType + '&unique_id=_ITP1254528475913&ArmApi=armapi_a1_a1&ArmClickUrl=http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.$num$/01/&ArmClickToken=$num$" />'
++ '<param name="quality" value="high" />'
++ '<param name="salign" value="lt" />'
++ '<param name="loop" value="true" />'
++ '<param name="wmode" value="opaque" />'
++ '<param name="allowScriptAccess" value="always" />'
++ '<embed allowScriptAccess="always" quality="high" salign="LT" loop="true" type="application/x-shockwave-flash" pluginspace="HTTP://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" base="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/" wmode="opaque" src="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/FY10_BIEB_ProductQA/BIEB_WinServ2ProdQA_D_120x600_v1r1.swf?ver=1&clickTag1=!~!click!~!http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01&clickTag=!~!click!~!http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01" width="120" height="600" FlashVars="unique_id=_ITP1254528475913&ArmApi=armapi_a1_a1&ArmClickUrl=http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.$num$/01/&ArmClickToken=$num$" />'
++ '</object>'
++ '';
+if ( "%OOB%" == "1" )
+_strContentITP1254528475913 = _strContentITP1254528475913.replace(/!~!click!~!/g,'');
+else
+_strContentITP1254528475913 = _strContentITP1254528475913.replace(/!~!click!~!/g,'');
+} 
+else 
+{ 
+_strContentITP1254528475913 = '<a target="_blank" href="http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01/" onclick="if(\'\')(new Image).src=\'http://t.atdmt.com\'"><img border="0" src="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/FY10_BIEB_ProductQA/BIEB_WinServ2ProdQA_D_120x600_v1r1.jpg?ver=1" width="120" height="600" /></a>';
+}
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./DocumentDotWrite.js"></SCRIPT>
+<SCRIPT type="text/javascript">DocumentDotWrite(_strContentITP1254528475913);</SCRIPT><OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="idSWFITP1254528475913" width="120" height="600"><PARAM name="movie" value="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/FY10_BIEB_ProductQA/BIEB_WinServ2ProdQA_D_120x600_v1r1.swf?ver=1&amp;clickTag1=http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01&amp;clickTag=http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01"><PARAM name="base" value="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/"><PARAM name="FlashVars" value="ArmClickType=&amp;unique_id=_ITP1254528475913&amp;ArmApi=armapi_a1_a1&amp;ArmClickUrl=http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.$num$/01/&amp;ArmClickToken=$num$"><PARAM name="quality" value="high"><PARAM name="salign" value="lt"><PARAM name="loop" value="true"><PARAM name="wmode" value="opaque"><PARAM name="allowScriptAccess" value="always"><EMBED allowscriptaccess="always" quality="high" salign="LT" loop="true" type="application/x-shockwave-flash" pluginspace="HTTP://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" base="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/" wmode="opaque" src="HTTP://spe.atdmt.com/ds/NMMRTUMISITP/FY10_BIEB_ProductQA/BIEB_WinServ2ProdQA_D_120x600_v1r1.swf?ver=1&amp;clickTag1=http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01&amp;clickTag=http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.1/01" width="120" height="600" flashvars="unique_id=_ITP1254528475913&amp;ArmApi=armapi_a1_a1&amp;ArmClickUrl=http://clk.atdmt.com/go/174242312/direct;ai.132176456;ct.$num$/01/&amp;ArmClickToken=$num$"></OBJECT>
+<SCRIPT type="text/javascript"> 
+</SCRIPT>
+<NOSCRIPT></NOSCRIPT>
+<SCRIPT src="http://static.suitesmart.com/cs/90521/tags/atlas.js?PLA=174242312;ADI=132176456;"></SCRIPT><SCRIPT language="JavaScript" src="http://as1.suitesmart.com/90521/G9901.js" id="FTG" gid="9901" cre="null" pla="174242312" adi="132176456"></SCRIPT><SCRIPT language="JavaScript" src="http://ar.voicefive.com/bmx3/broker.pli?pid=p41327062&PRAd=174242312&AR_C=132176456"></SCRIPT>
+<DIV><OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="1" height="1" id="_f5e" align=""> <PARAM name="movie" value="http://as1.suitesmart.com/_f5e.swf"> <PARAM name="loop" value="true"> <PARAM name="menu" value="false"> <PARAM name="quality" value="low"> <PARAM name="wmode" value="transparent"> <PARAM name="FlashVars" value="GID=9901"><EMBED src="http://as1.suitesmart.com/_f5e.swf" flashvars="GID=9901" loop="false" menu="false" quality="low" wmode="transparent" width="1" height="1" name="_f5e" align="" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></OBJECT></DIV><SCRIPT src="http://ar.voicefive.com/b/rc.pli?func=COMSCORE.BMX.Broker.handleInteraction&n=ar_int_p41327062&1260438735074"></SCRIPT></BODY></HTML>

@@ -1,0 +1,1265 @@
+
+<!-- saved from url=(0071)http://static.springsource.org/spring/docs/2.5.6/reference/testing.html -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      
+   <TITLE>Chapter&nbsp;8.&nbsp;Testing</TITLE><LINK rel="stylesheet" href="./Chapter 8. Testing_files/html.css" type="text/css"><META name="generator" content="DocBook XSL Stylesheets V1.60.1"><!--Begin Google Analytics code--><SCRIPT xmlns="http://www.w3.org/TR/xhtml1/transitional" type="text/javascript"> 
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </SCRIPT><SCRIPT src="./Chapter 8. Testing_files/ga.js" type="text/javascript"></SCRIPT><SCRIPT xmlns="http://www.w3.org/TR/xhtml1/transitional" type="text/javascript"> 
+            var pageTracker = _gat._getTracker("UA-2728886-3");
+            pageTracker._setDomainName("none");
+            pageTracker._setAllowLinker(true);
+            pageTracker._trackPageview();
+        </SCRIPT><!--End Google Analytics code--><LINK rel="home" href="http://static.springsource.org/spring/docs/2.5.6/reference/index.html" title="The Spring Framework - Reference Documentation"><LINK rel="up" href="http://static.springsource.org/spring/docs/2.5.6/reference/spring-core.html" title="Part&nbsp;I.&nbsp;Core Technologies"><LINK rel="previous" href="http://static.springsource.org/spring/docs/2.5.6/reference/aop-api.html" title="Chapter&nbsp;7.&nbsp;Spring AOP APIs"><LINK rel="next" href="http://static.springsource.org/spring/docs/2.5.6/reference/spring-middle-tier.html" title="Part&nbsp;II.&nbsp;Middle Tier Data Access"></HEAD><BODY bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><DIV xmlns="http://www.w3.org/TR/xhtml1/transitional" style="background-color:white;border:none;height:73px;border:1px solid black;"><A style="border:none;" href="http://www.springframework.org/" title="The Spring Framework"><IMG style="border:none;" src="./Chapter 8. Testing_files/xdev-spring_logo.jpg"></A><A style="border:none;" href="http://www.springsource.com/" title="SpringSource"><IMG style="border:none;position:absolute;padding-top:5px;right:42px;" src="./Chapter 8. Testing_files/springsource-banner-rhs.png"></A></DIV><DIV class="chapter" lang="en"><DIV class="titlepage"><DIV><DIV><H2 class="title"><A name="testing"></A>Chapter&nbsp;8.&nbsp;Testing</H2></DIV></DIV><DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H2 class="title" style="clear: both"><A name="testing-introduction"></A>8.1.&nbsp;Introduction</H2></DIV></DIV><DIV></DIV></DIV><P>The Spring team considers developer testing to be an absolutely
+    integral part of enterprise software development. A thorough treatment of
+    testing in the enterprise is beyond the scope of this chapter; rather, the
+    focus here is on the value-add that the adoption of the IoC principle can
+    bring to <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#unit-testing" title="8.2.&nbsp;Unit testing">unit testing</A> and on the
+    benefits that the Spring Framework provides in <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#integration-testing" title="8.3.&nbsp;Integration testing">integration testing</A>.</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H2 class="title" style="clear: both"><A name="unit-testing"></A>8.2.&nbsp;Unit testing</H2></DIV></DIV><DIV></DIV></DIV><P>One of the main benefits of Dependency Injection is that your code
+    should really depend far less on the container than in traditional J2EE
+    development. The POJOs that comprise your application should be testable
+    in JUnit or TestNG tests, with objects simply instantiated using the
+    <TT class="literal">new</TT> operator, <SPAN class="emphasis"><EM>without Spring or any other
+    container</EM></SPAN>. You can use <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#mock-objects" title="8.2.1.&nbsp;Mock objects">mock
+    objects</A> (in conjunction with many other valuable testing
+    techniques) to test your code in isolation. If you follow the architecture
+    recommendations around Spring you will find that the resulting clean
+    layering and componentization of your codebase will naturally facilitate
+    <SPAN class="emphasis"><EM>easier</EM></SPAN> unit testing. For example, you will be able to
+    test service layer objects by stubbing or mocking DAO or Repository
+    interfaces, without any need to access persistent data while running unit
+    tests.</P><P>True unit tests typically will run extremely quickly, as there is no
+    runtime infrastructure to set up, whether application server, database,
+    ORM tool, or whatever. Thus emphasizing true unit tests as part of your
+    development methodology will boost your productivity. The upshot of this
+    is that you often do not need this section of the testing chapter to help
+    you write effective <SPAN class="emphasis"><EM>unit</EM></SPAN> tests for your IoC-based
+    applications. For certain unit testing scenarios, however, the Spring
+    Framework provides the following mock objects and testing support
+    classes.</P><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="mock-objects"></A>8.2.1.&nbsp;Mock objects</H3></DIV></DIV><DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="mock-objects-jndi"></A>8.2.1.1.&nbsp;JNDI</H4></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.mock.jndi</TT> package
+        contains an implementation of the JNDI SPI, which is useful for
+        setting up a simple JNDI environment for test suites or stand-alone
+        applications. If, for example, JDBC <TT class="classname">DataSource</TT>s
+        get bound to the same JNDI names in test code as within a J2EE
+        container, both application code and configuration can be reused in
+        testing scenarios without modification.</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="mock-objects-servlet"></A>8.2.1.2.&nbsp;Servlet API</H4></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.mock.web</TT> package
+        contains a comprehensive set of Servlet API mock objects, targeted at
+        usage with Spring's Web MVC framework, which are useful for testing
+        web contexts and controllers. These mock objects are generally more
+        convenient to use than dynamic mock objects (e.g., <A href="http://www.easymock.org/" target="_top">EasyMock</A>) or existing Servlet
+        API mock objects (e.g., <A href="http://www.mockobjects.com/" target="_top">MockObjects</A>).</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="mock-objects-portlet"></A>8.2.1.3.&nbsp;Portlet API</H4></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.mock.web.portlet</TT>
+        package contains a set of Portlet API mock objects, targeted at usage
+        with Spring's Portlet MVC framework.</P></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="unit-testing-support-classes"></A>8.2.2.&nbsp;Unit testing support classes</H3></DIV></DIV><DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="unit-testing-utilities"></A>8.2.2.1.&nbsp;General utilities</H4></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.test.util</TT> package
+        contains <TT class="classname">ReflectionTestUtils</TT>, which is a
+        collection of reflection-based utility methods for use in unit and
+        integration testing scenarios in which the developer would benefit
+        from being able to set a non-<TT class="literal">public</TT> field or invoke
+        a non-<TT class="literal">public</TT> setter method when testing application
+        code involving, for example:</P><DIV class="itemizedlist"><UL type="disc"><LI><P>ORM frameworks such as JPA and Hibernate which condone the
+            usage of <TT class="literal">private</TT> or
+            <TT class="literal">protected</TT> field access as opposed to
+            <TT class="literal">public</TT> setter methods for properties in a
+            domain entity</P></LI><LI><P>Spring's support for annotations such as
+            <TT class="interfacename">@Autowired</TT> and
+            <TT class="interfacename">@Resource</TT> which provides dependency
+            injection for <TT class="literal">private</TT> or
+            <TT class="literal">protected</TT> fields, setter methods, and
+            configuration methods</P></LI></UL></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="unit-testing-spring-mvc"></A>8.2.2.2.&nbsp;Spring MVC</H4></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.test.web</TT> package
+        contains <TT class="classname">AbstractModelAndViewTests</TT>, which
+        serves as a convenient base class for JUnit 3.8 based unit tests
+        dealing with Spring MVC <TT class="classname">ModelAndView</TT> objects.
+        When developing against Java 1.4 and higher (e.g., in combination with
+        JUnit 4+, TestNG, etc.), you have the option of using the
+        <TT class="classname">ModelAndViewAssert</TT> class (in the same package)
+        to test your <TT class="classname">ModelAndView</TT> related
+        functionality.</P><P>Tip: depending on your testing environment, either extend
+        <TT class="classname">AbstractModelAndViewTests</TT> or use
+        <TT class="classname">ModelAndViewAssert</TT> directly and then use
+        <TT class="literal">MockHttpServletRequest</TT>,
+        <TT class="literal">MockHttpSession</TT>, etc. from the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#mock-objects-servlet" title="8.2.1.2.&nbsp;Servlet API"><TT class="literal">org.springframework.mock.web</TT></A>
+        package to test your Spring MVC <TT class="literal">Controller</TT>s.</P></DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H2 class="title" style="clear: both"><A name="integration-testing"></A>8.3.&nbsp;Integration testing</H2></DIV></DIV><DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="integration-testing-overview"></A>8.3.1.&nbsp;Overview</H3></DIV></DIV><DIV></DIV></DIV><P>It is important to be able to perform some integration testing
+      without requiring deployment to your application server or connecting to
+      other enterprise infrastructure. This will enable you to test things
+      such as:</P><DIV class="itemizedlist"><UL type="disc"><LI><P>The correct wiring of your Spring IoC container
+          contexts.</P></LI><LI><P>Data access using JDBC or an ORM tool. This would include such
+          things as the correctness of SQL statements, Hibernate queries, JPA
+          entity mappings, etc.</P></LI></UL></DIV><P>The Spring Framework provides first class support for integration
+      testing in the form of the classes that are packaged in the <TT class="filename">spring-test.jar</TT> library. In this library,
+      you will find the <TT class="literal">org.springframework.test</TT> package
+      which contains valuable classes for integration testing using a Spring
+      container, while at the same time not being reliant on an application
+      server or other deployment environment. Such tests will be slower to run
+      than unit tests but much faster to run than the equivalent Cactus tests
+      or remote tests relying on deployment to an application server.</P><P>Prior to the 2.5 release of the framework, Spring provided <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-support" title="8.3.6.&nbsp;JUnit 3.8 legacy support">integration testing support specific to
+      JUnit 3.8</A>. As of the 2.5 release, Spring offers support for unit
+      and integration testing in the form of the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-framework" title="8.3.7.&nbsp;Spring TestContext Framework">Spring TestContext Framework</A>,
+      which is agnostic of the actual testing framework in use, thus allowing
+      instrumentation of tests in various environments including JUnit 3.8,
+      JUnit 4.4, TestNG, etc. <SPAN class="emphasis"><EM>Note that the Spring TestContext
+      Framework requires Java 5+.</EM></SPAN></P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="integration-testing-which-framework"></A>8.3.2.&nbsp;Which support framework to use</H3></DIV></DIV><DIV></DIV></DIV><P>The Spring team recommends using the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-framework" title="8.3.7.&nbsp;Spring TestContext Framework">Spring TestContext Framework</A> for
+      all new unit testing or integration testing involving
+      <TT class="classname">ApplicationContext</TT>s or requiring transactional
+      test fixtures; however, if you are developing in a pre-Java 5
+      environment, you will need to continue to use the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-support" title="8.3.6.&nbsp;JUnit 3.8 legacy support">JUnit 3.8 legacy support</A>. In
+      addition, explicit <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-jpa-tests" title="8.3.6.5.2.&nbsp;JPA support classes">integration
+      testing support for JPA</A> which relies on <SPAN class="emphasis"><EM>shadow class
+      loading</EM></SPAN> for JPA class instrumentation is currently only
+      available with the JUnit 3.8 legacy support. If you are testing against
+      a JPA provider which does not require class instrumentation, however, it
+      is recommended that you use the TestContext framework.</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="integration-testing-common-goals"></A>8.3.3.&nbsp;Common goals</H3></DIV></DIV><DIV></DIV></DIV><P>The Spring integration testing support frameworks share several
+      common goals, including:</P><DIV class="itemizedlist"><UL type="disc"><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testing-ctx-management" title="8.3.3.1.&nbsp;Context management and caching">Spring IoC container
+          caching</A> between test execution.</P></LI><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testing-fixture-di" title="8.3.3.2.&nbsp;Dependency Injection of test fixtures">Dependency Injection of
+          test fixture instances</A> (this is nice).</P></LI><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testing-tx" title="8.3.3.3.&nbsp;Transaction management">Transaction management</A>
+          appropriate to integration testing (this is even nicer).</P></LI><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testing-support-classes" title="8.3.3.4.&nbsp;Integration testing support classes">Spring-specific
+          support classes</A> that are really useful when writing
+          integration tests.</P></LI></UL></DIV><P>The following sections outline each of these goals and provide
+      direct links to information specific to the particular support
+      frameworks.</P><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testing-ctx-management"></A>8.3.3.1.&nbsp;Context management and caching</H4></DIV></DIV><DIV></DIV></DIV><P>Spring integration testing support frameworks provide consistent
+        loading of Spring <TT class="classname">ApplicationContext</TT>s and
+        caching of those contexts. Support for the caching of loaded contexts
+        is important, because if you are working on a large project, startup
+        time may become an issue - not because of the overhead of Spring
+        itself, but because the objects instantiated by the Spring container
+        will themselves take time to instantiate. For example, a project with
+        50-100 Hibernate mapping files might take 10-20 seconds to load the
+        mapping files, and incurring that cost before running every single
+        test in every single test fixture will lead to slower overall test
+        runs that could reduce productivity.</P><P>Test classes will generally provide an array containing the
+        resource locations of XML configuration metadata - typically on the
+        classpath - used to configure the application. This will be the same,
+        or nearly the same, as the list of configuration locations specified
+        in <TT class="literal">web.xml</TT> or other deployment
+        configuration.</P><P>By default, once loaded, the configured
+        <TT class="interfacename">ApplicationContext</TT> will be reused for
+        each test. Thus the setup cost will be incurred only once (per test
+        fixture), and subsequent test execution will be much faster. In the
+        unlikely case that a test may 'dirty' the application context,
+        requiring reloading - for example, by changing a bean definition or
+        the state of an application object - Spring's testing support provides
+        mechanisms to cause the test fixture to reload the configurations and
+        rebuild the application context before executing the next test.</P><P>Context management and caching with:</P><DIV class="itemizedlist"><UL type="disc"><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-ctx-management" title="8.3.6.1.&nbsp;Context management and caching">JUnit 3.8
+            legacy support</A></P></LI><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-ctx-management" title="8.3.7.2.&nbsp;Context management and caching">The TestContext
+            Framework</A></P></LI></UL></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testing-fixture-di"></A>8.3.3.2.&nbsp;Dependency Injection of test fixtures</H4></DIV></DIV><DIV></DIV></DIV><P>When Spring integration testing support frameworks load your
+        application context, they can optionally configure instances of your
+        test classes via Dependency Injection. This provides a convenient
+        mechanism for setting up test fixtures using pre-configured beans from
+        your application context. A strong benefit here is that you can reuse
+        application contexts across various testing scenarios (e.g., for
+        configuring Spring-managed object graphs, transactional proxies,
+        <TT class="classname">DataSource</TT>s, etc.), thus avoiding the need to
+        duplicate complex test fixture set up for individual test
+        cases.</P><P>As an example, consider the scenario where we have a class,
+        <TT class="classname">HibernateTitleDao</TT>, that performs data access
+        logic for say, the <TT class="classname">Title</TT> domain object. We want
+        to write integration tests that test all of the following
+        areas:</P><DIV class="itemizedlist"><UL type="disc"><LI><P>The Spring configuration: basically, is everything related
+            to the configuration of the
+            <TT class="classname">HibernateTitleDao</TT> bean correct and
+            present?</P></LI><LI><P>The Hibernate mapping file configuration: is everything
+            mapped correctly and are the correct lazy-loading settings in
+            place?</P></LI><LI><P>The logic of the <TT class="classname">HibernateTitleDao</TT>:
+            does the configured instance of this class perform as
+            anticipated?</P></LI></UL></DIV><P>Dependency Injection of test fixtures with:</P><DIV class="itemizedlist"><UL type="disc"><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-fixture-di" title="8.3.6.2.&nbsp;Dependency Injection of test fixtures">JUnit 3.8 legacy
+            support</A></P></LI><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-fixture-di" title="8.3.7.3.&nbsp;Dependency Injection of test fixtures">The TestContext
+            Framework</A></P></LI></UL></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testing-tx"></A>8.3.3.3.&nbsp;Transaction management</H4></DIV></DIV><DIV></DIV></DIV><P>One common issue in tests that access a real database is their
+        affect on the state of the persistence store. Even when you're using a
+        development database, changes to the state may affect future tests.
+        Also, many operations - such as inserting to or modifying persistent
+        data - cannot be performed (or verified) outside a transaction.</P><P>The Spring integration testing support frameworks meet this
+        need. By default, they create and roll back a transaction for each
+        test. You simply write code that can assume the existence of a
+        transaction. If you call transactionally proxied objects in your
+        tests, they will behave correctly, according to their transactional
+        semantics. In addition, if test methods delete the contents of
+        selected tables while running within a transaction, the transaction
+        will roll back by default, and the database will return to its state
+        prior to execution of the test. Transactional support is provided to
+        your test class via a
+        <TT class="classname">PlatformTransactionManager</TT> bean defined in the
+        test's application context.</P><P>If you want a transaction to commit - unusual, but occasionally
+        useful when you want a particular test to populate or modify the
+        database - the Spring integration testing support frameworks can be
+        instructed to cause the transaction to commit instead of roll back
+        either by calling an inherited hook-method or by declaring a specific
+        annotation.</P><P>Transaction management with:</P><DIV class="itemizedlist"><UL type="disc"><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-tx" title="8.3.6.3.&nbsp;Transaction management">JUnit 3.8 legacy
+            support</A></P></LI><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-tx" title="8.3.7.4.&nbsp;Transaction management">The TestContext
+            Framework</A></P></LI></UL></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testing-support-classes"></A>8.3.3.4.&nbsp;Integration testing support classes</H4></DIV></DIV><DIV></DIV></DIV><P>The Spring integration testing support frameworks provide
+        several <TT class="literal">abstract</TT> support classes that can simplify
+        writing integration tests. These base test classes provide well
+        defined hooks into the testing framework as well as convenient
+        instance variables and methods, allowing access to such things
+        as:</P><DIV class="itemizedlist"><UL type="disc"><LI><P>The <TT class="literal">ApplicationContext</TT>: useful for
+            performing explicit bean lookups or testing the state of the
+            context as a whole.</P></LI><LI><P>A <TT class="classname">JdbcTemplate</TT> or
+            <TT class="classname">SimpleJdbcTemplate</TT>: useful for querying to
+            confirm state. For example, you might query before and after
+            testing application code that creates an object and persists it
+            using an ORM tool, to verify that the data appears in the
+            database. (Spring will ensure that the query runs in the scope of
+            the same transaction.) You will need to tell your ORM tool to
+            'flush' its changes for this to work correctly, for example using
+            the <TT class="methodname">flush()</TT> method on Hibernate's
+            <TT class="interfacename">Session</TT> interface.</P></LI></UL></DIV><P>Often you will provide an application-wide superclass for
+        integration tests that provides further useful instance variables used
+        in many tests.</P><P>Support classes for:</P><DIV class="itemizedlist"><UL type="disc"><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-support-classes" title="8.3.6.4.&nbsp;JUnit 3.8 legacy support classes">JUnit 3.8
+            legacy support</A></P></LI><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes" title="8.3.7.5.&nbsp;TestContext support classes">The TestContext
+            Framework</A></P></LI></UL></DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="integration-testing-support-jdbc"></A>8.3.4.&nbsp;JDBC testing support</H3></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.test.jdbc</TT> package
+      contains <TT class="classname">SimpleJdbcTestUtils</TT>, which is a
+      Java-5-based collection of JDBC related utility functions intended to
+      simplify standard database testing scenarios. <SPAN class="emphasis"><EM>Note that <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-junit38" title="8.3.7.5.1.&nbsp;JUnit 3.8 support classes"><TT class="classname">AbstractTransactionalJUnit38SpringContextTests</TT></A>,
+      <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-junit44" title="8.3.7.5.2.&nbsp;JUnit 4.4 support classes"><TT class="classname">AbstractTransactionalJUnit4SpringContextTests</TT></A>,
+      and <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-testng" title="8.3.7.5.4.&nbsp;TestNG support classes"><TT class="classname">AbstractTransactionalTestNGSpringContextTests</TT></A>
+      provide convenience methods which delegate to
+      <TT class="classname">SimpleJdbcTestUtils</TT> internally.</EM></SPAN></P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="integration-testing-common-annotations"></A>8.3.5.&nbsp;Common annotations</H3></DIV></DIV><DIV></DIV></DIV><P>The Spring Framework provides a common set of
+      <SPAN class="emphasis"><EM>Spring-specific</EM></SPAN> annotations in the
+      <TT class="literal">org.springframework.test.annotation</TT> package that you
+      can use in your testing if you are developing against Java 5 or
+      greater.</P><DIV class="itemizedlist"><UL type="disc"><LI><P><SPAN class="bold"><B><TT class="interfacename">@IfProfileValue</TT></B></SPAN></P><P>Indicates that the annotated test is enabled for a specific
+          testing environment. If the configured
+          <TT class="classname">ProfileValueSource</TT> returns a matching
+          <TT class="literal">value</TT> for the provided <TT class="literal">name</TT>,
+          the test will be enabled. This annotation can be applied to an
+          entire class or individual methods.</P><PRE class="programlisting">@IfProfileValue(name="java.vendor", value="Sun Microsystems Inc.")
+public void testProcessWhichRunsOnlyOnSunJvm() {
+    <I class="lineannotation"><SPAN class="lineannotation">// some logic that should run only on Java VMs from Sun Microsystems</SPAN></I>
+}</PRE><P>Alternatively <TT class="interfacename">@IfProfileValue</TT>
+          may be configured with a list of <TT class="literal">values</TT> (with
+          <SPAN class="emphasis"><EM>OR</EM></SPAN> semantics) to achieve TestNG-like support
+          for <SPAN class="emphasis"><EM>test groups</EM></SPAN> in a JUnit environment.
+          Consider the following example:</P><PRE class="programlisting">@IfProfileValue(name="test-groups", values={"unit-tests", "integration-tests"})
+public void testProcessWhichRunsForUnitOrIntegrationTestGroups() {
+    <I class="lineannotation"><SPAN class="lineannotation">// some logic that should run only for unit and integration test groups</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@ProfileValueSourceConfiguration</TT></B></SPAN></P><P>Class-level annotation which is used to specify what type of
+          <TT class="literal">ProfileValueSource</TT> to use when retrieving
+          <SPAN class="emphasis"><EM>profile values</EM></SPAN> configured via the
+          <TT class="interfacename">@IfProfileValue</TT> annotation. If
+          <TT class="interfacename">@ProfileValueSourceConfiguration</TT> is
+          not declared for a test,
+          <TT class="classname">SystemProfileValueSource</TT> will be used by
+          default.</P><PRE class="programlisting">@ProfileValueSourceConfiguration(CustomProfileValueSource.class)
+public class CustomProfileValueSourceTests {
+    <I class="lineannotation"><SPAN class="lineannotation">// class body...</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@DirtiesContext</TT></B></SPAN></P><P>The presence of this annotation on a test method indicates
+          that the underlying Spring container is 'dirtied' during the
+          execution of the test method, and thus must be rebuilt after the
+          test method finishes execution (regardless of whether the test
+          passed or not).</P><PRE class="programlisting">@DirtiesContext
+public void testProcessWhichDirtiesAppCtx() {
+    <I class="lineannotation"><SPAN class="lineannotation">// some logic that results in the Spring container being dirtied</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@ExpectedException</TT></B></SPAN></P><P>Indicates that the annotated test method is expected to throw
+          an exception during execution. The type of the expected exception is
+          provided in the annotation, and if an instance of the exception is
+          thrown during the test method execution then the test passes.
+          Likewise if an instance of the exception is <SPAN class="emphasis"><EM>not</EM></SPAN>
+          thrown during the test method execution then the test fails.</P><PRE class="programlisting">@ExpectedException(SomeBusinessException.class)
+public void testProcessRainyDayScenario() {
+    <I class="lineannotation"><SPAN class="lineannotation">// some logic that should result in an <TT class="classname">Exception</TT> being thrown</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@Timed</TT></B></SPAN></P><P>Indicates that the annotated test method has to finish
+          execution in a specified time period (in milliseconds). If the text
+          execution time takes longer than the specified time period, the test
+          fails.</P><P>Note that the time period includes execution of the test
+          method itself, any repetitions of the test (see
+          <TT class="interfacename">@Repeat</TT>), as well as any
+          <SPAN class="emphasis"><EM>set up</EM></SPAN> or <SPAN class="emphasis"><EM>tear down</EM></SPAN> of the
+          test fixture.</P><PRE class="programlisting">@Timed(millis=1000)
+public void testProcessWithOneSecondTimeout() {
+    <I class="lineannotation"><SPAN class="lineannotation">// some logic that should not take longer than 1 second to execute</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@Repeat</TT></B></SPAN></P><P>Indicates that the annotated test method must be executed
+          repeatedly. The number of times that the test method is to be
+          executed is specified in the annotation.</P><P>Note that the scope of execution to be repeated includes
+          execution of the test method itself as well as any <SPAN class="emphasis"><EM>set
+          up</EM></SPAN> or <SPAN class="emphasis"><EM>tear down</EM></SPAN> of the test
+          fixture.</P><PRE class="programlisting">@Repeat(10)
+public void testProcessRepeatedly() {
+    <I class="lineannotation"><SPAN class="lineannotation">// ...</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@Rollback</TT></B></SPAN></P><P>Indicates whether or not the transaction for the annotated
+          test method should be <SPAN class="emphasis"><EM>rolled back</EM></SPAN> after the
+          test method has completed. If <TT class="literal">true</TT>, the
+          transaction will be rolled back; otherwise, the transaction will be
+          committed. Use <TT class="interfacename">@Rollback</TT> to override
+          the default rollback flag configured at the class level.</P><PRE class="programlisting">@Rollback(false)
+public void testProcessWithoutRollback() {
+    <I class="lineannotation"><SPAN class="lineannotation">// ...</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@NotTransactional</TT></B></SPAN></P><P>The presence of this annotation indicates that the annotated
+          test method must <SPAN class="emphasis"><EM>not</EM></SPAN> execute in a transactional
+          context.</P><PRE class="programlisting">@NotTransactional 
+public void testProcessWithoutTransaction() {
+    <I class="lineannotation"><SPAN class="lineannotation">// ...</SPAN></I>
+}</PRE></LI></UL></DIV><P>Annotation support for:</P><DIV class="itemizedlist"><UL type="disc"><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-java5-support" title="8.3.6.5.&nbsp;Java 5+ specific support">JUnit 3.8 legacy
+          support</A>: all common annotations listed above are supported
+          but <SPAN class="emphasis"><EM>must</EM></SPAN> be used in conjunction with
+          <TT class="classname">AbstractAnnotationAwareTransactionalTests</TT> in
+          order for the presence of these annotations to have any
+          effect.</P></LI><LI><P><A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-annotations" title="8.3.7.6.&nbsp;TestContext framework annotation support">The TestContext
+          Framework</A>: supports all of the common annotations listed
+          above while providing additional TestContext-specific and
+          transactional annotations (e.g.,
+          <TT class="interfacename">@ContextConfiguration</TT>,
+          <TT class="interfacename">@BeforeTransaction</TT>, etc.). Note,
+          however, that some of the common annotations are only supported when
+          used in conjunction with JUnit (e.g., with the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-junit4-runner" title="8.3.7.5.3.&nbsp;Custom JUnit 4.4 Runner">SpringJUnit4ClassRunner</A>
+          or the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-junit38" title="8.3.7.5.1.&nbsp;JUnit 3.8 support classes">JUnit
+          3.8</A> and <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-junit44" title="8.3.7.5.2.&nbsp;JUnit 4.4 support classes">JUnit 4.4</A> base
+          test classes). Refer to the documentation in the
+          <SPAN class="emphasis"><EM>TestContext Framework</EM></SPAN> section for further
+          details.</P></LI></UL></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="junit38-legacy-support"></A>8.3.6.&nbsp;JUnit 3.8 legacy support</H3></DIV></DIV><DIV></DIV></DIV><P>Spring's JUnit 3.8 legacy support is comprised of the classes
+      found in the <TT class="literal">org.springframework.test</TT> package. This
+      package provides valuable JUnit <TT class="classname">TestCase</TT>
+      superclasses which can be extended for out-of-container integration
+      tests involving Spring <TT class="classname">ApplicationContext</TT>s or
+      requiring transactional support at the test method level.</P><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="junit38-legacy-ctx-management"></A>8.3.6.1.&nbsp;Context management and caching</H4></DIV></DIV><DIV></DIV></DIV><P><TT class="classname">AbstractSingleSpringContextTests</TT> provides
+        context management and caching support for JUnit 3.8 based test cases
+        and exposes a <TT class="literal">protected</TT> method that subclasses can
+        override to provide the location of context definition files:</P><PRE class="programlisting">protected String[] getConfigLocations()</PRE><P>Implementations of this method must provide an array containing
+        the resource locations of XML configuration metadata - typically on
+        the classpath - used to configure the application. This will be the
+        same, or nearly the same, as the list of configuration locations
+        specified in <TT class="literal">web.xml</TT> or other deployment
+        configuration. As an alternative you may choose to override one of the
+        following. See the respective JavaDoc for further details.</P><PRE class="programlisting">protected String[] getConfigPaths()</PRE><PRE class="programlisting">protected String getConfigPath()</PRE><P>By default, once loaded, the configuration file set will be
+        reused for each test case. Thus the setup cost will be incurred only
+        once (per test fixture), and subsequent test execution will be much
+        faster. In the unlikely case that a test may 'dirty' the application
+        context, requiring reloading - for example, by changing a bean
+        definition or the state of an application object - you can call the
+        <TT class="methodname">setDirty()</TT> method on
+        <TT class="classname">AbstractSingleSpringContextTests</TT> to cause the
+        test fixture to reload the configurations and rebuild the application
+        context before executing the next test case. As an alternative, if you
+        are developing against Java 5 or greater and extending <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-annotation-aware-tests" title="8.3.6.5.1.&nbsp;Annotation aware transactional tests"><TT class="classname">AbstractAnnotationAwareTransactionalTests</TT></A>,
+        you may annotate your test method with
+        <TT class="interfacename">@DirtiesContext</TT> to achieve the same
+        effect.</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="junit38-legacy-fixture-di"></A>8.3.6.2.&nbsp;Dependency Injection of test fixtures</H4></DIV></DIV><DIV></DIV></DIV><P>When
+        <TT class="classname">AbstractDependencyInjectionSpringContextTests</TT>
+        (and subclasses) load your application context, they can optionally
+        configure instances of your test classes by Setter Injection. All you
+        need to do is to define instance variables and the corresponding
+        setter methods.
+        <TT class="classname">AbstractDependencyInjectionSpringContextTests</TT>
+        will automatically locate the corresponding object in the set of
+        configuration files specified in the
+        <TT class="methodname">getConfigLocations()</TT> method.</P><P>Consider the scenario where we have a class,
+        <TT class="classname">HibernateTitleDao</TT> (as outlined in the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testing-fixture-di" title="8.3.3.2.&nbsp;Dependency Injection of test fixtures">Common goals</A> section). Let's look
+        at a JUnit 3.8 based implementation of the test class itself (we will
+        look at the configuration immediately afterwards).</P><PRE class="programlisting">public final class HibernateTitleDaoTests <SPAN class="bold"><B>extends AbstractDependencyInjectionSpringContextTests</B></SPAN>  {
+
+    <I class="lineannotation"><SPAN class="lineannotation">// this instance will be (automatically) dependency injected</SPAN></I>    
+    private HibernateTitleDao titleDao;
+
+    <I class="lineannotation"><SPAN class="lineannotation">// a setter method to enable DI of the 'titleDao' instance variable</SPAN></I>
+    public void setTitleDao(HibernateTitleDao titleDao) {
+        this.titleDao = titleDao;
+    }
+
+    public void testLoadTitle() throws Exception {
+        Title title = this.titleDao.loadTitle(new Long(10));
+        assertNotNull(title);
+    }
+
+    <I class="lineannotation"><SPAN class="lineannotation">// specifies the Spring configuration to load for this test fixture</SPAN></I>
+    protected String[] getConfigLocations() {
+        return new String[] { "classpath:com/foo/daos.xml" };
+    }
+
+}</PRE><P>The file referenced by the
+        <TT class="methodname">getConfigLocations()</TT> method (i.e.,
+        <TT class="literal">"classpath:com/foo/daos.xml"</TT>) looks like
+        this:</P><PRE class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"&gt;
+
+    <I class="lineannotation"><SPAN class="lineannotation">&lt;!-- this bean will be injected into the <TT class="classname">HibernateTitleDaoTests</TT> class --&gt;</SPAN></I>
+    &lt;bean id="<SPAN class="bold"><B>titleDao</B></SPAN>" class="<SPAN class="bold"><B>com.foo.dao.hibernate.HibernateTitleDao</B></SPAN>"&gt;
+        &lt;property name="sessionFactory" ref="sessionFactory"/&gt;
+    &lt;/bean&gt;
+    
+    &lt;bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"&gt;
+        <I class="lineannotation"><SPAN class="lineannotation">&lt;!-- dependencies elided for clarity --&gt;</SPAN></I>
+    &lt;/bean&gt;
+
+&lt;/beans&gt;</PRE><P>The
+        <TT class="classname">AbstractDependencyInjectionSpringContextTests</TT>
+        classes uses <A href="http://static.springsource.org/spring/docs/2.5.6/reference/beans.html#beans-factory-autowire" title="3.3.5.&nbsp;Autowiring collaborators"><SPAN class="emphasis"><EM>autowire
+        by type</EM></SPAN></A>. Thus if you have multiple bean definitions
+        of the same type, you cannot rely on this approach for those
+        particular beans. In that case, you can use the inherited
+        <TT class="literal">applicationContext</TT> instance variable and perform
+        explicit lookups using (for example) a call to
+        <TT class="methodname">applicationContext.getBean("titleDao")</TT>.</P><P>If you don't want dependency injection applied to your test
+        cases, simply don't declare any <TT class="literal">public</TT> setter
+        methods. Alternatively, you can extend
+        <TT class="classname">AbstractSpringContextTests</TT> - the root of the
+        JUnit 3.8 integration testing support class hierarchy in the
+        <TT class="literal">org.springframework.test</TT> package - which merely
+        contains convenience methods to load Spring contexts and performs no
+        Dependency Injection of the test fixture.</P><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H5 class="title"><A name="junit38-legacy-fixture-di-field"></A>8.3.6.2.1.&nbsp;Field level injection</H5></DIV></DIV><DIV></DIV></DIV><P>If, for whatever reason, you don't fancy having setter methods
+          in your test fixtures, Spring can inject dependencies into
+          <TT class="literal">protected</TT> fields. Find below a reworking of the
+          previous example to use field level injection (the Spring XML
+          configuration does not need to change, merely the test
+          fixture).</P><PRE class="programlisting">public final class HibernateTitleDaoTests <SPAN class="bold"><B>extends AbstractDependencyInjectionSpringContextTests</B></SPAN>  {
+
+    public HibernateTitleDaoTests() {
+        <I class="lineannotation"><SPAN class="lineannotation">// switch on field level injection</SPAN></I>
+        setPopulateProtectedVariables(true);
+    }
+
+    <I class="lineannotation"><SPAN class="lineannotation">// this instance will be (automatically) dependency injected</SPAN></I>
+    <I class="lineannotation"><SPAN class="lineannotation"><SPAN class="emphasis"><EM>protected</EM></SPAN></SPAN></I> HibernateTitleDao <I class="lineannotation"><SPAN class="lineannotation"><SPAN class="emphasis"><EM>titleDao</EM></SPAN></SPAN></I>;
+
+    public void testLoadTitle() throws Exception {
+        Title title = this.titleDao.loadTitle(new Long(10));
+        assertNotNull(title);
+    }
+
+    <I class="lineannotation"><SPAN class="lineannotation">// specifies the Spring configuration to load for this test fixture</SPAN></I>
+    protected String[] getConfigLocations() {
+        return new String[] { "classpath:com/foo/daos.xml" };
+    }
+
+}</PRE><P>In the case of field injection, there is no autowiring going
+          on: the name of a <TT class="literal">protected</TT> instance variable is
+          used as the lookup bean name in the configured Spring
+          container.</P></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="junit38-legacy-tx"></A>8.3.6.3.&nbsp;Transaction management</H4></DIV></DIV><DIV></DIV></DIV><P><TT class="classname">AbstractTransactionalSpringContextTests</TT>
+        depends on a <TT class="classname">PlatformTransactionManager</TT> bean
+        being defined in the application context. The name doesn't matter due
+        to the use of <A href="http://static.springsource.org/spring/docs/2.5.6/reference/beans.html#beans-factory-autowire" title="3.3.5.&nbsp;Autowiring collaborators"><SPAN class="emphasis"><EM>autowire by
+        type</EM></SPAN></A>.</P><P>Typically you will extend the subclass,
+        <TT class="classname">AbstractTransactionalDataSourceSpringContextTests</TT>.
+        This class also requires that a <TT class="classname">DataSource</TT> bean
+        definition - again, with any name - be present in the application
+        context. It creates a <TT class="classname">JdbcTemplate</TT> instance
+        variable, that is useful for convenient querying, and provides handy
+        methods to delete the contents of selected tables (remember that the
+        transaction will roll back by default, so this is safe to do).</P><P>If you want a transaction to commit
+        <SPAN class="emphasis"><EM>programmatically</EM></SPAN> - unusual, but occasionally
+        useful when you want a particular test to populate the database - you
+        can call the <TT class="methodname">setComplete()</TT> method inherited
+        from <TT class="classname">AbstractTransactionalSpringContextTests</TT>.
+        This will cause the transaction to commit instead of roll back. As an
+        alternative, if you are developing against Java 5 or greater and
+        extending <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#junit38-legacy-annotation-aware-tests" title="8.3.6.5.1.&nbsp;Annotation aware transactional tests"><TT class="classname">AbstractAnnotationAwareTransactionalTests</TT></A>,
+        you may annotate your test method with
+        <TT class="interfacename">@Rollback(false)</TT> to achieve the same
+        effect through <SPAN class="emphasis"><EM>configuration</EM></SPAN>.</P><P>There is also the convenient ability to end a transaction before
+        the test case ends, by calling the
+        <TT class="methodname">endTransaction()</TT> method. This will roll back
+        the transaction by default and commit it only if
+        <TT class="methodname">setComplete()</TT> had previously been called.
+        This functionality is useful if you want to test the behavior of
+        'disconnected' data objects, such as Hibernate-mapped entities that
+        will be used in a web or remoting tier outside a transaction. Often,
+        lazy loading errors are discovered only through UI testing; if you
+        call <TT class="methodname">endTransaction()</TT> you can ensure correct
+        operation of the UI through your JUnit test suite.</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="junit38-legacy-support-classes"></A>8.3.6.4.&nbsp;JUnit 3.8 legacy support classes</H4></DIV></DIV><DIV></DIV></DIV><P>When you extend the
+        <TT class="classname">AbstractTransactionalDataSourceSpringContextTests</TT>
+        class you will have access to the following
+        <TT class="literal">protected</TT> instance variables:</P><DIV class="itemizedlist"><UL type="disc"><LI><P><TT class="literal">applicationContext</TT> (a
+            <TT class="interfacename">ConfigurableApplicationContext</TT>):
+            inherited from the
+            <TT class="classname">AbstractSingleSpringContextTests</TT>
+            superclass. Use this to perform explicit bean lookup or to test
+            the state of the context as a whole.</P></LI><LI><P><TT class="literal">jdbcTemplate</TT>: inherited from
+            <TT class="classname">AbstractTransactionalDataSourceSpringContextTests</TT>.
+            Useful for querying to confirm state. For example, you might query
+            before and after testing application code that creates an object
+            and persists it using an ORM tool, to verify that the data appears
+            in the database. (Spring will ensure that the query runs in the
+            scope of the same transaction.) You will need to tell your ORM
+            tool to 'flush' its changes for this to work correctly, for
+            example using the <TT class="methodname">flush()</TT> method on
+            Hibernate's <TT class="classname">Session</TT> interface.</P></LI></UL></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="junit38-legacy-java5-support"></A>8.3.6.5.&nbsp;Java 5+ specific support</H4></DIV></DIV><DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H5 class="title"><A name="junit38-legacy-annotation-aware-tests"></A>8.3.6.5.1.&nbsp;Annotation aware transactional tests</H5></DIV></DIV><DIV></DIV></DIV><P>In addition to the aforementioned <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#integration-testing-common-annotations" title="8.3.5.&nbsp;Common annotations">common
+          annotations</A>, the
+          <TT class="literal">org.springframework.test.annotation</TT> package also
+          contains an <TT class="literal">abstract</TT> JUnit
+          <TT class="classname">TestCase</TT> class which provides
+          annotation-driven integration testing support.</P><P>The
+          <TT class="classname">AbstractAnnotationAwareTransactionalTests</TT>
+          class extends
+          <TT class="classname">AbstractTransactionalDataSourceSpringContextTests</TT>
+          and makes text fixtures, which extend it, aware of a number of
+          (Spring-specific) annotations.
+          <TT class="classname">AbstractAnnotationAwareTransactionalTests</TT>
+          supports all annotations listed in the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#integration-testing-common-annotations" title="8.3.5.&nbsp;Common annotations">common
+          annotations</A> section as well as Spring's
+          <TT class="interfacename">@Transactional</TT> annotation for
+          configuring explicit transactional semantics.</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H5 class="title"><A name="junit38-legacy-jpa-tests"></A>8.3.6.5.2.&nbsp;JPA support classes</H5></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.test.jpa</TT> package
+          provides support classes for tests based on the Java Persistence API
+          (JPA).</P><DIV class="itemizedlist"><UL type="disc"><LI><P><TT class="classname">AbstractJpaTests</TT> is a convenient
+              support class for JPA-related tests, which offers the same
+              contract as
+              <TT class="classname">AbstractTransactionalDataSourceSpringContextTests</TT>
+              and equally good performance, even when performing the
+              instrumentation required by the JPA specification. Exposes an
+              <TT class="interfacename">EntityManagerFactory</TT> and a shared
+              <TT class="interfacename">EntityManager</TT>. Requires an
+              <TT class="interfacename">EntityManagerFactory</TT> to be
+              injected, plus the <TT class="interfacename">DataSource</TT> and
+              <TT class="interfacename">JpaTransactionManager</TT> through the
+              superclass.</P></LI><LI><P><TT class="classname">AbstractAspectjJpaTests</TT> is a
+              subclass of <TT class="classname">AbstractJpaTests</TT> that
+              activates AspectJ load-time weaving and allows the ability to
+              specify a custom location for AspectJ's
+              <TT class="literal">aop.xml</TT> file.</P></LI></UL></DIV></DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="testcontext-framework"></A>8.3.7.&nbsp;Spring TestContext Framework</H3></DIV></DIV><DIV></DIV></DIV><P>The <SPAN class="emphasis"><EM>Spring <TT class="classname">TestContext</TT>
+      Framework</EM></SPAN> (located in the
+      <TT class="literal">org.springframework.test.context</TT> package) provides
+      generic, annotation-driven unit and integration testing support that is
+      agnostic of the testing framework in use, for example JUnit 3.8, JUnit
+      4.4, TestNG 5.5, etc. The TestContext framework also places a great deal
+      of importance on <SPAN class="emphasis"><EM>convention over configuration</EM></SPAN> with
+      reasonable defaults that can be overridden via annotation-based
+      configuration.</P><P>In addition to generic testing infrastructure, the TestContext
+      framework provides explicit support for JUnit 3.8, JUnit 4.4, and TestNG
+      5.5 in the form of <TT class="literal">abstract</TT> support classes. For
+      JUnit 4.4, the framework also provides a custom
+      <TT class="interfacename">Runner</TT> which allows one to write test
+      classes that are not required to extend a particular class
+      hierarchy.</P><P>The following section provides an overview of the internals of the
+      TestContext framework. If you are only interested in using the framework
+      and not necessarily interested in extending it with your own custom
+      listeners, feel free to skip ahead to the configuration (<A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-ctx-management" title="8.3.7.2.&nbsp;Context management and caching">context management</A>, <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-fixture-di" title="8.3.7.3.&nbsp;Dependency Injection of test fixtures">dependency injection</A>, <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-tx" title="8.3.7.4.&nbsp;Transaction management">transaction management</A>), <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes" title="8.3.7.5.&nbsp;TestContext support classes">support classes</A>, and <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-annotations" title="8.3.7.6.&nbsp;TestContext framework annotation support">annotation support</A>
+      sections.</P><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testcontext-key-abstractions"></A>8.3.7.1.&nbsp;Key abstractions</H4></DIV></DIV><DIV></DIV></DIV><P>The core of the framework consists of the
+        <TT class="classname">TestContext</TT> and
+        <TT class="classname">TestContextManager</TT> classes and the
+        <TT class="interfacename">TestExecutionListener</TT> interface. A
+        <TT class="classname">TestContextManager</TT> is created on a per-test
+        basis. The <TT class="classname">TestContextManager</TT> in turn manages a
+        <TT class="classname">TestContext</TT> which is responsible for holding
+        the context of the current test. The
+        <TT class="classname">TestContextManager</TT> is also responsible for
+        updating the state of the <TT class="classname">TestContext</TT> as the
+        test progresses and delegating to
+        <TT class="interfacename">TestExecutionListener</TT>s, which
+        instrument the actual test execution (e.g., providing dependency
+        injection, managing transactions, etc.). Consult the JavaDoc and the
+        Spring test suite for further information and examples of various
+        configurations.</P><DIV class="itemizedlist"><UL type="disc"><LI><P><TT class="classname">TestContext</TT>: encapsulates the context
+            in which a test is executed, agnostic of the actual testing
+            framework in use.</P></LI><LI><P><TT class="classname">TestContextManager</TT>: the main entry
+            point into the <SPAN class="emphasis"><EM>Spring TestContext Framework</EM></SPAN>,
+            which is responsible for managing a single
+            <TT class="classname">TestContext</TT> and signaling events to all
+            registered <TT class="interfacename">TestExecutionListener</TT>s
+            at well defined test execution points: test instance preparation,
+            prior to any <SPAN class="emphasis"><EM>before methods</EM></SPAN> of a particular
+            testing framework, and after any <SPAN class="emphasis"><EM>after
+            methods</EM></SPAN> of a particular testing framework.</P></LI><LI><P><TT class="interfacename">TestExecutionListener</TT>:
+            defines a <SPAN class="emphasis"><EM>listener</EM></SPAN> API for reacting to test
+            execution events published by the
+            <TT class="classname">TestContextManager</TT> with which the listener
+            is registered.</P><P>Spring provides three
+            <TT class="interfacename">TestExecutionListener</TT>
+            implementations which are configured by default (via the
+            <TT class="interfacename">@TestExecutionListeners</TT>
+            annotation):
+            <TT class="classname">DependencyInjectionTestExecutionListener</TT>,
+            <TT class="classname">DirtiesContextTestExecutionListener</TT>, and
+            <TT class="classname">TransactionalTestExecutionListener</TT>, which
+            provide support for dependency injection of the test instance,
+            handling of the <TT class="interfacename">@DirtiesContext</TT>
+            annotation, and transactional test execution support with default
+            rollback semantics, respectively.</P></LI></UL></DIV><P>The following three sections explain how to configure the
+        <TT class="classname">TestContext</TT> framework via annotations and
+        provide working examples of how to actually write unit and integration
+        tests with the framework.</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testcontext-ctx-management"></A>8.3.7.2.&nbsp;Context management and caching</H4></DIV></DIV><DIV></DIV></DIV><P>Each <TT class="classname">TestContext</TT> provides context
+        management and caching support for the test instance for which it is
+        responsible. Test instances do not automatically receive access to the
+        configured <TT class="classname">ApplicationContext</TT>; however, if a
+        test class implements the
+        <TT class="interfacename">ApplicationContextAware</TT> interface, a
+        reference to the <TT class="classname">ApplicationContext</TT> will be
+        supplied to the test instance (provided the
+        <TT class="classname">DependencyInjectionTestExecutionListener</TT> has
+        been configured, which is the default). Note that
+        <TT class="classname">AbstractJUnit38SpringContextTests</TT>,
+        <TT class="classname">AbstractJUnit4SpringContextTests</TT>, and
+        <TT class="classname">AbstractTestNGSpringContextTests</TT> already
+        implement <TT class="interfacename">ApplicationContextAware</TT> and
+        therefore provide this functionality out-of-the-box.</P><P>In contrast to the JUnit 3.8 legacy support, test classes which
+        use the TestContext framework do not need to override any
+        <TT class="literal">protected</TT> instance methods to configure their
+        application context. Rather, configuration is achieved merely by
+        declaring the <TT class="interfacename">@ContextConfiguration</TT>
+        annotation at the class level. If your test class does not explicitly
+        declare any application context resource <TT class="literal">locations</TT>,
+        the configured <TT class="interfacename">ContextLoader</TT> will
+        determine how and whether or not to load a context from a default set
+        of locations. For example,
+        <TT class="classname">GenericXmlContextLoader</TT> - which is the default
+        <TT class="interfacename">ContextLoader</TT> - will generate a default
+        location based on the name of the test class. If your class is named
+        <TT class="literal">com.example.MyTest</TT>,
+        <TT class="classname">GenericXmlContextLoader</TT> will load your
+        application context from
+        <TT class="literal">"classpath:/com/example/MyTest-context.xml"</TT>.</P><PRE class="programlisting">package com.example;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+<I class="lineannotation"><SPAN class="lineannotation">// ApplicationContext will be loaded from <TT class="literal">"classpath:/com/example/MyTest-context.xml"</TT></SPAN></I>
+<SPAN class="bold"><B>@ContextConfiguration</B></SPAN>
+public class MyTest {
+    <I class="lineannotation"><SPAN class="lineannotation">// class body...</SPAN></I>
+}</PRE><P>If the default location does not suit your needs, you are free
+        to explicitly configure the <TT class="literal">locations</TT> attribute of
+        <TT class="interfacename">@ContextConfiguration</TT> (see code listing
+        below) with an array containing the resource locations of XML
+        configuration metadata (assuming an XML-capable
+        <TT class="interfacename">ContextLoader</TT> has been configured) -
+        typically on the classpath - used to configure the application. This
+        will be the same, or nearly the same, as the list of configuration
+        locations specified in <TT class="literal">web.xml</TT> or other deployment
+        configuration. As an alternative you may choose to implement and
+        configure your own custom
+        <TT class="interfacename">ContextLoader</TT>.</P><PRE class="programlisting">@RunWith(SpringJUnit4ClassRunner.class)
+<I class="lineannotation"><SPAN class="lineannotation">// ApplicationContext will be loaded from <TT class="literal">"/applicationContext.xml"</TT> and <TT class="literal">"/applicationContext-test.xml"</TT></SPAN></I>
+<I class="lineannotation"><SPAN class="lineannotation">// in the root of the classpath</SPAN></I>
+<SPAN class="bold"><B>@ContextConfiguration(locations={"/applicationContext.xml", "/applicationContext-test.xml"})</B></SPAN>
+public class MyTest {
+    <I class="lineannotation"><SPAN class="lineannotation">// class body...</SPAN></I>
+}</PRE><P><TT class="interfacename">@ContextConfiguration</TT> also
+        supports a boolean <TT class="literal">inheritLocations</TT> attribute which
+        denotes whether or not resource locations from superclasses should be
+        <SPAN class="emphasis"><EM>inherited</EM></SPAN>. The default value is
+        <TT class="literal">true</TT>, which means that an annotated class will
+        <SPAN class="emphasis"><EM>inherit</EM></SPAN> the resource locations defined by an
+        annotated superclass. Specifically, the resource locations for an
+        annotated class will be appended to the list of resource locations
+        defined by an annotated superclass. Thus, subclasses have the option
+        of <SPAN class="emphasis"><EM>extending</EM></SPAN> the list of resource locations. In
+        the following example, the
+        <TT class="interfacename">ApplicationContext</TT> for
+        <TT class="classname">ExtendedTest</TT> will be loaded from
+        "/base-context.xml" <SPAN class="bold"><B>and</B></SPAN>
+        "/extended-context.xml", in that order. Beans defined in
+        "/extended-context.xml" may therefore override those defined in
+        "/base-context.xml".</P><PRE class="programlisting">@RunWith(SpringJUnit4ClassRunner.class)
+<I class="lineannotation"><SPAN class="lineannotation">// ApplicationContext will be loaded from <TT class="literal">"/base-context.xml"</TT> in the root of the classpath</SPAN></I>
+<SPAN class="bold"><B>@ContextConfiguration(locations={"/base-context.xml"})</B></SPAN>
+public class BaseTest {
+    <I class="lineannotation"><SPAN class="lineannotation">// class body...</SPAN></I>
+}
+
+<I class="lineannotation"><SPAN class="lineannotation">// ApplicationContext will be loaded from <TT class="literal">"/base-context.xml"</TT> and <TT class="literal">"/extended-context.xml"</TT></SPAN></I>
+<I class="lineannotation"><SPAN class="lineannotation">// in the root of the classpath</SPAN></I>
+<SPAN class="bold"><B>@ContextConfiguration(locations={"/extended-context.xml"})</B></SPAN>
+public class ExtendedTest extends BaseTest {
+    <I class="lineannotation"><SPAN class="lineannotation">// class body...</SPAN></I>
+}</PRE><P>If <TT class="literal">inheritLocations</TT> is set to
+        <TT class="literal">false</TT>, the resource locations for the annotated
+        class will <SPAN class="emphasis"><EM>shadow</EM></SPAN> and effectively replace any
+        resource locations defined by a superclass.</P><P>By default, once loaded, the configured
+        <TT class="interfacename">ApplicationContext</TT> will be reused for
+        each test. Thus the setup cost will be incurred only once (per test
+        fixture), and subsequent test execution will be much faster. In the
+        unlikely case that a test may <SPAN class="emphasis"><EM>dirty</EM></SPAN> the
+        application context, requiring reloading - for example, by changing a
+        bean definition or the state of an application object - you may
+        annotate your test method with
+        <TT class="interfacename">@DirtiesContext</TT> (assuming
+        <TT class="classname">DirtiesContextTestExecutionListener</TT> has been
+        configured, which is the default) to cause the test fixture to reload
+        the configurations and rebuild the application context before
+        executing the next test.</P></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testcontext-fixture-di"></A>8.3.7.3.&nbsp;Dependency Injection of test fixtures</H4></DIV></DIV><DIV></DIV></DIV><P>When you configure the
+        <TT class="classname">DependencyInjectionTestExecutionListener</TT> -
+        which is configured by default - via the
+        <TT class="interfacename">@TestExecutionListeners</TT> annotation, the
+        dependencies of your test instances will be
+        <SPAN class="emphasis"><EM>injected</EM></SPAN> from beans in the application context
+        you configured via
+        <TT class="interfacename">@ContextConfiguration</TT> by Setter
+        Injection, Field Injection, or both, depending on which annotations
+        you choose and whether you place them on setter methods or fields. For
+        consistency with annotation support in Spring 2.5, you may choose
+        either Spring's <TT class="interfacename">@Autowired</TT> annotation
+        or the <TT class="interfacename">@Resource</TT> annotation from JSR
+        250. The semantics for both are consistent throughout the Spring
+        Framework. For example, if you prefer <A href="http://static.springsource.org/spring/docs/2.5.6/reference/beans.html#beans-factory-autowire" title="3.3.5.&nbsp;Autowiring collaborators"><SPAN class="emphasis"><EM>autowiring by
+        type</EM></SPAN></A>, annotate your setter methods or fields with
+        <TT class="interfacename">@Autowired</TT>. On the other hand, if you
+        prefer to have your dependencies injected <SPAN class="emphasis"><EM>by
+        name</EM></SPAN>, annotate your setter methods or fields with
+        <TT class="interfacename">@Resource</TT>.</P><DIV class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><TABLE border="0" summary="Tip"><TBODY><TR><TD rowspan="2" align="center" valign="top" width="25"><IMG alt="[Tip]" src="./Chapter 8. Testing_files/tip.png"></TD><TH align="left">Tip</TH></TR><TR><TD colspan="2" align="left" valign="top"><P>The TestContext framework does not instrument the manner in
+          which a test instance is instantiated. Thus the use of
+          <TT class="interfacename">@Autowired</TT> for constructors has no
+          effect for test classes.</P></TD></TR></TBODY></TABLE></DIV><P>Since <TT class="interfacename">@Autowired</TT> performs <A href="http://static.springsource.org/spring/docs/2.5.6/reference/beans.html#beans-factory-autowire" title="3.3.5.&nbsp;Autowiring collaborators"><SPAN class="emphasis"><EM>autowiring by
+        type</EM></SPAN></A>, if you have multiple bean definitions of the
+        same type, you cannot rely on this approach for those particular
+        beans. In that case, you can use
+        <TT class="interfacename">@Resource</TT> for injection <SPAN class="emphasis"><EM>by
+        name</EM></SPAN>. Alternatively, if your test class implements
+        <TT class="classname">ApplicationContextAware</TT>, you can directly
+        access the <TT class="classname">ApplicationContext</TT> supplied to your
+        test and perform an explicit lookup using (for example) a call to
+        <TT class="methodname">applicationContext.getBean("titleDao")</TT>.</P><P>If you don't want dependency injection applied to your test
+        instances, simply don't annotate any fields or setter methods with
+        <TT class="interfacename">@Autowired</TT> or
+        <TT class="interfacename">@Resource</TT>. Alternatively, you can
+        disable dependency injection altogether by explicitly configuring your
+        class with <TT class="interfacename">@TestExecutionListeners</TT> and
+        omitting
+        <TT class="literal">DependencyInjectionTestExecutionListener.class</TT> from
+        the list of listeners.</P><P>Consider the scenario where we have a class,
+        <TT class="classname">HibernateTitleDao</TT> (as outlined in the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testing-fixture-di" title="8.3.3.2.&nbsp;Dependency Injection of test fixtures">common goals</A> section). First,
+        let's look at a JUnit 4.4 based implementation of the test class
+        itself which uses <TT class="interfacename">@Autowired</TT> for field
+        injection (we will look at the application context configuration after
+        all sample code listings). <SPAN class="emphasis"><EM>Note: The dependency injection
+        behavior in the following code listings is not in any way specific to
+        JUnit 4.4. The same DI techniques can be used in conjunction with any
+        testing framework.</EM></SPAN></P><PRE class="programlisting">@RunWith(SpringJUnit4ClassRunner.class)
+<I class="lineannotation"><SPAN class="lineannotation">// specifies the Spring configuration to load for this test fixture</SPAN></I>
+<SPAN class="bold"><B>@ContextConfiguration(locations={"daos.xml"})</B></SPAN>
+public final class HibernateTitleDaoTests {
+
+    <I class="lineannotation"><SPAN class="lineannotation">// this instance will be dependency injected <SPAN class="bold"><B>by type</B></SPAN></SPAN></I>
+    <SPAN class="bold"><B>@Autowired</B></SPAN>    
+    private HibernateTitleDao titleDao;
+
+    public void testLoadTitle() throws Exception {
+        Title title = this.titleDao.loadTitle(new Long(10));
+        assertNotNull(title);
+    }
+}</PRE><P>Alternatively, we can configure the class to use
+        <TT class="interfacename">@Autowired</TT> for setter injection.</P><PRE class="programlisting">@RunWith(SpringJUnit4ClassRunner.class)
+<I class="lineannotation"><SPAN class="lineannotation">// specifies the Spring configuration to load for this test fixture</SPAN></I>
+<SPAN class="bold"><B>@ContextConfiguration(locations={"daos.xml"})</B></SPAN>
+public final class HibernateTitleDaoTests {
+
+    <I class="lineannotation"><SPAN class="lineannotation">// this instance will be dependency injected <SPAN class="bold"><B>by type</B></SPAN></SPAN></I>
+    private HibernateTitleDao titleDao;
+
+    <SPAN class="bold"><B>@Autowired</B></SPAN>
+    public void setTitleDao(HibernateTitleDao titleDao) {
+        this.titleDao = titleDao;
+    }
+
+    public void testLoadTitle() throws Exception {
+        Title title = this.titleDao.loadTitle(new Long(10));
+        assertNotNull(title);
+    }
+}</PRE><P>Now let's take a look at an example using
+        <TT class="interfacename">@Resource</TT> for field injection.</P><PRE class="programlisting">@RunWith(SpringJUnit4ClassRunner.class)
+<I class="lineannotation"><SPAN class="lineannotation">// specifies the Spring configuration to load for this test fixture</SPAN></I>
+<SPAN class="bold"><B>@ContextConfiguration(locations={"daos.xml"})</B></SPAN>
+public final class HibernateTitleDaoTests {
+
+    <I class="lineannotation"><SPAN class="lineannotation">// this instance will be dependency injected <SPAN class="bold"><B>by name</B></SPAN></SPAN></I>
+    <SPAN class="bold"><B>@Resource</B></SPAN>
+    private HibernateTitleDao titleDao;
+
+    public void testLoadTitle() throws Exception {
+        Title title = this.titleDao.loadTitle(new Long(10));
+        assertNotNull(title);
+    }
+}</PRE><P>Finally, here is an example using
+        <TT class="interfacename">@Resource</TT> for setter injection.</P><PRE class="programlisting">@RunWith(SpringJUnit4ClassRunner.class)
+<I class="lineannotation"><SPAN class="lineannotation">// specifies the Spring configuration to load for this test fixture</SPAN></I>
+<SPAN class="bold"><B>@ContextConfiguration(locations={"daos.xml"})</B></SPAN>
+public final class HibernateTitleDaoTests {
+
+    <I class="lineannotation"><SPAN class="lineannotation">// this instance will be dependency injected <SPAN class="bold"><B>by name</B></SPAN></SPAN></I>
+    private HibernateTitleDao titleDao;
+    
+    <SPAN class="bold"><B>@Resource</B></SPAN>
+    public void setTitleDao(HibernateTitleDao titleDao) {
+        this.titleDao = titleDao;
+    }
+
+    public void testLoadTitle() throws Exception {
+        Title title = this.titleDao.loadTitle(new Long(10));
+        assertNotNull(title);
+    }
+}</PRE><P>The above code listings use the same XML context file referenced
+        by the <TT class="interfacename">@ContextConfiguration</TT> annotation
+        (i.e., <TT class="literal">"daos.xml"</TT>) which looks like this:</P><PRE class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"&gt;
+
+    <I class="lineannotation"><SPAN class="lineannotation">&lt;!-- this bean will be injected into the <TT class="classname">HibernateTitleDaoTests</TT> class --&gt;</SPAN></I>
+    &lt;bean id="<SPAN class="bold"><B>titleDao</B></SPAN>" class="<SPAN class="bold"><B>com.foo.dao.hibernate.HibernateTitleDao</B></SPAN>"&gt;
+        &lt;property name="sessionFactory" ref="sessionFactory"/&gt;
+    &lt;/bean&gt;
+    
+    &lt;bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"&gt;
+        <I class="lineannotation"><SPAN class="lineannotation">&lt;!-- dependencies elided for clarity --&gt;</SPAN></I>
+    &lt;/bean&gt;
+
+&lt;/beans&gt;</PRE><DIV class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><TABLE border="0" summary="Note"><TBODY><TR><TD rowspan="2" align="center" valign="top" width="25"><IMG alt="[Note]" src="./Chapter 8. Testing_files/note.png"></TD><TH align="left">Note</TH></TR><TR><TD colspan="2" align="left" valign="top"><P>If you are extending from a Spring-provided test base class that happens
+          to use <TT class="interfacename">@Autowired</TT> on one of its setters methods,
+          you might have multiple beans of the affected type defined in your application context:
+          e.g. multiple <TT class="interfacename">DataSource</TT> beans. In such a case,
+          you may override the setter and use the <TT class="interfacename">@Qualifier</TT>
+          annotation to indicate a specific target bean as follows:</P><PRE class="programlisting">...
+    @Override @Autowired
+    public void setDataSource(<SPAN class="bold"><B>@Qualifier("myDataSource")</B></SPAN> DataSource dataSource) {
+        super.setDataSource(dataSource);
+    }
+...</PRE><P>The specified qualifier value indicates the specific
+          <TT class="interfacename">DataSource</TT> bean to inject,
+          narrowing the set of type matches to a specific bean.
+          Its value is matched against <TT class="literal">&lt;qualifier&gt;</TT>
+          declarations within the corresponding <TT class="literal">&lt;bean&gt;</TT>
+          definitions. The bean name is used as a fallback qualifier value,
+          so you may effectively also point to a specific bean by name there
+          (as shown above, assuming that "myDataSource" is the bean id).
+          If there is only one <TT class="interfacename">DataSource</TT> bean
+          to begin with, then the qualifier will simply not have any effect
+          - independent from the bean name of that single matching bean.</P><P>Alternatively, consider using the <TT class="interfacename">@Resource</TT>
+          annotation on such an overridden setter methods, defining the
+          target bean name explicitly - with no type matching semantics.
+          Note that this always points to a bean with that specific name,
+          no matter whether there is one or more beans of the given type.</P><PRE class="programlisting">...
+    @Override <SPAN class="bold"><B>@Resource("myDataSource")</B></SPAN>
+    public void setDataSource(DataSource dataSource) {
+        super.setDataSource(dataSource);
+    }
+...</PRE></TD></TR></TBODY></TABLE></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testcontext-tx"></A>8.3.7.4.&nbsp;Transaction management</H4></DIV></DIV><DIV></DIV></DIV><P>In the TestContext framework, transactions are managed by the
+        <TT class="classname">TransactionalTestExecutionListener</TT>, which is
+        configured via the
+        <TT class="interfacename">@TestExecutionListeners</TT> annotation by
+        default, even if you do not explicitly declare
+        <TT class="interfacename">@TestExecutionListeners</TT> on your test
+        class. To enable support for transactions, however, you must provide a
+        <TT class="classname">PlatformTransactionManager</TT> bean in the
+        application context loaded via
+        <TT class="interfacename">@ContextConfiguration</TT> semantics. In
+        addition, you must declare
+        <TT class="interfacename">@Transactional</TT> either at the class or
+        method level.</P><P>For class-level transaction configuration (i.e., setting the
+        bean name for the transaction manager and the default rollback flag),
+        see the <TT class="interfacename">@TransactionConfiguration</TT> entry
+        in the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-annotations" title="8.3.7.6.&nbsp;TestContext framework annotation support">TestContext framework
+        annotation support</A> section.</P><P>There are several options for configuring transactions for
+        individual test methods. If transactions are not enabled for the
+        entire test class, methods may be explicitly annotated with
+        <TT class="interfacename">@Transactional</TT>. Similarly, if
+        transactions <SPAN class="emphasis"><EM>are</EM></SPAN> enabled for the entire test
+        class, methods may be explicitly flagged not to run within a
+        transaction by annotating them with
+        <TT class="interfacename">@NotTransactional</TT>. To control whether
+        or not a transaction should commit for a particular test method, you
+        may use the <TT class="interfacename">@Rollback</TT> annotation to
+        override the class-level default rollback setting.</P><P><SPAN class="emphasis"><EM>Note that <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-junit38" title="8.3.7.5.1.&nbsp;JUnit 3.8 support classes"><TT class="classname">AbstractTransactionalJUnit38SpringContextTests</TT></A>,
+        <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-junit44" title="8.3.7.5.2.&nbsp;JUnit 4.4 support classes"><TT class="classname">AbstractTransactionalJUnit4SpringContextTests</TT></A>,
+        and <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-testng" title="8.3.7.5.4.&nbsp;TestNG support classes"><TT class="classname">AbstractTransactionalTestNGSpringContextTests</TT></A>
+        are pre-configured for transactional support at the class level.
+        </EM></SPAN></P><P>You will occasionally find that you need to execute certain code
+        before or after a transactional test method but outside the
+        transactional context, for example to verify the initial database
+        state prior to execution of your test or to verify expected
+        transactional commit behavior after test execution (e.g., if the test
+        was configured not to roll back the transaction).
+        <TT class="classname">TransactionalTestExecutionListener</TT> supports the
+        <TT class="interfacename">@BeforeTransaction</TT> and
+        <TT class="interfacename">@AfterTransaction</TT> annotations exactly
+        for such scenarios. Simply annotate any <TT class="literal">public void</TT>
+        method in your test class with one of these annotations, and the
+        <TT class="classname">TransactionalTestExecutionListener</TT> will ensure
+        that your <SPAN class="emphasis"><EM>before transaction method</EM></SPAN> or
+        <SPAN class="emphasis"><EM>after transaction method</EM></SPAN> is executed at the
+        appropriate time.</P><DIV class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><TABLE border="0" summary="Tip"><TBODY><TR><TD rowspan="2" align="center" valign="top" width="25"><IMG alt="[Tip]" src="./Chapter 8. Testing_files/tip.png"></TD><TH align="left">Tip</TH></TR><TR><TD colspan="2" align="left" valign="top"><P>Any <SPAN class="emphasis"><EM>before methods</EM></SPAN> (e.g., methods
+          annotated with JUnit 4's @Before) and any <SPAN class="emphasis"><EM>after
+          methods</EM></SPAN> (e.g., methods annotated with JUnit 4's @After)
+          will be executed <SPAN class="bold"><B>within</B></SPAN> a
+          transaction. In addition, methods annotated with
+          <TT class="interfacename">@BeforeTransaction</TT> or
+          <TT class="interfacename">@AfterTransaction</TT> will naturally not
+          be executed for tests annotated with
+          <TT class="interfacename">@NotTransactional</TT>.</P></TD></TR></TBODY></TABLE></DIV><P>The following JUnit 4 based example displays a fictitious
+        integration testing scenario highlighting several of the
+        transaction-related annotations. Consult the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-annotations" title="8.3.7.6.&nbsp;TestContext framework annotation support">TestContext framework annotation
+        support</A> section of the reference manual for further information
+        and configuration examples.</P><PRE class="programlisting">@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
+<SPAN class="bold"><B>@TransactionConfiguration(transactionManager="txMgr", defaultRollback=false)</B></SPAN>
+<SPAN class="bold"><B>@Transactional</B></SPAN>
+public class FictitiousTransactionalTest {
+
+    <SPAN class="bold"><B>@BeforeTransaction</B></SPAN>
+    public void verifyInitialDatabaseState() {
+        <I class="lineannotation"><SPAN class="lineannotation">// logic to verify the initial state before a transaction is started</SPAN></I>
+    }
+
+    @Before
+    public void setUpTestDataWithinTransaction() {
+        <I class="lineannotation"><SPAN class="lineannotation">// set up test data within the transaction</SPAN></I>
+    }
+
+    @Test
+    <I class="lineannotation"><SPAN class="lineannotation">// overrides the class-level defaultRollback setting</SPAN></I>
+    <SPAN class="bold"><B>@Rollback(true)</B></SPAN>
+    public void modifyDatabaseWithinTransaction() {
+        <I class="lineannotation"><SPAN class="lineannotation">// logic which uses the test data and modifies database state</SPAN></I>
+    }
+
+    @After
+    public void tearDownWithinTransaction() {
+        <I class="lineannotation"><SPAN class="lineannotation">// execute "tear down" logic within the transaction</SPAN></I>
+    }
+
+    <SPAN class="bold"><B>@AfterTransaction</B></SPAN>
+    public void verifyFinalDatabaseState() {
+        <I class="lineannotation"><SPAN class="lineannotation">// logic to verify the final state after transaction has rolled back</SPAN></I>
+    }
+
+    @Test
+    <SPAN class="bold"><B>@NotTransactional</B></SPAN>
+    public void performNonDatabaseRelatedAction() {
+        <I class="lineannotation"><SPAN class="lineannotation">// logic which does not modify database state</SPAN></I>
+    }
+}</PRE></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testcontext-support-classes"></A>8.3.7.5.&nbsp;TestContext support classes</H4></DIV></DIV><DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H5 class="title"><A name="testcontext-support-classes-junit38"></A>8.3.7.5.1.&nbsp;JUnit 3.8 support classes</H5></DIV></DIV><DIV></DIV></DIV><P>The
+          <TT class="literal">org.springframework.test.context.junit38</TT> package
+          provides support classes for JUnit 3.8 based test cases.</P><DIV class="itemizedlist"><UL type="disc"><LI><P><TT class="classname">AbstractJUnit38SpringContextTests</TT>:</P><P>Abstract <TT class="classname">TestCase</TT> which integrates
+              the <SPAN class="emphasis"><EM>Spring TestContext Framework</EM></SPAN> with
+              explicit <TT class="classname">ApplicationContext</TT> testing
+              support in a JUnit 3.8 environment. When you extend the
+              <TT class="classname">AbstractJUnit38SpringContextTests</TT> class
+              you will have access to the following
+              <TT class="literal">protected</TT> instance variables:</P><DIV class="itemizedlist"><UL type="circle"><LI><P><TT class="literal">applicationContext</TT>: use this to
+                  perform explicit bean lookups or to test the state of the
+                  context as a whole.</P></LI></UL></DIV></LI><LI><P><TT class="classname">AbstractTransactionalJUnit38SpringContextTests</TT>:</P><P>Abstract <SPAN class="emphasis"><EM>transactional</EM></SPAN> extension of
+              <TT class="classname">AbstractJUnit38SpringContextTests</TT> that
+              also adds some convenience functionality for JDBC access.
+              Expects a <TT class="classname">javax.sql.DataSource</TT> bean and a
+              <TT class="interfacename">PlatformTransactionManager</TT> bean
+              to be defined in the <TT class="classname">ApplicationContext</TT>.
+              When you extend the
+              <TT class="classname">AbstractTransactionalJUnit38SpringContextTests</TT>
+              class you will have access to the following
+              <TT class="literal">protected</TT> instance variables:</P><DIV class="itemizedlist"><UL type="circle"><LI><P><TT class="literal">applicationContext</TT>: inherited from
+                  the <TT class="classname">AbstractJUnit38SpringContextTests</TT>
+                  superclass. Use this to perform explicit bean lookups or to
+                  test the state of the context as a whole.</P></LI><LI><P><TT class="literal">simpleJdbcTemplate</TT>: useful for
+                  querying to confirm state. For example, you might query
+                  before and after testing application code that creates an
+                  object and persists it using an ORM tool, to verify that the
+                  data appears in the database. (Spring will ensure that the
+                  query runs in the scope of the same transaction.) You will
+                  need to tell your ORM tool to 'flush' its changes for this
+                  to work correctly, for example using the
+                  <TT class="methodname">flush()</TT> method on Hibernate's
+                  <TT class="classname">Session</TT> interface.</P></LI></UL></DIV></LI></UL></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H5 class="title"><A name="testcontext-support-classes-junit44"></A>8.3.7.5.2.&nbsp;JUnit 4.4 support classes</H5></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.test.context.junit4</TT>
+          package provides support classes for JUnit 4.4 based test
+          cases.</P><DIV class="itemizedlist"><UL type="disc"><LI><P><TT class="classname">AbstractJUnit4SpringContextTests</TT>:</P><P>Abstract base test class which integrates the
+              <SPAN class="emphasis"><EM>Spring TestContext Framework</EM></SPAN> with explicit
+              <TT class="classname">ApplicationContext</TT> testing support in a
+              JUnit 4.4 environment.</P><P>When you extend
+              <TT class="classname">AbstractJUnit4SpringContextTests</TT> you will
+              have access to the following <TT class="literal">protected</TT>
+              instance variables:</P><DIV class="itemizedlist"><UL type="circle"><LI><P><TT class="literal">applicationContext</TT>: use this to
+                  perform explicit bean lookups or to test the state of the
+                  context as a whole.</P></LI></UL></DIV></LI><LI><P><TT class="classname">AbstractTransactionalJUnit4SpringContextTests</TT>:</P><P>Abstract <SPAN class="emphasis"><EM>transactional</EM></SPAN> extension of
+              <TT class="classname">AbstractJUnit4SpringContextTests</TT> that
+              also adds some convenience functionality for JDBC access.
+              Expects a <TT class="classname">javax.sql.DataSource</TT> bean and a
+              <TT class="interfacename">PlatformTransactionManager</TT> bean
+              to be defined in the
+              <TT class="classname">ApplicationContext</TT>.</P><P>When you extend
+              <TT class="classname">AbstractTransactionalJUnit4SpringContextTests</TT>
+              you will have access to the following
+              <TT class="literal">protected</TT> instance variables:</P><DIV class="itemizedlist"><UL type="circle"><LI><P><TT class="literal">applicationContext</TT>: inherited from
+                  the <TT class="classname">AbstractJUnit4SpringContextTests</TT>
+                  superclass. Use this to perform explicit bean lookups or to
+                  test the state of the context as a whole.</P></LI><LI><P><TT class="literal">simpleJdbcTemplate</TT>: useful for
+                  querying to confirm state. For example, you might query
+                  before and after testing application code that creates an
+                  object and persists it using an ORM tool, to verify that the
+                  data appears in the database. (Spring will ensure that the
+                  query runs in the scope of the same transaction.) You will
+                  need to tell your ORM tool to 'flush' its changes for this
+                  to work correctly, for example using the
+                  <TT class="methodname">flush()</TT> method on Hibernate's
+                  <TT class="classname">Session</TT> interface.</P></LI></UL></DIV></LI></UL></DIV><DIV class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><TABLE border="0" summary="Tip"><TBODY><TR><TD rowspan="2" align="center" valign="top" width="25"><IMG alt="[Tip]" src="./Chapter 8. Testing_files/tip.png"></TD><TH align="left">Tip</TH></TR><TR><TD colspan="2" align="left" valign="top"><P>These classes serve only as a convenience for extension. If
+            you do not wish for your test classes to be tied to a
+            Spring-specific class hierarchy - for example, if you wish to
+            directly extend the class you are testing - you may configure your
+            own custom test classes by using
+            <TT class="interfacename">@RunWith(SpringJUnit4ClassRunner.class)</TT>,
+            <TT class="interfacename">@ContextConfiguration</TT>,
+            <TT class="interfacename">@TestExecutionListeners</TT>,
+            etc.</P></TD></TR></TBODY></TABLE></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H5 class="title"><A name="testcontext-junit4-runner"></A>8.3.7.5.3.&nbsp;Custom JUnit 4.4 Runner</H5></DIV></DIV><DIV></DIV></DIV><P>The <SPAN class="emphasis"><EM>Spring TestContext Framework</EM></SPAN> offers
+          full integration with JUnit 4.4 via a custom runner. By annotating
+          test classes with
+          <TT class="literal">@Runwith(SpringJUnit4ClassRunner.class)</TT>,
+          developers can implement standard JUnit 4.4 unit and integration
+          tests and simultaneously reap the benefits of the TestContext
+          framework such as support for loading application contexts,
+          dependency injection of test instances, transactional test method
+          execution, etc. The following code listing displays the minimal
+          requirements for configuring a test class to run with the custom
+          Spring Runner. <SPAN class="emphasis"><EM>Note that
+          <TT class="interfacename">@TestExecutionListeners</TT> has been
+          configured with an empty list in order to disable the default
+          listeners, which would otherwise require that an
+          <TT class="interfacename">ApplicationContext</TT> be configured via
+          <TT class="interfacename">@ContextConfiguration</TT>.</EM></SPAN></P><PRE class="programlisting">@RunWith(SpringJUnit4ClassRunner.class)
+@TestExecutionListeners({})
+public class SimpleTest {
+
+    @Test
+    public void testMethod() {
+        <I class="lineannotation"><SPAN class="lineannotation">// execute test logic...</SPAN></I>
+    }
+}</PRE></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H5 class="title"><A name="testcontext-support-classes-testng"></A>8.3.7.5.4.&nbsp;TestNG support classes</H5></DIV></DIV><DIV></DIV></DIV><P>The <TT class="literal">org.springframework.test.context.testng</TT>
+          package provides support classes for TestNG based test cases.</P><DIV class="itemizedlist"><UL type="disc"><LI><P><TT class="classname">AbstractTestNGSpringContextTests</TT>:</P><P>Abstract base test class which integrates the
+              <SPAN class="emphasis"><EM>Spring TestContext Framework</EM></SPAN> with explicit
+              <TT class="classname">ApplicationContext</TT> testing support in a
+              TestNG environment.</P><P>When you extend
+              <TT class="classname">AbstractTestNGSpringContextTests</TT> you will
+              have access to the following <TT class="literal">protected</TT>
+              instance variables:</P><DIV class="itemizedlist"><UL type="circle"><LI><P><TT class="literal">applicationContext</TT>: use this to
+                  perform explicit bean lookups or to test the state of the
+                  context as a whole.</P></LI></UL></DIV></LI><LI><P><TT class="classname">AbstractTransactionalTestNGSpringContextTests</TT>:</P><P>Abstract <SPAN class="emphasis"><EM>transactional</EM></SPAN> extension of
+              <TT class="classname">AbstractTestNGSpringContextTests</TT> that
+              adds some convenience functionality for JDBC access. Expects a
+              <TT class="classname">javax.sql.DataSource</TT> bean and a
+              <TT class="interfacename">PlatformTransactionManager</TT> bean
+              to be defined in the
+              <TT class="classname">ApplicationContext</TT>.</P><P>When you extend
+              <TT class="classname">AbstractTransactionalTestNGSpringContextTests</TT>
+              you will have access to the following
+              <TT class="literal">protected</TT> instance variables:</P><DIV class="itemizedlist"><UL type="circle"><LI><P><TT class="literal">applicationContext</TT>: inherited from
+                  the <TT class="classname">AbstractTestNGSpringContextTests</TT>
+                  superclass. Use this to perform explicit bean lookups or to
+                  test the state of the context as a whole.</P></LI><LI><P><TT class="literal">simpleJdbcTemplate</TT>: useful for
+                  querying to confirm state. For example, you might query
+                  before and after testing application code that creates an
+                  object and persists it using an ORM tool, to verify that the
+                  data appears in the database. (Spring will ensure that the
+                  query runs in the scope of the same transaction.) You will
+                  need to tell your ORM tool to 'flush' its changes for this
+                  to work correctly, for example using the
+                  <TT class="methodname">flush()</TT> method on Hibernate's
+                  <TT class="classname">Session</TT> interface.</P></LI></UL></DIV></LI></UL></DIV><DIV class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><TABLE border="0" summary="Tip"><TBODY><TR><TD rowspan="2" align="center" valign="top" width="25"><IMG alt="[Tip]" src="./Chapter 8. Testing_files/tip.png"></TD><TH align="left">Tip</TH></TR><TR><TD colspan="2" align="left" valign="top"><P>These classes serve only as a convenience for extension. If
+            you do not wish for your test classes to be tied to a
+            Spring-specific class hierarchy - for example, if you wish to
+            directly extend the class you are testing - you may configure your
+            own custom test classes by using
+            <TT class="interfacename">@ContextConfiguration</TT>,
+            <TT class="interfacename">@TestExecutionListeners</TT>, etc. and
+            by manually instrumenting your test class with a
+            <TT class="classname">TestContextManager</TT>. See the source code of
+            <TT class="classname">AbstractTestNGSpringContextTests</TT> for an
+            example of how to instrument your test class.</P></TD></TR></TBODY></TABLE></DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H4 class="title"><A name="testcontext-annotations"></A>8.3.7.6.&nbsp;TestContext framework annotation support</H4></DIV></DIV><DIV></DIV></DIV><P>The Spring TestContext Framework supports all annotations as
+        outlined in the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#integration-testing-common-annotations" title="8.3.5.&nbsp;Common annotations">common
+        annotations</A> section. The following annotations, however, are
+        <SPAN class="emphasis"><EM>only supported when used in conjunction with JUnit (e.g.,
+        with the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-junit4-runner" title="8.3.7.5.3.&nbsp;Custom JUnit 4.4 Runner">SpringJUnit4ClassRunner</A> or
+        the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-junit38" title="8.3.7.5.1.&nbsp;JUnit 3.8 support classes">JUnit
+        3.8</A> and <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-support-classes-junit44" title="8.3.7.5.2.&nbsp;JUnit 4.4 support classes">JUnit 4.4</A> support
+        classes.</EM></SPAN></P><DIV class="itemizedlist"><UL type="disc"><LI><P><TT class="interfacename">@IfProfileValue</TT></P></LI><LI><P><TT class="interfacename">@ProfileValueSourceConfiguration</TT></P></LI><LI><P><TT class="interfacename">@ExpectedException</TT></P><P>Using Spring's
+            <TT class="interfacename">@ExpectedException</TT> annotation in
+            conjunction with JUnit 4's
+            <TT class="interfacename">@Test(expected=...)</TT> configuration
+            would lead to an unresolvable conflict. Developers must therefore
+            choose one or the other when integrating with JUnit 4, in which
+            case it is generally preferable to use the explicit JUnit 4
+            configuration.</P></LI><LI><P><TT class="interfacename">@Timed</TT></P><P>Spring's <TT class="interfacename">@Timed</TT> annotation
+            has different semantics than JUnit 4's
+            <TT class="interfacename">@Test(timeout=...)</TT> support.
+            Specifically, due to the manner in which JUnit 4 handles test
+            execution timeouts (i.e., by executing the test method in a
+            separate <TT class="classname">Thread</TT>),
+            <TT class="interfacename">@Test(timeout=...)</TT> applies to
+            <SPAN class="emphasis"><EM>each iteration</EM></SPAN> in the case of repetitions
+            and preemptively fails the test if the test takes too long.
+            Spring's <TT class="interfacename">@Timed</TT>, on the other hand,
+            times the <SPAN class="emphasis"><EM>total</EM></SPAN> test execution time
+            (including all repetitions) and does not preemptively fail the test
+            but rather waits for the test to actually complete before failing.</P></LI><LI><P><TT class="interfacename">@Repeat</TT></P></LI></UL></DIV><P>The following non-test-specific annotations are also supported
+        by the Spring TestContext Framework with their standard
+        semantics.</P><DIV class="itemizedlist"><UL type="disc"><LI><P><TT class="interfacename">@Autowired</TT></P></LI><LI><P><TT class="interfacename">@Qualifier</TT></P></LI><LI><P><TT class="interfacename">@Resource</TT> (javax.annotation)
+            <SPAN class="emphasis"><EM>if JSR-250 is present</EM></SPAN></P></LI><LI><P><TT class="interfacename">@PersistenceContext</TT>
+            (javax.persistence) <SPAN class="emphasis"><EM>if JPA is present</EM></SPAN></P></LI><LI><P><TT class="interfacename">@PersistenceUnit</TT>
+            (javax.persistence) <SPAN class="emphasis"><EM>if JPA is present</EM></SPAN></P></LI><LI><P><TT class="interfacename">@Required</TT></P></LI><LI><P><TT class="interfacename">@Transactional</TT></P></LI></UL></DIV><P>The following list includes all annotations specific to the
+        Spring TestContext Framework. Refer to the respective JavaDoc for
+        further information, including default attribute values, etc.</P><DIV class="itemizedlist"><UL type="disc"><LI><P><SPAN class="bold"><B><TT class="interfacename">@ContextConfiguration</TT></B></SPAN></P><P>Defines class-level metadata which is used to determine how
+            to load and configure an
+            <TT class="interfacename">ApplicationContext</TT>. Specifically,
+            @ContextConfiguration defines the application context resource
+            <TT class="literal">locations</TT> to load as well as the
+            <TT class="interfacename">ContextLoader</TT> strategy to use for
+            loading the context.</P><PRE class="programlisting">@ContextConfiguration(locations={"example/test-context.xml"}, loader=CustomContextLoader.class)
+public class CustomConfiguredApplicationContextTests {
+    <I class="lineannotation"><SPAN class="lineannotation">// class body...</SPAN></I>
+}</PRE><P>Note: <TT class="interfacename">@ContextConfiguration</TT>
+            provides support for <SPAN class="emphasis"><EM>inherited</EM></SPAN> resource
+            locations by default. See the <A href="http://static.springsource.org/spring/docs/2.5.6/reference/testing.html#testcontext-ctx-management" title="8.3.7.2.&nbsp;Context management and caching">Context management and
+            caching</A> section and JavaDoc for an example and further
+            details.</P></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@TestExecutionListeners</TT></B></SPAN></P><P>Defines class-level metadata for configuring which
+            <TT class="interfacename">TestExecutionListener</TT>s should be
+            registered with a <TT class="classname">TestContextManager</TT>.
+            Typically, <TT class="interfacename">@TestExecutionListeners</TT>
+            will be used in conjunction with
+            <TT class="interfacename">@ContextConfiguration</TT>.</P><PRE class="programlisting">@ContextConfiguration
+@TestExecutionListeners({CustomTestExecutionListener.class, AnotherTestExecutionListener.class})
+public class CustomTestExecutionListenerTests {
+    <I class="lineannotation"><SPAN class="lineannotation">// class body...</SPAN></I>
+}</PRE><P>Note: <TT class="interfacename">@TestExecutionListeners</TT>
+            provides support for <SPAN class="emphasis"><EM>inherited</EM></SPAN> listeners by
+            default. See the JavaDoc for an example and further
+            details.</P></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@TransactionConfiguration</TT></B></SPAN></P><P>Defines class-level metadata for configuring transactional
+            tests. Specifically, the bean name of the
+            <TT class="interfacename">PlatformTransactionManager</TT> that is
+            to be used to drive transactions can be explicitly configured if
+            the bean name of the desired PlatformTransactionManager is not
+            "transactionManager". In addition, the
+            <TT class="literal">defaultRollback</TT> flag can optionally be changed
+            to <TT class="literal">false</TT>. Typically,
+            <TT class="interfacename">@TransactionConfiguration</TT> will be
+            used in conjunction with
+            <TT class="interfacename">@ContextConfiguration</TT>.</P><PRE class="programlisting">@ContextConfiguration
+@TransactionConfiguration(transactionManager="txMgr", defaultRollback=false)
+public class CustomConfiguredTransactionalTests {
+    <I class="lineannotation"><SPAN class="lineannotation">// class body...</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@BeforeTransaction</TT></B></SPAN></P><P>Indicates that the annotated <TT class="literal">public void</TT>
+            method should be executed <SPAN class="emphasis"><EM>before</EM></SPAN> a
+            transaction is started for test methods configured to run within a
+            transaction via the <TT class="interfacename">@Transactional</TT>
+            annotation.</P><PRE class="programlisting">@BeforeTransaction
+public void beforeTransaction() {
+    <I class="lineannotation"><SPAN class="lineannotation">// logic to be executed before a transaction is started</SPAN></I>
+}</PRE></LI><LI><P><SPAN class="bold"><B><TT class="interfacename">@AfterTransaction</TT></B></SPAN></P><P>Indicates that the annotated <TT class="literal">public void</TT>
+            method should be executed <SPAN class="emphasis"><EM>after</EM></SPAN> a transaction
+            has been ended for test methods configured to run within a
+            transaction via the <TT class="interfacename">@Transactional</TT>
+            annotation.</P><PRE class="programlisting">@AfterTransaction
+public void afterTransaction() {
+    <I class="lineannotation"><SPAN class="lineannotation">// logic to be executed after a transaction has ended</SPAN></I>
+}</PRE></LI></UL></DIV></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H3 class="title"><A name="testing-examples-petclinic"></A>8.3.8.&nbsp;PetClinic example</H3></DIV></DIV><DIV></DIV></DIV><P>The PetClinic sample application included with the full Spring
+      distribution illustrates several features of the <SPAN class="emphasis"><EM>Spring
+      TestContext Framework</EM></SPAN> in a JUnit 4.4 environment. Most test
+      functionality is included in the
+      <TT class="classname">AbstractClinicTests</TT>, for which a partial listing
+      is shown below:</P><PRE class="programlisting"><SPAN class="bold"><B>@ContextConfiguration</B></SPAN>
+public abstract class AbstractClinicTests <SPAN class="bold"><B>extends AbstractTransactionalJUnit4SpringContextTests</B></SPAN> {
+
+    <SPAN class="bold"><B>@Autowired</B></SPAN>
+    protected Clinic clinic;
+
+    @Test
+    public void getVets() {
+        Collection&lt;Vet&gt; vets = this.clinic.getVets();
+        assertEquals("JDBC query must show the same number of vets",
+            <SPAN class="bold"><B>super.countRowsInTable("VETS")</B></SPAN>, vets.size());
+        Vet v1 = EntityUtils.getById(vets, Vet.class, 2);
+        assertEquals("Leary", v1.getLastName());
+        assertEquals(1, v1.getNrOfSpecialties());
+        assertEquals("radiology", (v1.getSpecialties().get(0)).getName());
+        <I class="lineannotation"><SPAN class="lineannotation">// ...</SPAN></I>
+    }
+
+    <I class="lineannotation"><SPAN class="lineannotation">// ...</SPAN></I>
+}</PRE><P>Notes:</P><DIV class="itemizedlist"><UL type="disc"><LI><P>This test case extends the
+          <TT class="classname">AbstractTransactionalJUnit4SpringContextTests</TT>
+          class, from which it inherits configuration for Dependency Injection
+          (via the
+          <TT class="classname">DependencyInjectionTestExecutionListener</TT>) and
+          transactional behavior (via the
+          <TT class="classname">TransactionalTestExecutionListener</TT>).</P></LI><LI><P>The <TT class="literal">clinic</TT> instance variable - the
+          application object being tested - is set by Dependency Injection via
+          <TT class="interfacename">@Autowired</TT> semantics.</P></LI><LI><P>The <TT class="methodname">testGetVets()</TT> method illustrates
+          how the inherited <TT class="methodname">countRowsInTable()</TT> method
+          can be used to easily verify the number of rows in a given table,
+          thus testing correct behavior of the application code being tested.
+          This allows for stronger tests and lessens dependency on the exact
+          test data. For example, you can add additional rows in the database
+          without breaking tests.</P></LI><LI><P>Like many integration tests using a database, most of the
+          tests in <TT class="classname">AbstractClinicTests</TT> depend on a
+          minimum amount of data already in the database before the test cases
+          run. You might, however, choose to populate the database in your
+          test cases also - again, within the same transaction.</P></LI></UL></DIV><P>The PetClinic application supports three data access technologies
+      - JDBC, Hibernate, and JPA. By declaring
+      <TT class="interfacename">@ContextConfiguration</TT> without any
+      specific resource locations, the
+      <TT class="classname">AbstractClinicTests</TT> class will have its
+      application context loaded from the default location,
+      <TT class="literal">"AbstractClinicTests-context.xml"</TT>, which declares a
+      common <TT class="classname">DataSource</TT>. Subclasses specify additional
+      context locations which must declare a
+      <TT class="interfacename">PlatformTransactionManager</TT> and a concrete
+      implementation of <TT class="interfacename">Clinic</TT>.</P><P>For example, the Hibernate implementation of the PetClinic tests
+      contains the following implementation. Note that for this example,
+      <TT class="classname">HibernateClinicTests</TT> does not contain a single
+      line of code: we only need to declare
+      <TT class="interfacename">@ContextConfiguration</TT>, and the tests are
+      inherited from <TT class="classname">AbstractClinicTests</TT>. Since
+      <TT class="interfacename">@ContextConfiguration</TT> is declared without
+      any specific resource locations, the <SPAN class="emphasis"><EM>Spring TestContext
+      Framework</EM></SPAN> will load an application context from all the beans
+      defined in <TT class="literal">"AbstractClinicTests-context.xml"</TT> (i.e.,
+      the inherited locations) and
+      <TT class="literal">"HibernateClinicTests-context.xml"</TT>, with
+      <TT class="literal">"HibernateClinicTests-context.xml"</TT> possibly
+      overriding beans defined in
+      <TT class="literal">"AbstractClinicTests-context.xml"</TT>.</P><PRE class="programlisting"><SPAN class="bold"><B>@ContextConfiguration</B></SPAN>
+public class HibernateClinicTests extends AbstractClinicTests { }
+</PRE><P>As you can see in the PetClinic application, the Spring
+      configuration is split across multiple files. As is typical of large
+      scale applications, configuration locations will often be specified in a
+      common base class for all application-specific integration tests. Such a
+      base class may also add useful instance variables - populated by
+      Dependency Injection, naturally - such as a
+      <TT class="classname">HibernateTemplate</TT>, in the case of an application
+      using Hibernate.</P><P>As far as possible, you should have exactly the same Spring
+      configuration files in your integration tests as in the deployed
+      environment. One likely point of difference concerns database connection
+      pooling and transaction infrastructure. If you are deploying to a
+      full-blown application server, you will probably use its connection pool
+      (available through JNDI) and JTA implementation. Thus in production you
+      will use a <TT class="classname">JndiObjectFactoryBean</TT> for the
+      <TT class="classname">DataSource</TT> and
+      <TT class="classname">JtaTransactionManager</TT>. JNDI and JTA will not be
+      available in out-of-container integration tests, so you should use a
+      combination like the Commons DBCP <TT class="classname">BasicDataSource</TT>
+      and <TT class="classname">DataSourceTransactionManager</TT> or
+      <TT class="classname">HibernateTransactionManager</TT> for them. You can
+      factor out this variant behavior into a single XML file, having the
+      choice between application server and 'local' configuration separated
+      from all other configuration, which will not vary between the test and
+      production environments. In addition, it is advisable to use properties
+      files for connection settings: see the PetClinic application for an
+      example.</P></DIV></DIV><DIV class="section" lang="en"><DIV class="titlepage"><DIV><DIV><H2 class="title" style="clear: both"><A name="testing-resources"></A>8.4.&nbsp;Further Resources</H2></DIV></DIV><DIV></DIV></DIV><P>This section contains links to further resources about testing in
+    general.</P><DIV class="itemizedlist"><UL type="disc"><LI><P>The <A href="http://www.junit.org/" target="_top">JUnit homepage</A>.
+        The Spring Framework's unit test suite is written using JUnit 3.8 as
+        the testing framework.</P></LI><LI><P>The <A href="http://testng.org/" target="_top">TestNG homepage</A>.
+        TestNG is a testing framework inspired by JUnit 3.8 with added support
+        for Java 5 annotations, test groups, data-driven testing, distributed
+        testing, etc.</P></LI><LI><P>The <A href="http://www.mockobjects.com/" target="_top">Mock Objects
+        homepage</A>. About Mock Objects, a technique for improving the
+        design of code within Test-Driven Development.</P></LI><LI><P><A href="http://en.wikipedia.org/wiki/Mock_Object" target="_top"> "Mock
+        Objects" article at Wikipedia</A>.</P></LI><LI><P>The <A href="http://www.easymock.org/" target="_top">EasyMock
+        homepage</A>. The Spring Framework uses EasyMock extensively in
+        its test suite.</P></LI><LI><P>The <A href="http://www.jmock.org/" target="_top">JMock homepage</A>.
+        JMock is a library that supports test-driven development of Java code
+        with mock objects.</P></LI><LI><P>The <A href="http://dbunit.sourceforge.net/" target="_top">DbUnit
+        homepage</A>. DbUnit is a JUnit extension (also usable with Ant)
+        targeted for database-driven projects that, among other things, puts
+        your database into a known state between test runs.</P></LI><LI><P>The <A href="http://grinder.sourceforge.net/" target="_top">Grinder
+        homepage</A>. The Grinder is a Java load-testing framework.</P></LI></UL></DIV></DIV></DIV><!--Begin LoopFuse code--><SCRIPT xmlns="http://www.w3.org/TR/xhtml1/transitional" src="./Chapter 8. Testing_files/listen.js" type="text/javascript"></SCRIPT><SCRIPT type="text/javascript" src="./Chapter 8. Testing_files/chimera.js"></SCRIPT><SCRIPT xmlns="http://www.w3.org/TR/xhtml1/transitional" type="text/javascript"> 
+            _lf_cid = "LF_48be82fa";
+            _lf_remora();
+        </SCRIPT><!--End LoopFuse code--><DIV xmlns="http://www.w3.org/TR/xhtml1/transitional" class="navfooter"><HR><TABLE width="100%" summary="Navigation footer"><TBODY><TR><TD width="40%" align="left"><A accesskey="p" href="http://static.springsource.org/spring/docs/2.5.6/reference/aop-api.html">Prev</A>&nbsp;</TD><TD width="20%" align="center"><A accesskey="h" href="http://static.springsource.org/spring/docs/2.5.6/reference/index.html">Home</A></TD><TD width="40%" align="right">&nbsp;<A accesskey="n" href="http://static.springsource.org/spring/docs/2.5.6/reference/spring-middle-tier.html">Next</A></TD></TR><TR><TD width="40%" align="left" valign="top">Chapter&nbsp;7.&nbsp;Spring AOP APIs&nbsp;</TD><TD width="20%" align="center"><SPAN style="color:white;font-size:90%;"><A href="http://www.springsource.com/" title="SpringSource">Sponsored by SpringSource</A></SPAN></TD><TD width="40%" align="right" valign="top">&nbsp;Part&nbsp;II.&nbsp;Middle Tier Data Access</TD></TR></TBODY></TABLE></DIV>
+
+<SCRIPT type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT><SCRIPT src="./Chapter 8. Testing_files/ga.js" type="text/javascript"></SCRIPT>
+
+
+<!-- Begin 2nd Google code - a mod -->
+<SCRIPT type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</SCRIPT><SCRIPT src="./Chapter 8. Testing_files/ga.js" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">var pageTracker = _gat._getTracker("UA-2728886-3");
+pageTracker._setDomainName("none");pageTracker._setAllowLinker(true);
+pageTracker._trackPageview();var OrgTracker = _gat._getTracker("UA-2728886-2");
+OrgTracker._trackPageview();</SCRIPT>
+ <!-- End 2nd Google code -->
+
+
+
+
+</BODY></HTML>
