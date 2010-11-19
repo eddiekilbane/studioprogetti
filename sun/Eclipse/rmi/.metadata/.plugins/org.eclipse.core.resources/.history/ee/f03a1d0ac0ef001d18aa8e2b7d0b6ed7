@@ -1,0 +1,5 @@
+package server.remote.impl;
+
+public class CalculatorImpl {
+
+}

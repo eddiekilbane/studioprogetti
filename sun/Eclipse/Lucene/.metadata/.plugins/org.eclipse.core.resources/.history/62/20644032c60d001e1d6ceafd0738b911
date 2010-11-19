@@ -1,0 +1,60 @@
+package demo.searching;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.Query;
+
+import demo.indexing.Indicizzatore;
+
+public class DemoQueryParser {
+
+	public static void main (String [] args){
+		
+		Field[] campi= new Field[5];
+		campi[0]= new Field("nome","Stefano",Field.Store.YES,Field.Index.NOT_ANALYZED);
+		campi[1]= new Field("nome","Francesco",Field.Store.YES,Field.Index.NOT_ANALYZED);
+		campi[2]= new Field("nome","Antonio",Field.Store.YES,Field.Index.NOT_ANALYZED);
+		campi[3]= new Field("nome","Marco",Field.Store.YES,Field.Index.NOT_ANALYZED);
+		campi[4]= new Field("nome","Mario",Field.Store.YES,Field.Index.NOT_ANALYZED);
+		
+		
+		String directoryStorage="c:\\indici\\query";
+		Analyzer analyzer = new StandardAnalyzer();
+		int pagingResult=10;
+		
+		try {
+			
+			Indicizzatore.scriviIndice(directoryStorage,campi,analyzer);
+			
+			String query="marco";
+			String fieldRicerca="nome";
+			
+			QueryParser parser = new QueryParser(fieldRicerca,analyzer);
+			Query ricerca = parser.parse(query);
+			DemoSearcher.stampaRicerca(new File(directoryStorage), ricerca, pagingResult);
+		
+		
+		
+		
+		} catch (CorruptIndexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+	
+}

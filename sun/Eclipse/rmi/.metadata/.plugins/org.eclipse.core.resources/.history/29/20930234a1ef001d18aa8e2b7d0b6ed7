@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="rmiTest" default="build" basedir=".">
+
+
+	<property name="src.dir" value="./src" />
+	<property name="build.dir" value="./bin" />
+	<property name="java.home" value="E:\Sun\SDK\jdk" />
+	<property name="remote.classes" value="${build.dir}/server/dao/remote/impl" />
+
+
+<target name="build">
+
+	<javac destdir="${build.dir}"> 
+	  <src path="${src.dir}"/> 
+	  <classpath> 
+	    <pathelement path="${build.dir}"/> 
+	  </classpath> 
+	</javac> 
+
+
+</target>
+
+
+<target name="compileRmic">
+
+	
+<rmic 
+base="${build.dir}"
+classname="server.dao.remote.impl.DaoCdImplJdbc">
+	
+<classpath>
+<pathelement path="${build.dir}"/>
+</classpath>
+</rmic>
+
+		
+
+
+</target>
+
+
+
+<target name="run">
+
+		<java
+			classname="com.dnsee.jpms2.aspects.deploy.DeployTableLogging"
+			dir=".">
+			
+			<classpath refid="project.classpath" />
+			<classpath>
+				<pathelement location="build_deploy" />
+			</classpath>
+
+		</java>
+
+
+</target>
+
+
+
+</project>

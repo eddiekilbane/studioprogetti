@@ -1,0 +1,12 @@
+#Thu Mar 12 20:48:29 CET 2009
+org.eclipse.jdt.core.compiler.compliance=1.5
+org.eclipse.jdt.core.userLibrary.JAXB=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<userlibrary systemlibrary\="false" version\="1">\r\n\t<archive path\="E\:/jaxb-ri/lib/jaxb-xjc.jar"/>\r\n\t<archive path\="E\:/jaxb-ri/lib/jsr173_1.0_api.jar"/>\r\n\t<archive path\="E\:/jaxb-ri/lib/activation.jar"/>\r\n\t<archive path\="E\:/jaxb-ri/lib/jaxb1-impl.jar"/>\r\n\t<archive path\="E\:/jaxb-ri/lib/jaxb-api.jar"/>\r\n\t<archive path\="E\:/jaxb-ri/lib/jaxb-impl.jar"/>\r\n</userlibrary>\r\n
+org.eclipse.jdt.core.userLibrary.Lucene2.4=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<userlibrary systemlibrary\="false" version\="1">\r\n\t<archive path\="D\:/LibrerieJava/Lucene/lucene-2.4.0/lucene-core-2.4.0.jar"/>\r\n</userlibrary>\r\n
+org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.5
+org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
+org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled
+org.eclipse.jdt.core.builder.resourceCopyExclusionFilter=*.launch
+eclipse.preferences.version=1
+org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
+org.eclipse.jdt.core.compiler.source=1.5
+org.eclipse.jdt.core.compiler.problem.assertIdentifier=error

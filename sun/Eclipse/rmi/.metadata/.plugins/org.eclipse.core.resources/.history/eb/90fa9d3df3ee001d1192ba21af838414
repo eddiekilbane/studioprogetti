@@ -1,0 +1,26 @@
+package client;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+
+public class ClientDao {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		try{
+	         
+			Context namingContext = new InitialContext();
+			//serverHello.Hello c1 = (serverHello.Hello) namingContext.lookup(url + "saluto");
+	   
+			System.out.println(c1.hello());
+	    
+		}catch (Exception e){
+		 
+	        e.printStackTrace();
+		}
+	}
+
+}

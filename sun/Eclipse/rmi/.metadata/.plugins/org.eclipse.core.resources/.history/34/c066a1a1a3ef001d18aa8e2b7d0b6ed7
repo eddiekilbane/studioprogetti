@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="rmiTest" default="build" basedir=".">
+
+
+	<property name="src.dir" value="./src" />
+	<property name="build.dir" value="./bin" />
+
+
+
+	<target name="build">
+		<javac destdir="${build.dir}">
+			<src path="${src.dir}"/>
+			<classpath>
+				<pathelement path="${build.dir}"/>
+			</classpath>
+		</javac>
+	</target>
+
+
+	<target name="compileRmic" depends="build">
+		<rmic base="${build.dir}" classname="server.dao.remote.impl.DaoCdImplJdbc">
+
+			<classpath>
+				<pathelement path="${build.dir}"/>
+			</classpath>
+		</rmic>
+	</target>
+
+
+
+	<target name="runRegistro" depends="compileRmic">
+
+		<echo>Avvio il Registro..</echo>
+		<java classname="server.util.GestioneRegistro" dir="." fork="true">
+			<classpath>
+				<pathelement location="${build.dir}" />
+			</classpath>
+		</java>
+	</target>
+
+
+	<target name="runServer" depends="runRegistro" >
+		<echo>Avvio il Server...</echo>
+		<java classname="server.util.ServerListener" dir="." fork="true">
+			<classpath>
+				<pathelement location="${build.dir}" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="runClient" depends="runServer" fork="true">
+		<echo>Avvio il client...</echo>
+		<java classname="client.ClientDao" dir=".">
+			<classpath>
+				<pathelement location="${build.dir}" />
+			</classpath>
+		</java>
+	</target>
+
+</project>
