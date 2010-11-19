@@ -1,9 +1,0 @@
-package demo.searching;
-
-public class DemoQueryParser {
-
-	public static void main (String [] args){
-		
-		
-	}
-}
